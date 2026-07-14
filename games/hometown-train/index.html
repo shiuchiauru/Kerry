@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>家鄉故事小火車——環島尋寶大冒險</title>
+<style>
+/* ============ 護眼低飽和色票 ============ */
+:root{
+  --cream:#F7F3E9; --mist:#E4EDE4; --white:#FFFDF7;
+  --brick:#C97B63; --blue:#7FA3B5; --wheat:#E3C878;
+  --ink:#4A3F35; --line:#C9BBA8; --green:#8FAF87; --clay:#D9A382;
+  --fs: clamp(16px, 2.2vh + 0.4vw, 30px);
+}
+*{ box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+html,body{ width:100%; height:100%; overflow:hidden; overscroll-behavior:none; }
+body{
+  font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;
+  background:var(--cream); color:var(--ink);
+  font-size:var(--fs);
+  height:100vh; height:100dvh; width:100vw; width:100dvw;
+  user-select:none; -webkit-user-select:none; touch-action:manipulation;
+}
+button{ font-family:inherit; color:inherit; cursor:pointer; border:none; }
+
+/* ============ 版面骨架 ============ */
+#app{ height:100%; display:grid; grid-template-rows:10% 82% 8%; }
+#topbar{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 1.5vw; gap:1vw;
+  border-bottom:1.5px solid var(--line); background:var(--white);
+}
+#stage{ position:relative; overflow:hidden; }
+#bottombar{
+  display:flex; align-items:center; justify-content:center; gap:0.8vw;
+  border-top:1.5px solid var(--line); background:var(--white); font-size:0.7em;
+}
+.screen{ position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; padding:2vh 3vw; text-align:center; }
+.screen.on{ display:flex; }
+
+/* ============ 頂部狀態列 ============ */
+#stationTag{ display:flex; align-items:center; gap:0.6vw; font-weight:700; font-size:0.85em; white-space:nowrap; }
+#stationTag .loco{ font-size:1.1em; }
+#progressTag{ font-weight:700; font-size:0.8em; color:var(--blue); white-space:nowrap; }
+#heartBox{ display:flex; align-items:center; gap:0.4vw; }
+#hearts{ letter-spacing:0.1em; color:var(--brick); font-size:0.8em; line-height:1; word-break:keep-all; }
+#heartCount{ font-weight:700; font-size:0.8em; color:var(--brick); }
+#muteBtn{ background:var(--mist); border:1.5px solid var(--line); border-radius:1em; font-size:0.7em; padding:0.2em 0.7em; }
+
+/* ============ 底部路線 ============ */
+.dot{ width:3.2vh; height:3.2vh; border-radius:50%; border:1.5px solid var(--line); background:var(--white);
+  display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.75em; color:var(--ink); }
+.dot.now{ background:var(--brick); border-color:var(--brick); color:#fff; }
+.dot.done{ background:var(--green); border-color:var(--green); color:#fff; }
+.rail{ width:4vw; height:0; border-top:2px solid var(--line); }
+
+/* ============ 通用元件 ============ */
+.bigbtn{
+  background:var(--brick); color:#fff; font-weight:700;
+  font-size:1.2em; padding:0.6em 2em; border-radius:1.2em;
+  border:2px solid #b06a54; box-shadow:0 0.4vh 0 #b06a54;
+}
+.bigbtn:active{ transform:translateY(0.3vh); box-shadow:0 0.1vh 0 #b06a54; }
+.subbtn{ background:var(--blue); color:#fff; font-weight:700; font-size:0.85em;
+  padding:0.5em 1.4em; border-radius:1em; border:2px solid #6d90a1; }
+.card{ background:var(--white); border:1.5px solid var(--line); border-radius:1.5vh; }
+h1{ color:var(--brick); font-size:2em; }
+h2{ color:var(--brick); font-size:1.4em; }
+.hint{ color:var(--blue); font-size:0.8em; }
+
+/* ============ 開始畫面 ============ */
+#startScreen .title{ font-size:2.4em; font-weight:900; color:var(--brick); }
+#startScreen .subtitle{ font-size:1.1em; color:var(--blue); font-weight:700; margin-top:0.5vh; }
+#startScreen .unit{ font-size:0.85em; margin-top:0.8vh; }
+#startScreen .btnrow{ display:flex; gap:2vw; margin-top:2.5vh; align-items:center; }
+#startScreen .copyright{ position:absolute; bottom:1vh; left:0; right:0; font-size:0.65em; color:var(--line); }
+
+/* CSS 小火車 */
+.train{ position:relative; width:52vh; height:16vh; margin-top:10vh; }
+.train .ground{ position:absolute; left:-6vh; bottom:-2.2vh; width:64vh; height:5vh; background:var(--mist); border-radius:50%; }
+.train .cab{ position:absolute; left:0; bottom:2.6vh; width:9vh; height:12.4vh; background:var(--brick); border:0.35vh solid #8a6252; border-radius:1.4vh; }
+.train .win{ position:absolute; left:1.7vh; top:1.4vh; width:5vh; height:4.6vh; background:var(--white); border:0.3vh solid #8a6252; border-radius:0.9vh; }
+.train .boiler{ position:absolute; left:7.6vh; bottom:2.6vh; width:14vh; height:7.6vh; background:var(--brick); border:0.35vh solid #8a6252; border-radius:1.6vh; }
+.train .chimney{ position:absolute; left:16vh; bottom:9.6vh; width:3vh; height:4.4vh; background:var(--blue); border:0.3vh solid #8a6252; border-radius:0.7vh; }
+.train .lamp{ position:absolute; left:20.6vh; bottom:6.4vh; width:2vh; height:2vh; background:var(--wheat); border:0.3vh solid #8a6252; border-radius:50%; }
+.train .car{ position:absolute; bottom:3vh; width:12vh; height:8vh; border:0.35vh solid #8a6252; border-radius:1.4vh; }
+.train .car1{ left:24.5vh; background:var(--wheat); }
+.train .car2{ left:38.5vh; background:var(--mist); }
+.train .hook{ position:absolute; bottom:6vh; width:2.2vh; height:0; border-top:0.4vh solid #8a6252; }
+.train .hk1{ left:22.3vh; } .train .hk2{ left:36.6vh; }
+.train .wheel{ position:absolute; bottom:0.6vh; background:var(--ink); border-radius:50%; }
+.train .wheel::after{ content:""; position:absolute; inset:30%; background:var(--white); border-radius:50%; }
+.train .wb{ width:5vh; height:5vh; } .train .ws{ width:4vh; height:4vh; }
+.steam{ position:absolute; background:#fff; border:1.5px solid var(--line); border-radius:50%; opacity:0.9;
+  animation:puff 3.2s ease-in-out infinite; }
+.s1{ left:17vh; bottom:14.5vh; width:3vh; height:2.4vh; }
+.s2{ left:19.5vh; bottom:17.5vh; width:4vh; height:3vh; animation-delay:0.5s; }
+.s3{ left:22.5vh; bottom:21vh; width:5vh; height:3.6vh; animation-delay:1s; }
+@keyframes puff{ 0%,100%{ transform:translateY(0); opacity:0.9;} 50%{ transform:translateY(-1.2vh); opacity:0.6;} }
+@media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
+
+/* ============ 站點介紹畫面 ============ */
+.stnBadge{ width:9vh; height:9vh; border-radius:50%; background:var(--brick); color:#fff; font-weight:700;
+  display:flex; align-items:center; justify-content:center; font-size:0.9em; border:0.4vh solid #b06a54; }
+.introCard{ margin-top:1.6vh; padding:2vh 3vw; max-width:80vw; }
+.introCard .row{ display:flex; align-items:center; gap:1.2vw; margin:1.2vh 0; text-align:left; }
+.tagchip{ flex:0 0 auto; background:var(--green); color:#fff; font-weight:700; font-size:0.75em;
+  padding:0.3em 0.9em; border-radius:1em; }
+.tagchip.play{ background:var(--brick); } .tagchip.place{ background:var(--blue); }
+
+/* ============ 題目共用 ============ */
+#qText{ font-weight:700; font-size:1.15em; line-height:1.5; max-width:88vw;
+  background:var(--white); border:1.5px solid var(--line); border-radius:1.6vh; padding:1.4vh 2vw; }
+#qHint{ margin-top:0.6vh; }
+#playArea{ flex:1; width:100%; position:relative; margin-top:1.2vh; min-height:0; }
+
+/* L1 行李箱四選一 */
+.caseGrid{ position:absolute; inset:0; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:1.6vh 1.6vw; padding:0.5vh 4vw 1vh; }
+.suitcase{ position:relative; background:var(--white); border:2px solid var(--line); border-radius:1.8vh;
+  font-size:1em; font-weight:700; padding:1vh 1vw; line-height:1.4; }
+.suitcase::before{ content:""; position:absolute; top:-1.6vh; left:50%; transform:translateX(-50%);
+  width:7vh; height:3vh; border:0.5vh solid var(--line); border-bottom:none; border-radius:1.2vh 1.2vh 0 0; }
+.suitcase:nth-child(1){ background:#F3E7D3; } .suitcase:nth-child(2){ background:#E4EDE4; }
+.suitcase:nth-child(3){ background:#EAF0F3; } .suitcase:nth-child(4){ background:#F3E3DC; }
+
+/* L2 月台分類 */
+.dragCard{ position:absolute; left:50%; top:1vh; transform:translateX(-50%); z-index:5;
+  background:var(--white); border:2px solid var(--wheat); border-radius:1.6vh; padding:1.6vh 2vw;
+  font-weight:700; font-size:1.05em; max-width:60vw; touch-action:none; box-shadow:0 0.6vh 1.2vh rgba(74,63,53,0.12); }
+.dragCard.drag{ transition:none; box-shadow:0 1.4vh 2.4vh rgba(74,63,53,0.2); }
+.zoneRow{ position:absolute; left:0; right:0; bottom:0.5vh; display:flex; justify-content:center; gap:2.5vw; padding:0 2vw; }
+.zone{ flex:1; max-width:26vw; border:2px dashed var(--line); border-radius:1.6vh; background:var(--mist);
+  padding:1.2vh 0.5vw 1.6vh; text-align:center; }
+.zone .sign{ display:inline-block; background:var(--blue); color:#fff; font-weight:700; font-size:0.85em;
+  padding:0.3em 1em; border-radius:0.8em; margin-bottom:0.6vh; }
+.zone .plat{ height:2.4vh; background:var(--line); border-radius:0.6vh; margin:0 1vw; }
+.zone.hot{ border-color:var(--brick); background:#F3E3DC; }
+.zone.carzone .sign{ background:var(--green); }
+.zone.carzone.neg .sign{ background:var(--clay); }
+.zone .wheels{ display:flex; justify-content:space-around; margin-top:0.4vh; }
+.zone .wheels i{ width:2.6vh; height:2.6vh; background:var(--ink); border-radius:50%; }
+
+/* L3 泡泡 */
+.bubbleBox{ position:absolute; inset:0; }
+.bubble{ position:absolute; width:24vh; height:24vh; border-radius:50%;
+  background:radial-gradient(circle at 32% 28%, #ffffff 0%, #EAF3F0 55%, #DCE9EA 100%);
+  border:2px solid var(--blue); display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:0.95em; line-height:1.35; padding:2vh; text-align:center;
+  animation:floaty 4.5s ease-in-out infinite alternate; }
+.bubble.b1{ left:6%; top:6%; } .bubble.b2{ left:56%; top:2%; animation-delay:0.8s; }
+.bubble.b3{ left:16%; top:48%; animation-delay:1.6s; } .bubble.b4{ left:64%; top:44%; animation-delay:2.4s; }
+@keyframes floaty{ from{ transform:translateY(0);} to{ transform:translateY(-2.4vh);} }
+.bubble.pop{ animation:popb 0.45s ease-out forwards; }
+@keyframes popb{ to{ transform:scale(0.1); opacity:0; } }
+
+/* L4 釣魚 */
+.pond{ position:absolute; inset:0; background:linear-gradient(180deg,#EAF3F2 0%,#DFEBEA 100%); border-radius:2vh; overflow:hidden; border:1.5px solid var(--line); }
+.fish{ position:absolute; width:34vh; height:12vh; border:none; background:transparent; animation:swim 6s ease-in-out infinite alternate; }
+.fish .body{ position:absolute; left:0; top:0; width:28vh; height:12vh; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85em; line-height:1.3;
+  border:2px solid rgba(74,63,53,0.55); padding:1vh 2vh; text-align:center; color:var(--ink); }
+.fish .tail{ position:absolute; right:0; top:2.4vh; width:0; height:0;
+  border-top:3.6vh solid transparent; border-bottom:3.6vh solid transparent; }
+.fish.f1{ left:4%; top:6%; } .fish.f2{ left:52%; top:16%; animation-delay:1s; }
+.fish.f3{ left:8%; top:56%; animation-delay:2s; } .fish.f4{ left:56%; top:62%; animation-delay:3s; }
+@keyframes swim{ from{ transform:translateX(0);} to{ transform:translateX(6vw);} }
+.fish.caught{ animation:catchup 0.7s ease-in forwards; }
+@keyframes catchup{ to{ transform:translateY(-70vh) rotate(-12deg); opacity:0.2; } }
+
+/* L5 排序車廂 */
+.sortWrap{ position:absolute; inset:0; display:flex; flex-direction:column; justify-content:space-between; padding:1vh 2vw 0.5vh; }
+.slotRow{ display:flex; align-items:center; justify-content:center; gap:1vw; }
+.miniLoco{ font-size:2.2em; }
+.slot{ width:16vw; height:11vh; border:2px dashed var(--line); border-radius:1.4vh; background:var(--mist);
+  display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85em; color:var(--line); }
+.slot.filled{ border-style:solid; color:#fff; }
+.pickRow{ display:flex; justify-content:center; gap:1.5vw; padding-bottom:1vh; }
+.carbtn{ width:17vw; height:11vh; border-radius:1.4vh; border:2px solid rgba(74,63,53,0.4); color:#fff; font-weight:700; font-size:0.9em; }
+.carbtn:disabled{ opacity:0.25; }
+.sortTip{ text-align:center; }
+
+/* ============ 答錯視窗 ============ */
+#overlay{ position:fixed; inset:0; background:rgba(74,63,53,0.45); display:none; align-items:center; justify-content:center; z-index:50; }
+#overlay.on{ display:flex; }
+#tipCard{ width:min(72vw, 110vh); background:var(--white); border-radius:2.4vh; border:3px solid var(--wheat); padding:3vh 3vw; text-align:center; }
+#tipCard .tt{ display:inline-block; background:var(--wheat); color:var(--ink); font-weight:900; padding:0.3em 1.2em; border-radius:1em; font-size:1em; }
+#tipText{ margin-top:1.6vh; font-size:1.05em; line-height:1.7; font-weight:700; }
+#cd{ margin-top:1.6vh; width:9vh; height:9vh; border-radius:50%; background:var(--blue); color:#fff;
+  display:inline-flex; align-items:center; justify-content:center; font-size:2em; font-weight:900; }
+#retryBtn{ display:none; margin-top:1.6vh; }
+#retryBtn.on{ display:inline-block; }
+
+/* ============ 過關 / 結算 / 獎狀 ============ */
+.starburst{ font-size:2.6em; }
+.gainHearts{ color:var(--brick); font-weight:900; font-size:1.6em; }
+#sigCanvas{ background:#fff; border:2px solid var(--line); border-radius:1.6vh; touch-action:none; }
+.cert{ position:relative; width:min(86vw, 130vh); background:var(--white); border-radius:2vh; padding:2.5vh 3vw 2vh; text-align:center; }
+.cert.t0{ border:0.9vh solid var(--wheat); box-shadow:0 0 0 0.5vh #fff inset, 0 0 0 1vh #EAD9A6 inset; }
+.cert.t1{ border:0.9vh solid #AEBDC6; box-shadow:0 0 0 0.5vh #fff inset, 0 0 0 1vh #C9D4DB inset; }
+.cert.t2{ border:0.9vh solid #C89B7B; box-shadow:0 0 0 0.5vh #fff inset, 0 0 0 1vh #DDBFA8 inset; }
+.cert.t3{ border:0.9vh solid #BFA88F; box-shadow:0 0 0 0.5vh #fff inset, 0 0 0 1vh #D6C6B2 inset; }
+.cert .medal{ width:8vh; height:8vh; border-radius:50%; margin:0 auto; display:flex; align-items:center; justify-content:center; font-size:1.6em; border:0.4vh solid rgba(74,63,53,0.35); }
+.cert h2{ margin-top:0.8vh; font-size:1.5em; }
+.cert .msg{ margin-top:1vh; font-size:0.92em; line-height:1.7; font-weight:700; }
+.cert .sigrow{ margin-top:1.2vh; display:flex; align-items:flex-end; justify-content:center; gap:1vw; }
+.cert .sigrow img{ height:7vh; }
+.cert .sigline{ border-bottom:2px solid var(--ink); min-width:18vw; }
+.cert .date{ margin-top:0.6vh; font-size:0.75em; color:var(--blue); font-weight:700; }
+.cert .foot{ margin-top:0.8vh; font-size:0.6em; color:var(--line); }
+
+/* ============ 直向提示 ============ */
+#portraitOverlay{ position:fixed; inset:0; background:var(--cream); z-index:99; display:none;
+  flex-direction:column; align-items:center; justify-content:center; gap:2vh; text-align:center; padding:6vw; }
+@media (orientation: portrait){ #portraitOverlay{ display:flex; } }
+#portraitOverlay .rot{ font-size:3em; }
+
+/* 星星回饋 */
+#star{ position:fixed; left:50%; top:40%; transform:translate(-50%,-50%) scale(0); font-size:5em; z-index:60; pointer-events:none; }
+#star.go{ animation:starpop 0.7s ease-out; }
+@keyframes starpop{ 0%{ transform:translate(-50%,-50%) scale(0); opacity:1;} 60%{ transform:translate(-50%,-50%) scale(1.15); opacity:1;} 100%{ transform:translate(-50%,-50%) scale(1); opacity:0;} }
+</style>
+</head>
+<body>
+<div id="portraitOverlay">
+  <div class="rot">🔄</div>
+  <h2>請把平板轉成橫的唷！</h2>
+  <p class="hint">小火車要在寬寬的鐵軌上跑</p>
+</div>
+
+<div id="app">
+  <div id="topbar">
+    <div id="stationTag"><span class="loco">🚂</span><span id="stationName">家鄉故事小火車</span></div>
+    <div id="progressTag"></div>
+    <div id="heartBox"><span id="hearts"></span><span id="heartCount"></span><button id="muteBtn">🔊 音效</button></div>
+  </div>
+
+  <div id="stage">
+    <!-- 開始畫面 -->
+    <div class="screen on" id="startScreen">
+      <div class="title">家鄉故事小火車</div>
+      <div class="subtitle">—— 環島尋寶大冒險 ——</div>
+      <div class="unit">社會 3 下　6-2 家鄉故事新發現</div>
+      <div class="train">
+        <div class="ground"></div>
+        <div class="steam s1"></div><div class="steam s2"></div><div class="steam s3"></div>
+        <div class="hook hk1"></div><div class="hook hk2"></div>
+        <div class="cab"><div class="win"></div></div>
+        <div class="boiler"></div><div class="chimney"></div><div class="lamp"></div>
+        <div class="car car1"></div><div class="car car2"></div>
+        <div class="wheel wb" style="left:1.6vh;"></div>
+        <div class="wheel ws" style="left:8.6vh;"></div>
+        <div class="wheel ws" style="left:15vh;"></div>
+        <div class="wheel ws" style="left:26vh;"></div>
+        <div class="wheel ws" style="left:32vh;"></div>
+        <div class="wheel ws" style="left:40vh;"></div>
+        <div class="wheel ws" style="left:46vh;"></div>
+      </div>
+      <div class="btnrow">
+        <button class="bigbtn" id="goBtn">出發！</button>
+        <button class="subbtn" id="howBtn">玩法說明</button>
+      </div>
+      <div class="copyright">國小教學教材，巧茹老師設計。</div>
+    </div>
+
+    <!-- 玩法說明 -->
+    <div class="screen" id="howScreen">
+      <h2>怎麼玩</h2>
+      <div class="card introCard" style="font-size:0.9em; line-height:1.9; text-align:left;">
+        <p>1. 小火車環島停靠五站，每站挑戰 10 題。</p>
+        <p>2. 出發有 3 顆愛心：答錯 −1，過關 +3，最多 15 顆。</p>
+        <p>3. 答錯會出現「知識提示」，倒數 5 秒後可以再挑戰。</p>
+        <p>4. 愛心用完：本關重來，愛心回到 3 顆。</p>
+        <p>5. 完成五站，簽名領取專屬車長獎狀！</p>
+      </div>
+      <div class="btnrow" style="margin-top:2vh;"><button class="bigbtn" id="howBack">我知道了</button></div>
+    </div>
+
+    <!-- 站點介紹 -->
+    <div class="screen" id="introScreen">
+      <div class="stnBadge" id="introBadge">第一站</div>
+      <h1 id="introName" style="margin-top:1vh;"></h1>
+      <div class="card introCard">
+        <div class="row"><span class="tagchip place">停靠地點</span><span id="introPlace"></span></div>
+        <div class="row"><span class="tagchip">學習重點</span><span id="introGoal"></span></div>
+        <div class="row"><span class="tagchip play">互動玩法</span><span id="introPlay"></span></div>
+      </div>
+      <div class="btnrow" style="margin-top:2.2vh;"><button class="bigbtn" id="startLevelBtn">開始挑戰！</button></div>
+    </div>
+
+    <!-- 題目畫面 -->
+    <div class="screen" id="quizScreen" style="justify-content:flex-start;">
+      <div id="qText"></div>
+      <div id="qHint" class="hint"></div>
+      <div id="playArea"></div>
+    </div>
+
+    <!-- 過關畫面 -->
+    <div class="screen" id="clearScreen">
+      <div class="starburst">🌟</div>
+      <h1 id="clearTitle"></h1>
+      <div class="gainHearts" id="clearGain">愛心 +3！</div>
+      <p id="clearHearts" style="margin-top:0.6vh; font-weight:700;"></p>
+      <div class="btnrow" style="margin-top:2.4vh;"><button class="bigbtn" id="nextLevelBtn">前往下一關 ➜</button></div>
+    </div>
+
+    <!-- 愛心用完 -->
+    <div class="screen" id="restScreen">
+      <div class="starburst">🍵</div>
+      <h1>休息一下，再出發！</h1>
+      <p style="margin-top:1vh; font-weight:700;">愛心用完了，沒關係——<br>本關重新開始，愛心回到 3 顆，已過的關卡都還在！</p>
+      <div class="btnrow" style="margin-top:2.4vh;"><button class="bigbtn" id="restartBtn">重新挑戰本關</button></div>
+    </div>
+
+    <!-- 終點結算 -->
+    <div class="screen" id="finishScreen">
+      <div class="starburst">🎉</div>
+      <h1>環島完成！</h1>
+      <p id="finishHearts" style="margin-top:1vh; font-weight:700; font-size:1.2em;"></p>
+      <p id="finishTier" class="hint" style="margin-top:0.6vh;"></p>
+      <div class="btnrow" style="margin-top:2.4vh;"><button class="bigbtn" id="toSignBtn">簽名領獎狀 ✍</button></div>
+    </div>
+
+    <!-- 簽名 -->
+    <div class="screen" id="signScreen">
+      <h2>請小車長簽名</h2>
+      <p class="hint">用手指或觸控筆，在白板上簽下你的名字</p>
+      <canvas id="sigCanvas"></canvas>
+      <div class="btnrow" style="margin-top:1.6vh; display:flex; gap:2vw;">
+        <button class="subbtn" id="sigClear">清除重寫</button>
+        <button class="bigbtn" id="sigDone">完成簽名</button>
+      </div>
+    </div>
+
+    <!-- 獎狀 -->
+    <div class="screen" id="certScreen">
+      <div class="cert" id="certBox">
+        <div class="medal" id="certMedal">🚂</div>
+        <h2 id="certName"></h2>
+        <div class="msg" id="certMsg"></div>
+        <div class="sigrow"><span style="font-weight:700;">小車長：</span><span class="sigline"><img id="certSig" alt="簽名"></span></div>
+        <div class="date" id="certDate"></div>
+        <div class="foot">社會 3 下 6-2 家鄉故事新發現｜國小教學教材，巧茹老師設計。</div>
+      </div>
+      <div class="btnrow" style="margin-top:1.6vh; display:flex; gap:2vw; align-items:center;">
+        <span class="hint">可以請老師幫忙截圖保存！</span>
+        <button class="subbtn" id="replayBtn">再玩一次</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="bottombar"></div>
+</div>
+
+<!-- 答錯知識提示 -->
+<div id="overlay">
+  <div id="tipCard">
+    <span class="tt">💡 知識提示</span>
+    <div id="tipText"></div>
+    <div id="cd">5</div><br>
+    <button class="bigbtn" id="retryBtn">再挑戰一次</button>
+  </div>
+</div>
+
+<div id="star">⭐</div>
+
+<script>
+/* =========================================================
+   家鄉故事小火車——環島尋寶大冒險
+   社會 3 下 6-2「家鄉故事新發現」（課本 92～97 頁）
+   ========================================================= */
+
+/* ---------- Fisher-Yates Shuffle：確保題目與選項公平隨機 ---------- */
+function fisherYatesShuffle(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1)); // 0 <= j <= i
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* ---------- 題庫：5 關 × 10 題 ---------- */
+const LEVELS = [
+{
+  name:"稻香池上站", place:"臺東縣池上鄉", mode:"choice",
+  goal:"認識池上鄉將農業結合藝術、活化家鄉的故事",
+  play:"四選一：點選裝著正確答案的行李箱",
+  qhint:"點一點，選出正確的行李箱",
+  questions:[
+   {q:"嘟嘟小火車抵達第一站——臺東縣池上鄉！池上最有名的農產品是什麼？",o:["優質稻米","高麗菜","鳳梨","珍珠奶茶"],a:0,tip:"課本說，池上鄉以盛產「優質稻米」著名，金黃色的稻田是池上最美的風景！"},
+   {q:"池上居民把「農業特色」和什麼活動結合，寫出家鄉的新故事？",o:["藝術活動","賽車活動","電玩比賽","放煙火比賽"],a:0,tip:"池上把農業特色與「藝術活動」結合，例如藝術館和藝術節，讓家鄉有了新故事。"},
+   {q:"池上人把老舊的哪一種建築，改造成藝術館？",o:["穀倉","燈塔","城堡","消防局"],a:0,tip:"老舊「穀倉」大變身，成為池上穀倉藝術館！穀倉本來是存放稻穀的地方。"},
+   {q:"池上固定舉辦什麼活動，每年吸引許多遊客？",o:["秋收稻穗藝術節","冰雕節","潑水節","萬聖節遊行"],a:0,tip:"池上固定舉辦藝術節活動，例如「秋收稻穗藝術節」，每年都有許多遊客慕名而來。"},
+   {q:"除了居民，還有誰和池上一起合作發展家鄉？",o:["企業和大學","外星人","魔法師","只有小學生"],a:0,tip:"池上的新故事是居民與「企業、大學」合作完成的，大家一起努力讓家鄉更棒！"},
+   {q:"「慕名而來」的意思是什麼？",o:["聽到好名聲特地前來","迷路不小心走進來","被媽媽逼著來","抽獎抽中才來"],a:0,tip:"「慕名而來」是因為聽到好名聲，特地前來參觀。池上的好名聲吸引了許多遊客。"},
+   {q:"乘客小美在池上站下車參觀，她最可能看到什麼？",o:["由穀倉改造的藝術館","滑雪場","沙漠和駱駝","一百層的摩天大樓"],a:0,tip:"池上有由老穀倉改造的「池上穀倉藝術館」，是著名的景點。"},
+   {q:"池上穀倉藝術館的「穀倉」，以前是用來做什麼的？",o:["存放稻穀","看電影","養鯊魚","打籃球"],a:0,tip:"穀倉是農家存放「稻穀」的倉庫，老穀倉重新利用，變成了藝術館。"},
+   {q:"看看車窗外的地圖！池上鄉位在哪一個縣？",o:["臺東縣","臺中市","澎湖縣","桃園市"],a:0,tip:"池上鄉在「臺東縣」，位於臺灣的東部，是有名的稻米之鄉。"},
+   {q:"池上的新故事，讓家鄉變得怎麼樣？",o:["吸引許多遊客充滿活力","大家都搬走了","稻田全部不見了","和以前完全一樣"],a:0,tip:"結合農業與藝術後，池上每年都有許多遊客慕名而來，家鄉充滿活力！"}
+  ]
+},
+{
+  name:"老屋新生站", place:"臺中市霧峰區光復新村・澎湖縣湖西鄉南寮村", mode:"platform",
+  goal:"比較兩地居民讓家鄉重生的方法，找出共同特性",
+  play:"拖拉分類：把故事卡拖到正確的月臺",
+  qhint:"把故事卡「拖」到正確的月臺上",
+  zones:["光復新村","南寮村","兩站都是"],
+  questions:[
+   {q:"「這裡早期是政府員工的宿舍。」",a:0,tip:"光復新村早期是「政府員工宿舍」，位在臺中市霧峰區。"},
+   {q:"「九二一大地震後受損嚴重，許多住戶搬走，慢慢沒落了。」",a:0,tip:"光復新村歷經九二一大地震受損嚴重，住戶遷出而逐漸沒落。"},
+   {q:"「政府本來計畫拆除，居民努力爭取才原地保留下來。」",a:0,tip:"是當地居民的努力爭取，光復新村才沒有被拆除，原地保留了下來！"},
+   {q:"「招募青年來這裡創作，還有創作市集，變成特色景點。」",a:0,tip:"光復新村招募青年進駐從事創作，成為當地的特色景點。"},
+   {q:"「居民組成志工團隊，推廣澎湖在地生活體驗。」",a:1,tip:"南寮村的居民組成「志工團隊」，推廣澎湖在地生活體驗。"},
+   {q:"「保留了古厝，還有傳統處理漁獲加工的魚灶。」",a:1,tip:"南寮村保留古厝和「魚灶」——魚灶是以前處理漁獲加工的設備。"},
+   {q:"「用漁具做成裝置藝術品，讓老社區有新氣象。」",a:1,tip:"南寮村運用「漁具」製作裝置藝術品，為老社區帶來新氣象。"},
+   {q:"「這個村子在澎湖縣湖西鄉。」",a:1,tip:"南寮村位於「澎湖縣湖西鄉」；光復新村則在臺中市霧峰區。"},
+   {q:"「有一群主動為家鄉努力奉獻的居民。」",a:2,tip:"兩個地方共同的祕密：都有「主動為家鄉奉獻的居民」！這就是小鎮重生的力量。"},
+   {q:"「讓老舊的地方重新充滿活力。」",a:2,tip:"不論光復新村還是南寮村，居民的努力都讓老地方重新充滿活力！"}
+  ]
+},
+{
+  name:"空間變身站", place:"宜蘭縣冬山鄉・苗栗縣三義鄉", mode:"bubble",
+  goal:"舉例說明閒置空間再利用，讓生活環境更美好",
+  play:"泡泡點戳：點破裝著正確答案的泡泡",
+  qhint:"哪顆泡泡裝著正確答案？點破它！",
+  questions:[
+   {q:"小火車開到宜蘭！冬山車站是一座什麼樣的車站？",o:["高架車站","地下車站","海底車站","樹屋車站"],a:0,tip:"冬山車站是「高架車站」，鐵軌架高在橋上，所以橋下多出了空間可以利用。"},
+   {q:"冬山車站橋下原本閒置的空間，被規畫成什麼？",o:["兒童遊戲場","大型停車塔","垃圾場","游泳池"],a:0,tip:"當地政府把橋下閒置空間規畫成「兒童遊戲場」，小朋友多了玩樂的好地方！"},
+   {q:"苗栗三義的舊山線鐵道自行車，是用什麼改建的？",o:["停駛的鐵道","舊機場跑道","乾掉的河床","高速公路"],a:0,tip:"舊山線鐵道自行車是由「停駛的鐵道」改建而成的，讓舊鐵道有了新生命。"},
+   {q:"騎舊山線鐵道自行車，沿途可以欣賞什麼景觀？",o:["鐵橋和隧道","金字塔","冰山","熱帶雨林"],a:0,tip:"舊山線沿途有「鐵橋、隧道」景觀，一邊騎車一邊欣賞，非常特別！"},
+   {q:"「閒置空間」是什麼意思？",o:["暫時沒有被使用的空間","很吵鬧的空間","剛蓋好的新房子","不能進去的禁區"],a:0,tip:"「閒置」就是空著沒有使用。把閒置空間重新利用，家鄉會變得更美好。"},
+   {q:"橋下空間變成遊戲場後，冬山居民的生活有什麼改變？",o:["孩子多了安全玩樂的地方","變得更擁擠","沒有任何改變","大家都不出門了"],a:0,tip:"閒置空間再利用，讓居民的「生活環境」變得更美好、更便利。"},
+   {q:"舊鐵道變成自行車道，提供居民什麼樣的新選擇？",o:["休閒活動的新選擇","上學的交通車","睡覺的地方","買菜的市場"],a:0,tip:"課本說，鐵道自行車提供居民「休閒」的新選擇。"},
+   {q:"冬山車站位在哪一個縣？",o:["宜蘭縣","苗栗縣","雲林縣","臺東縣"],a:0,tip:"冬山車站在「宜蘭縣」冬山鄉，是臺灣東北部的美麗小鎮。"},
+   {q:"舊山線鐵道自行車位在苗栗縣的哪一個鄉？",o:["三義鄉","池上鄉","冬山鄉","湖西鄉"],a:0,tip:"舊山線鐵道自行車在「苗栗縣三義鄉」，木雕也是三義有名的特色喔！"},
+   {q:"這一站的祕密：把老舊或閒置的空間重新利用，可以讓家鄉的什麼變得更美好？",o:["生活環境","天氣","地震次數","海浪高度"],a:0,tip:"善用閒置空間、改善公共設施，都能讓家鄉的「生活環境」更美好！"}
+  ]
+},
+{
+  name:"文化寶物站", place:"雲林縣虎尾鎮・桃園市平鎮區", mode:"fish",
+  goal:"舉例說明傳統文化的保存與推廣，讓人文風貌更豐富",
+  play:"釣魚選答：把裝著正確答案的魚釣上車",
+  qhint:"點一點，把裝著正確答案的魚釣上來！",
+  questions:[
+   {q:"小火車來到雲林！雲林布袋戲館位在哪一個鎮？",o:["虎尾鎮","池上鄉","三義鄉","霧峰區"],a:0,tip:"雲林布袋戲館在「雲林縣虎尾鎮」，是認識布袋戲的好地方。"},
+   {q:"雲林布袋戲館介紹的是哪一種傳統文化？",o:["布袋戲","芭蕾舞","街舞","魔術表演"],a:0,tip:"布袋戲館介紹臺灣「布袋戲」的發展過程和各種文物。"},
+   {q:"布袋戲館的成立，讓更多人能夠怎麼樣？",o:["認識欣賞傳統文化之美","學會開火車","變成大明星","忘記傳統文化"],a:0,tip:"布袋戲館讓更多人「認識、欣賞傳統文化之美」，文化才能傳下去。"},
+   {q:"桃園平鎮的居民，透過製作什麼來認識客家文化？",o:["客家鹹菜","義大利麵","壽司","冰淇淋"],a:0,tip:"平鎮居民透過製作「客家鹹菜」的體驗活動，更認識當地的客家傳統文化。"},
+   {q:"客家鹹菜體驗活動，讓居民更認識哪一種文化？",o:["客家傳統文化","埃及文化","恐龍文化","太空文化"],a:0,tip:"透過體驗活動，居民更認識當地豐富的「客家」傳統文化。"},
+   {q:"「人文風貌」指的是什麼？",o:["當地人們的文化與生活特色","山脈和河流的樣子","每天的天氣變化","動物的種類"],a:0,tip:"「人文風貌」是指人們的文化與生活特色，布袋戲、客家文化都是家鄉珍貴的人文風貌。"},
+   {q:"乘客阿凱到布袋戲館參觀，最可能看到什麼？",o:["布袋戲偶和文物","恐龍化石","太空火箭","北極熊"],a:0,tip:"布袋戲館展示布袋戲的發展過程和「文物」，可以看到各種精緻的戲偶。"},
+   {q:"為什麼要舉辦文化體驗活動呢？",o:["讓傳統文化被更多人認識傳承","為了打發時間","讓大家忘記過去","只是為了拍照"],a:0,tip:"體驗活動能讓傳統文化被更多人「認識與傳承」，這是很珍貴的事！"},
+   {q:"布袋戲是臺灣的什麼？",o:["傳統戲劇文化","最新發明的電玩","外國傳來的運動","一種食物"],a:0,tip:"布袋戲是臺灣的「傳統戲劇」，是我們重要的文化寶物。"},
+   {q:"這一站的祕密：認識和推廣傳統文化，可以讓家鄉的什麼更豐富？",o:["人文風貌","垃圾數量","塞車時間","颱風次數"],a:0,tip:"保存與推廣傳統文化，讓家鄉的「人文風貌」更豐富、更精彩！"}
+  ]
+},
+{
+  name:"探究終點站", place:"小小探究家的最終挑戰", mode:"mixed",
+  goal:"運用探究四步驟，判斷家鄉改變的正面與負面影響",
+  play:"車廂整理：排出正確順序、把影響卡放進正確車廂",
+  qhint:"",
+  questions:[
+   {type:"sort",q:"小小探究家出發！依照順序，把探究的四個步驟車廂接到火車頭後面。",
+    items:["發現問題","蒐集資料","整理分析","行動省思"],
+    tip:"探究四步驟：先「發現問題」，再「蒐集資料」，接著「整理分析」，最後「行動省思」。"},
+   {type:"choice",q:"課本裡的小朋友發現家鄉新開了什麼，決定展開探究？",o:["購物中心","動物園","太空站","糖果工廠"],a:0,
+    tip:"課本的例子是家鄉新開了一間「購物中心」，小朋友想知道它帶來哪些影響。"},
+   {type:"classify",q:"「走十分鐘就能到購物中心採買，很方便。」",a:0,
+    tip:"買東西變方便，是購物中心帶來的「正面」影響。"},
+   {type:"classify",q:"「假日的時候，附近很容易塞車。」",a:1,
+    tip:"塞車讓大家出門不方便，是「負面」影響。"},
+   {type:"classify",q:"「有些車輛還會占據人行道。」",a:1,
+    tip:"車輛占據人行道，行人走路變得危險，是「負面」影響。"},
+   {type:"classify",q:"「休閒活動有新選擇，可以逛街還能看電影。」",a:0,
+    tip:"休閒活動的選擇變多了，是「正面」影響。"},
+   {type:"classify",q:"「以前附近的街道很乾淨，最近會看到一些垃圾。」",a:1,
+    tip:"街道變髒亂了，是「負面」影響，需要大家一起想辦法改善。"},
+   {type:"choice",q:"想蒐集「家鄉改變的影響」的資料，下面哪一種方法最適合？",o:["訪問住在附近的居民","閉上眼睛用猜的","睡一覺等答案出現","抄別人的作業"],a:0,
+    tip:"「訪問居民」是蒐集資料的好方法，課本裡的小朋友就是這樣做的！"},
+   {type:"choice",q:"整理分析資料時，我們可以把影響分成哪兩類？",o:["正面和負面","大隻和小隻","甜的和鹹的","新的和舊的"],a:0,
+    tip:"把蒐集到的資料分成「正面影響」和「負面影響」，就能看得更清楚。"},
+   {type:"choice",q:"探究之後，小朋友發現家鄉改變帶來的影響是怎麼樣的？",o:["有好也有壞不是絕對的","一定全部都是好的","一定全部都是壞的","完全沒有影響"],a:0,
+    tip:"改變的影響「有好也有壞，不是絕對的」——這就是探究終點站最大的寶藏！"}
+  ]
+}
+];
+
+const TIERS = [
+  { min:14, name:"金冠車長獎", medalBg:"#E3C878", cls:"t0", emoji:"👑",
+    msg:"太厲害了！你開著滿載智慧的小火車完成環島，家鄉的新故事全都被你收進寶盒。你是傳說中的金冠車長！" },
+  { min:10, name:"銀鈴站長獎", medalBg:"#AEBDC6", cls:"t1", emoji:"🔔",
+    msg:"好棒！你細心又努力，順利完成環島大冒險。家鄉故事難不倒你，銀鈴站長非你莫屬！" },
+  { min:5,  name:"勇氣列車員獎", medalBg:"#C89B7B", cls:"t2", emoji:"🎒",
+    msg:"你充滿勇氣，一路過關斬將完成旅程！繼續練習，下一次一定能開得更穩、更遠！" },
+  { min:1,  name:"元氣見習生獎", medalBg:"#BFA88F", cls:"t3", emoji:"🌱",
+    msg:"恭喜你完成環島挑戰！每一次錯誤都讓你更認識家鄉。帶著滿滿元氣再出發，你會越來越棒！" }
+];
+
+/* ---------- 遊戲狀態 ---------- */
+const MAX_HEARTS = 15, START_HEARTS = 3, LEVEL_BONUS = 3;
+const state = { level:0, qIndex:0, hearts:START_HEARTS, order:[], locked:false, sigData:null, started:false };
+
+/* ---------- 音效（Web Audio，輕柔提示音） ---------- */
+let audioCtx = null, muted = false;
+function beep(freqs, dur){
+  if (muted) return;
+  try{
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    let t = audioCtx.currentTime;
+    freqs.forEach(f=>{
+      const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+      o.type = "sine"; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.12, t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(t); o.stop(t + dur + 0.05);
+      t += dur * 0.55;
+    });
+  }catch(e){}
+}
+const sndGood = ()=>beep([660, 880], 0.18);
+const sndBad  = ()=>beep([220], 0.3);
+const sndWin  = ()=>beep([523, 659, 784, 1047], 0.16);
+
+/* ---------- 共用 DOM ---------- */
+const $ = (id)=>document.getElementById(id);
+const screens = ["startScreen","howScreen","introScreen","quizScreen","clearScreen","restScreen","finishScreen","signScreen","certScreen"];
+function show(id){
+  screens.forEach(s=>$(s).classList.toggle("on", s===id));
+}
+
+/* ---------- 狀態列 ---------- */
+function renderTop(){
+  const inGame = state.started && state.level < LEVELS.length;
+  $("stationName").textContent = inGame ? LEVELS[state.level].name : "家鄉故事小火車";
+  $("hearts").textContent = "❤".repeat(state.hearts);
+  $("heartCount").textContent = "× " + state.hearts;
+  $("progressTag").textContent = inGame ? `第 ${state.level+1} 關・第 ${Math.min(state.qIndex+1,10)}／10 題` : "";
+  const bar = $("bottombar");
+  bar.innerHTML = "";
+  for (let i=0;i<5;i++){
+    const d = document.createElement("div");
+    d.className = "dot" + (i < state.level ? " done" : i === state.level && inGame ? " now" : "");
+    d.textContent = i < state.level ? "✓" : (i+1);
+    bar.appendChild(d);
+    if (i<4){ const r=document.createElement("div"); r.className="rail"; bar.appendChild(r); }
+  }
+}
+
+/* ---------- 流程 ---------- */
+function showIntro(){
+  const L = LEVELS[state.level];
+  $("introBadge").textContent = "第" + "一二三四五"[state.level] + "站";
+  $("introName").textContent = L.name;
+  $("introPlace").textContent = L.place;
+  $("introGoal").textContent = L.goal;
+  $("introPlay").textContent = L.play;
+  renderTop(); show("introScreen");
+}
+function startLevel(){
+  const L = LEVELS[state.level];
+  state.qIndex = 0;
+  state.order = fisherYatesShuffle(L.questions.map((_,i)=>i)); // 題目順序洗牌
+  renderTop(); show("quizScreen"); renderQuestion();
+}
+function currentQ(){
+  const L = LEVELS[state.level];
+  return L.questions[state.order[state.qIndex]];
+}
+
+/* ---------- 出題 ---------- */
+function renderQuestion(){
+  const L = LEVELS[state.level];
+  const Q = currentQ();
+  state.locked = false;
+  renderTop();
+  const area = $("playArea");
+  area.innerHTML = "";
+  const type = L.mode === "mixed" ? Q.type : L.mode;
+  $("qText").textContent = Q.q;
+  if (type === "choice")   { $("qHint").textContent = L.mode==="mixed" ? "點一點，選出正確的行李箱" : L.qhint; renderChoice(area, Q); }
+  if (type === "bubble")   { $("qHint").textContent = L.qhint; renderBubble(area, Q); }
+  if (type === "fish")     { $("qHint").textContent = L.qhint; renderFish(area, Q); }
+  if (type === "platform") { $("qHint").textContent = L.qhint; renderZones(area, Q, L.zones, false); }
+  if (type === "classify") { $("qHint").textContent = "這張卡是正面還是負面影響？拖到正確的車廂！"; renderZones(area, Q, ["正面影響","負面影響"], true); }
+  if (type === "sort")     { $("qHint").textContent = "依照順序點選車廂，把它們接上火車"; renderSort(area, Q); }
+}
+
+/* 選項洗牌：回傳 [{text, correct}] */
+function shuffledOptions(Q){
+  return fisherYatesShuffle(Q.o.map((t,i)=>({ text:t, correct:i===Q.a }))); // 選項順序洗牌
+}
+
+/* --- L1 / L5 四選一（行李箱） --- */
+function renderChoice(area, Q){
+  const grid = document.createElement("div"); grid.className = "caseGrid";
+  shuffledOptions(Q).forEach(op=>{
+    const b = document.createElement("button");
+    b.className = "suitcase"; b.textContent = op.text;
+    b.onclick = ()=>answer(op.correct);
+    grid.appendChild(b);
+  });
+  area.appendChild(grid);
+}
+
+/* --- L3 泡泡 --- */
+function renderBubble(area, Q){
+  const box = document.createElement("div"); box.className = "bubbleBox";
+  shuffledOptions(Q).forEach((op,i)=>{
+    const b = document.createElement("button");
+    b.className = "bubble b" + (i+1); b.textContent = op.text;
+    b.onclick = ()=>{
+      if (state.locked) return;
+      if (op.correct){ b.classList.add("pop"); setTimeout(()=>answer(true), 300); state.locked = true; }
+      else answer(false);
+    };
+    box.appendChild(b);
+  });
+  area.appendChild(box);
+}
+
+/* --- L4 釣魚 --- */
+function renderFish(area, Q){
+  const pond = document.createElement("div"); pond.className = "pond";
+  const colors = ["#BBD3DC","#EAD9A6","#BFD4B4","#E8C7B8"];
+  shuffledOptions(Q).forEach((op,i)=>{
+    const f = document.createElement("button");
+    f.className = "fish f" + (i+1);
+    const body = document.createElement("span"); body.className = "body";
+    body.style.background = colors[i]; body.textContent = op.text;
+    const tail = document.createElement("span"); tail.className = "tail";
+    tail.style.borderLeft = "5vh solid " + colors[i];
+    f.appendChild(body); f.appendChild(tail);
+    f.onclick = ()=>{
+      if (state.locked) return;
+      if (op.correct){ f.classList.add("caught"); state.locked = true; setTimeout(()=>answer(true), 450); }
+      else answer(false);
+    };
+    pond.appendChild(f);
+  });
+  area.appendChild(pond);
+}
+
+/* --- L2 月台 / L5 車廂分類（拖拉） --- */
+function renderZones(area, Q, zones, isCar){
+  const card = document.createElement("div"); card.className = "dragCard"; card.textContent = Q.q;
+  $("qText").textContent = isCar ? "小小探究家的整理分析：" : "這張故事卡，說的是哪一站的故事？";
+  const row = document.createElement("div"); row.className = "zoneRow";
+  const zoneEls = zones.map((z,i)=>{
+    const zn = document.createElement("div");
+    zn.className = "zone" + (isCar ? " carzone" + (i===1 ? " neg" : "") : "");
+    const sign = document.createElement("div"); sign.className = "sign"; sign.textContent = z;
+    zn.appendChild(sign);
+    if (isCar){ const w = document.createElement("div"); w.className="wheels"; w.innerHTML="<i></i><i></i>"; zn.appendChild(w); }
+    else { const p = document.createElement("div"); p.className = "plat"; zn.appendChild(p); }
+    row.appendChild(zn); return zn;
+  });
+  area.appendChild(card); area.appendChild(row);
+
+  /* Pointer 拖拉 */
+  let sx=0, sy=0, ox=0, oy=0, dragging=false;
+  card.addEventListener("pointerdown", (e)=>{
+    if (state.locked) return;
+    dragging = true; card.classList.add("drag");
+    try{ card.setPointerCapture(e.pointerId); }catch(err){}
+    sx = e.clientX; sy = e.clientY;
+  });
+  card.addEventListener("pointermove", (e)=>{
+    if (!dragging) return;
+    ox = e.clientX - sx; oy = e.clientY - sy;
+    card.style.transform = `translateX(-50%) translate(${ox}px, ${oy}px)`;
+    zoneEls.forEach(z=>{
+      const r = z.getBoundingClientRect();
+      z.classList.toggle("hot", e.clientX>r.left && e.clientX<r.right && e.clientY>r.top && e.clientY<r.bottom);
+    });
+  });
+  card.addEventListener("pointerup", (e)=>{
+    if (!dragging) return;
+    dragging = false; card.classList.remove("drag");
+    let hit = -1;
+    zoneEls.forEach((z,i)=>{
+      const r = z.getBoundingClientRect();
+      if (e.clientX>r.left && e.clientX<r.right && e.clientY>r.top && e.clientY<r.bottom) hit = i;
+      z.classList.remove("hot");
+    });
+    if (hit === -1){ card.style.transform = "translateX(-50%)"; return; }
+    answer(hit === Q.a);
+    if (hit !== Q.a) card.style.transform = "translateX(-50%)";
+  });
+}
+
+/* --- L5 排序車廂 --- */
+function renderSort(area, Q){
+  const wrap = document.createElement("div"); wrap.className = "sortWrap";
+  const slotRow = document.createElement("div"); slotRow.className = "slotRow";
+  const loco = document.createElement("div"); loco.className = "miniLoco"; loco.textContent = "🚂";
+  slotRow.appendChild(loco);
+  const slots = Q.items.map((_,i)=>{
+    const s = document.createElement("div"); s.className = "slot"; s.textContent = "第 " + (i+1) + " 節";
+    slotRow.appendChild(s); return s;
+  });
+  const pickRow = document.createElement("div"); pickRow.className = "pickRow";
+  const colors = ["#C97B63","#7FA3B5","#8FAF87","#E3C878"];
+  const picked = [];
+  fisherYatesShuffle(Q.items.map((t,i)=>({ text:t, idx:i }))).forEach((it,bi)=>{
+    const b = document.createElement("button");
+    b.className = "carbtn"; b.textContent = it.text; b.style.background = colors[bi];
+    b.onclick = ()=>{
+      if (state.locked || b.disabled) return;
+      b.disabled = true; picked.push(it.idx);
+      const s = slots[picked.length-1];
+      s.textContent = it.text; s.classList.add("filled"); s.style.background = colors[bi]; s.style.borderColor = colors[bi];
+      if (picked.length === Q.items.length){
+        const ok = picked.every((v,i)=>v===i);
+        setTimeout(()=>answer(ok), 350);
+      }
+    };
+    pickRow.appendChild(b);
+  });
+  const tipLine = document.createElement("div"); tipLine.className = "sortTip hint";
+  tipLine.textContent = "點選下面的車廂，依序接到火車後面";
+  wrap.appendChild(slotRow); wrap.appendChild(tipLine); wrap.appendChild(pickRow);
+  area.appendChild(wrap);
+}
+
+/* ---------- 作答結果 ---------- */
+function answer(correct){
+  if (state.locked && !correct) return;
+  if (correct){
+    state.locked = true;
+    sndGood();
+    const st = $("star"); st.classList.remove("go"); void st.offsetWidth; st.classList.add("go");
+    setTimeout(()=>{
+      state.qIndex++;
+      if (state.qIndex >= 10) levelClear();
+      else renderQuestion();
+    }, 750);
+  } else {
+    state.locked = true;
+    sndBad();
+    state.hearts = Math.max(0, state.hearts - 1);
+    renderTop();
+    openTip(currentQ().tip);
+  }
+}
+
+/* 知識提示 + 5 秒倒數鎖定 */
+let cdTimer = null;
+function openTip(text){
+  $("tipText").textContent = text;
+  $("retryBtn").classList.remove("on");
+  const cd = $("cd"); cd.style.display = "inline-flex";
+  let n = 5; cd.textContent = n;
+  $("overlay").classList.add("on");
+  clearInterval(cdTimer);
+  cdTimer = setInterval(()=>{
+    n--;
+    if (n > 0){ cd.textContent = n; }
+    else {
+      clearInterval(cdTimer);
+      cd.style.display = "none";
+      $("retryBtn").classList.add("on");
+    }
+  }, 1000);
+}
+$("retryBtn").onclick = ()=>{
+  $("overlay").classList.remove("on");
+  if (state.hearts <= 0){ show("restScreen"); return; }
+  renderQuestion(); // 同一題重新挑戰（選項重新洗牌）
+};
+$("restartBtn").onclick = ()=>{ state.hearts = START_HEARTS; startLevel(); };
+
+/* ---------- 過關與結局 ---------- */
+function levelClear(){
+  sndWin();
+  state.hearts = Math.min(MAX_HEARTS, state.hearts + LEVEL_BONUS);
+  const L = LEVELS[state.level];
+  $("clearTitle").textContent = "通過 " + L.name + "！";
+  $("clearHearts").textContent = "目前愛心：" + "❤".repeat(state.hearts) + "（" + state.hearts + " 顆）";
+  $("nextLevelBtn").textContent = state.level === 4 ? "前往終點結算 ➜" : "前往下一關 ➜";
+  state.level++;
+  renderTop();
+  show("clearScreen");
+}
+$("nextLevelBtn").onclick = ()=>{
+  if (state.level >= LEVELS.length){
+    $("finishHearts").textContent = "剩餘愛心：" + "❤".repeat(state.hearts) + "（" + state.hearts + " 顆）";
+    $("finishTier").textContent = "你獲得的是——「" + tierOf(state.hearts).name + "」！";
+    show("finishScreen");
+  } else showIntro();
+};
+function tierOf(h){ return TIERS.find(t=>h >= t.min) || TIERS[3]; }
+
+/* ---------- 簽名板 ---------- */
+const sig = $("sigCanvas");
+let sigCtx = null, drawing = false, hasInk = false;
+function setupSig(){
+  const w = Math.min(window.innerWidth * 0.7, 900);
+  const h = Math.min(window.innerHeight * 0.42, 330);
+  sig.width = w * 2; sig.height = h * 2;         // 2x 解析度
+  sig.style.width = w + "px"; sig.style.height = h + "px";
+  sigCtx = sig.getContext("2d");
+  sigCtx.scale(2,2);
+  sigCtx.fillStyle = "#FFFFFF"; sigCtx.fillRect(0,0,w,h);
+  sigCtx.strokeStyle = "#4A3F35"; sigCtx.lineWidth = 4; sigCtx.lineCap = "round"; sigCtx.lineJoin = "round";
+  hasInk = false;
+}
+function sigPos(e){
+  const r = sig.getBoundingClientRect();
+  return [e.clientX - r.left, e.clientY - r.top];
+}
+sig.addEventListener("pointerdown", e=>{ drawing = true; try{ sig.setPointerCapture(e.pointerId); }catch(err){} const [x,y]=sigPos(e); sigCtx.beginPath(); sigCtx.moveTo(x,y); });
+sig.addEventListener("pointermove", e=>{ if(!drawing) return; const [x,y]=sigPos(e); sigCtx.lineTo(x,y); sigCtx.stroke(); hasInk = true; });
+sig.addEventListener("pointerup", ()=>{ drawing = false; });
+$("sigClear").onclick = setupSig;
+$("toSignBtn").onclick = ()=>{ show("signScreen"); setupSig(); };
+$("sigDone").onclick = ()=>{
+  if (!hasInk){ $("sigCanvas").style.borderColor = "#C97B63"; return; }
+  state.sigData = sig.toDataURL("image/png");
+  showCert();
+};
+
+/* ---------- 獎狀 ---------- */
+function showCert(){
+  const t = tierOf(state.hearts);
+  const box = $("certBox");
+  box.className = "cert " + t.cls;
+  $("certMedal").style.background = t.medalBg;
+  $("certMedal").textContent = t.emoji;
+  $("certName").textContent = t.name;
+  $("certMsg").textContent = t.msg;
+  $("certSig").src = state.sigData;
+  const d = new Date();
+  $("certDate").textContent = `完成日期：${d.getFullYear()} 年 ${d.getMonth()+1} 月 ${d.getDate()} 日｜剩餘愛心 ${state.hearts} 顆`;
+  sndWin();
+  show("certScreen");
+}
+$("replayBtn").onclick = ()=>location.reload();
+
+/* ---------- 綁定 ---------- */
+$("goBtn").onclick = ()=>{ beep([523],0.12); state.started = true; state.level = 0; state.hearts = START_HEARTS; showIntro(); };
+$("howBtn").onclick = ()=>show("howScreen");
+$("howBack").onclick = ()=>show("startScreen");
+$("startLevelBtn").onclick = startLevel;
+$("muteBtn").onclick = ()=>{ muted = !muted; $("muteBtn").textContent = muted ? "🔇 靜音" : "🔊 音效"; };
+
+renderTop();
+</script>
+<!-- 國小教學教材，巧茹老師設計。 -->
+</body>
+</html>
