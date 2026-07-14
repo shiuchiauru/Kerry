@@ -30,3 +30,7 @@ out/
 .parcel-cache/
 .next/
 coverage/
+
+# 教材輸出檔（repo 公開發布於 GitHub Pages，教材文件不上傳）
+games/**/*.docx
+games/**/*.pptx
