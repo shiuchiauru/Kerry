@@ -1,0 +1,381 @@
+{
+  "version": 1,
+  "sentences": [
+    {
+      "category": "H4 L1",
+      "text": "I like to drink green tea."
+    },
+    {
+      "category": "H4 L1",
+      "text": "I don't like to drink black tea."
+    },
+    {
+      "category": "H4 L1",
+      "text": "You like to drink pearl milk tea."
+    },
+    {
+      "category": "H4 L1",
+      "text": "You don't like to drink Oolong tea."
+    },
+    {
+      "category": "H4 L1",
+      "text": "They like to drink soda."
+    },
+    {
+      "category": "H4 L1",
+      "text": "They don't like to drink mineral water."
+    },
+    {
+      "category": "H4 L1",
+      "text": "We like to drink mineral water."
+    },
+    {
+      "category": "H4 L1",
+      "text": "We don't like to drink Coke."
+    },
+    {
+      "category": "H4 L1",
+      "text": "He likes to drink Coke."
+    },
+    {
+      "category": "H4 L1",
+      "text": "He doesn't like to drink cocoa."
+    },
+    {
+      "category": "H4 L1",
+      "text": "She likes to drink lemonade."
+    },
+    {
+      "category": "H4 L1",
+      "text": "She doesn't like to drink green tea."
+    },
+    {
+      "category": "H4 L1",
+      "text": "My father likes to drink Oolong tea."
+    },
+    {
+      "category": "H4 L1",
+      "text": "My father doesn't like to drink pearl milk tea."
+    },
+    {
+      "category": "H4 L1",
+      "text": "My aunt likes to drink black coffee."
+    },
+    {
+      "category": "H4 L1",
+      "text": "My aunt doesn't like to drink black tea."
+    },
+    {
+      "category": "H4 L1",
+      "text": "Ruby: Do you like to drink soda?"
+    },
+    {
+      "category": "H4 L1",
+      "text": "Saphy: Yes, I do. I like to drink soda."
+    },
+    {
+      "category": "H4 L1",
+      "text": "Ann: No, I don't. I don't like to drink soda."
+    },
+    {
+      "category": "H4 L1",
+      "text": "Ruby: Does Frank like to drink mineral water?"
+    },
+    {
+      "category": "H4 L1",
+      "text": "Saphy: Yes, he does. He likes to drink mineral water."
+    },
+    {
+      "category": "H4 L1",
+      "text": "Ruby: Does Wendy like to drink black tea?"
+    },
+    {
+      "category": "H4 L1",
+      "text": "Saphy: No, she doesn't. She doesn't like to drink black tea."
+    },
+    {
+      "category": "H4 L1",
+      "text": "Ruby: What do you like to drink?"
+    },
+    {
+      "category": "H4 L1",
+      "text": "Saphy: I like to drink pearl milk tea."
+    },
+    {
+      "category": "H4 L1",
+      "text": "Ruby: What does your mother like to drink?"
+    },
+    {
+      "category": "H4 L1",
+      "text": "Saphy: She likes to drink green tea."
+    },
+    {
+      "category": "H4 L1",
+      "text": "Ruby: What does your uncle like to drink?"
+    },
+    {
+      "category": "H4 L1",
+      "text": "Saphy: He likes to drink coffee."
+    },
+    {
+      "category": "H4 L1",
+      "text": "What's there on the slide?"
+    },
+    {
+      "category": "H4 L1",
+      "text": "A blade, glue and some clay."
+    },
+    {
+      "category": "H4 L1",
+      "text": "I cut the clay with the blade."
+    },
+    {
+      "category": "H4 L1",
+      "text": "I glue the clay to make a plane."
+    },
+    {
+      "category": "H4 L1",
+      "text": "I fly the plane all day."
+    },
+    {
+      "category": "H4 L1",
+      "text": "It's fun to make a plane with clay."
+    },
+    {
+      "category": "H4 L2",
+      "text": "I am eating a doughnut."
+    },
+    {
+      "category": "H4 L2",
+      "text": "I am not eating bread."
+    },
+    {
+      "category": "H4 L2",
+      "text": "You are eating a muffin."
+    },
+    {
+      "category": "H4 L2",
+      "text": "You are not eating a sandwich."
+    },
+    {
+      "category": "H4 L2",
+      "text": "We are eating bagels."
+    },
+    {
+      "category": "H4 L2",
+      "text": "We are not eating pretzels."
+    },
+    {
+      "category": "H4 L2",
+      "text": "He is eating popcorn."
+    },
+    {
+      "category": "H4 L2",
+      "text": "He is not eating marshmallows."
+    },
+    {
+      "category": "H4 L2",
+      "text": "She is eating a candy bar."
+    },
+    {
+      "category": "H4 L2",
+      "text": "She is not eating chocolate."
+    },
+    {
+      "category": "H4 L2",
+      "text": "They are eating yogurt."
+    },
+    {
+      "category": "H4 L2",
+      "text": "They are not eating ice cream."
+    },
+    {
+      "category": "H4 L2",
+      "text": "Ruby: What are you eating?"
+    },
+    {
+      "category": "H4 L2",
+      "text": "Tina: I am eating potato chips."
+    },
+    {
+      "category": "H4 L2",
+      "text": "Saphy: I am eating chocolate chip cookies."
+    },
+    {
+      "category": "H4 L2",
+      "text": "Ruby: What are they eating?"
+    },
+    {
+      "category": "H4 L2",
+      "text": "Saphy: They are eating popcorn."
+    },
+    {
+      "category": "H4 L2",
+      "text": "Ruby: What is Emily eating?"
+    },
+    {
+      "category": "H4 L2",
+      "text": "Saphy: She is eating a doughnut."
+    },
+    {
+      "category": "H4 L2",
+      "text": "Ruby: Are you eating corn chips?"
+    },
+    {
+      "category": "H4 L2",
+      "text": "Saphy: Yes, I am. I'm eating corn chips."
+    },
+    {
+      "category": "H4 L2",
+      "text": "Ruby: Is Eddy eating crackers?"
+    },
+    {
+      "category": "H4 L2",
+      "text": "Saphy: Yes, he is. He is eating crackers."
+    },
+    {
+      "category": "H4 L2",
+      "text": "Ruby: Is Flora eating marshmallows?"
+    },
+    {
+      "category": "H4 L2",
+      "text": "Saphy: No, she isn't. She isn't eating marshmallows."
+    },
+    {
+      "category": "H4 L2",
+      "text": "Cherry is Dutch. She is thin and shy."
+    },
+    {
+      "category": "H4 L2",
+      "text": "She has blond hair, pink cheeks, a cute chin and white teeth."
+    },
+    {
+      "category": "H4 L2",
+      "text": "Cherry's favorite fruit is cherry."
+    },
+    {
+      "category": "H4 L2",
+      "text": "Cherry's favorite animals are chipmunks and sheep."
+    },
+    {
+      "category": "H4 L2",
+      "text": "Cherry likes to eat chips and cheese."
+    },
+    {
+      "category": "H4 L2",
+      "text": "Andy likes whales and he drinks whisky every night."
+    },
+    {
+      "category": "H4 L2",
+      "text": "Dan has a shotgun and he likes to go hunting."
+    },
+    {
+      "category": "H4 L2",
+      "text": "Frank has a whip and he can fix many things."
+    },
+    {
+      "category": "H4 L2",
+      "text": "That is Cherry's mother."
+    },
+    {
+      "category": "H4 L2",
+      "text": "She is in the kitchen all the time."
+    },
+    {
+      "category": "H4 L2",
+      "text": "She can make a watch with shells there."
+    },
+    {
+      "category": "H4 L2",
+      "text": "She can make a sheet with cloth there."
+    },
+    {
+      "category": "H4 L2",
+      "text": "She can make bread with wheat there."
+    },
+    {
+      "category": "H4 L2",
+      "text": "Maybe she is a mighty witch."
+    },
+    {
+      "category": "H4 L3",
+      "text": "The kids are playing on the seesaw."
+    },
+    {
+      "category": "H4 L3",
+      "text": "The kids are swinging on the monkey bar."
+    },
+    {
+      "category": "H4 L3",
+      "text": "The kids are going down the slide."
+    },
+    {
+      "category": "H4 L3",
+      "text": "The kids are doing tug-of-war."
+    },
+    {
+      "category": "H4 L3",
+      "text": "The kids are running a race."
+    },
+    {
+      "category": "H4 L3",
+      "text": "The kids are playing in the sandpit."
+    },
+    {
+      "category": "H4 L3",
+      "text": "The boy is flying a kite."
+    },
+    {
+      "category": "H4 L3",
+      "text": "The girl is doing the long jump."
+    },
+    {
+      "category": "H4 L3",
+      "text": "Ruby: What are the kids doing on the playground?"
+    },
+    {
+      "category": "H4 L3",
+      "text": "Saphy: They are riding the merry-go-round."
+    },
+    {
+      "category": "H4 L3",
+      "text": "Ruby: What is Tina doing on the playground?"
+    },
+    {
+      "category": "H4 L3",
+      "text": "Saphy: She is flying a kite."
+    },
+    {
+      "category": "H4 L3",
+      "text": "Ruby: What is Harry doing on the playground?"
+    },
+    {
+      "category": "H4 L3",
+      "text": "Saphy: He is sitting on the swing."
+    },
+    {
+      "category": "H4 L3",
+      "text": "Ruby: Are the kids doing tug-of-war?"
+    },
+    {
+      "category": "H4 L3",
+      "text": "Saphy: Yes, they are. They are doing tug-of-war."
+    },
+    {
+      "category": "H4 L3",
+      "text": "Ruby: Is Jack playing in the sandpit?"
+    },
+    {
+      "category": "H4 L3",
+      "text": "Saphy: Yes, he is. He is playing in the sandpit."
+    },
+    {
+      "category": "H4 L3",
+      "text": "Ruby: Is Betty swinging on the monkey bar?"
+    },
+    {
+      "category": "H4 L3",
+      "text": "Saphy: No, she isn't. She is running in the track-and-field events."
+    }
+  ]
+}
