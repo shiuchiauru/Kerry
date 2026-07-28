@@ -146,7 +146,7 @@
             margin: 0.08em 0;
         }
         #zhuyin-view rt {
-            font-size: calc(var(--zy-ratio, 0.42) * 1em);  /* 注音大小可由控制列調整 */
+            font-size: 0.42em;  /* 注音符號相對國字的固定比例，隨整體字體一起縮放 */
             letter-spacing: 1px;
             font-weight: bold;
             text-align: center;
@@ -154,25 +154,30 @@
         }
         #zhuyin-view rt .zy-sym {
             display: inline-block;   /* 注音符號直排堆疊 */
-            position: relative;      /* 聲調符號以注音符號本身為定位基準 */
         }
-        /* 二、三、四聲：緊貼注音右側、垂直置中 */
+        /* 每個注音符號各自獨立定位，聲調符號才能準確貼在「特定一個」符號上 */
+        #zhuyin-view rt .zy-char {
+            display: inline-block;
+            position: relative;
+        }
+        /* 二、三、四聲：貼在該字「最後一個」注音符號的右上角 (台灣課本標準排版) */
         #zhuyin-view rt .zy-tone {
             position: absolute;
-            left: 100%;
-            top: 50%;
-            transform: translateY(-50%);
-            margin-left: -0.02em;
-            font-size: 0.8em;
+            top: -0.05em;
+            right: -0.62em;
+            font-size: 1.05em;
             line-height: 1;
+            /* 直式書寫下瀏覽器預設會把聲調符號轉 90 度貼齊直排方向，
+               導致 ˊˇˋ 的形狀跑掉 (三聲看起來像躺著的勾)。強制直立顯示，維持原本正確的符號形狀。 */
+            writing-mode: horizontal-tb;
+            text-orientation: upright;
         }
-        /* 輕聲「˙」：注音符號正上方、水平置中 */
+        /* 輕聲「˙」：貼在該字「第一個」注音符號的正上方、水平置中 */
         #zhuyin-view rt .zy-tone-neutral {
+            top: -1.1em;
+            right: auto;
             left: 50%;
-            top: auto;
-            bottom: 100%;
             transform: translateX(-50%);
-            margin-left: 0;
         }
         #zhuyin-view .zy-plain {           /* 標點、數字、英文：不加注音 */
             display: inline-block;
@@ -182,7 +187,7 @@
             height: 0.6em;
         }
 
-        /* 注音模式的字體控制列 (相對 .zhuyin-wrap 定位於左上角，位在日期下方區域內) */
+        /* 注音模式的浮動控制列 (相對 .zhuyin-wrap 定位於左上角，位在日期下方區域內) */
         #zhuyin-controls {
             position: absolute;
             top: 10px;
@@ -196,48 +201,6 @@
             border-radius: 12px;
             padding: 5px 8px;
             backdrop-filter: blur(2px);
-        }
-        #zhuyin-controls .zyc-group {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            color: #fef9c3;
-            font-size: 13px;
-            font-weight: bold;
-        }
-        #zhuyin-controls .zyc-label {
-            opacity: 0.9;
-            margin-right: 2px;
-        }
-        #zhuyin-controls .zyc-val {
-            min-width: 34px;
-            text-align: center;
-            font-size: 12px;
-            color: #fff;
-        }
-        #zhuyin-controls button {
-            width: 24px;
-            height: 24px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #374151;
-            font-weight: 900;
-            font-size: 14px;
-            line-height: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.15s;
-        }
-        #zhuyin-controls button:hover { background: #fff; }
-        #zhuyin-controls button.zyc-auto {
-            width: auto;
-            padding: 0 8px;
-            font-size: 12px;
-        }
-        #zhuyin-controls button.zyc-auto.on {
-            background: #fbbf24;
-            color: #7c2d12;
         }
         /* 結束注音模式：獨立顯眼樣式，隨時都能一鍵退出 */
         #zhuyin-controls button.zyc-exit {
@@ -709,8 +672,15 @@
                         <button id="btn-trivia" onclick="generateTrivia()" class="px-3 py-1.5 bg-fuchsia-500 text-white rounded-lg hover:bg-fuchsia-600 font-bold transition-colors text-sm shadow-md border border-fuchsia-700" title="產生一句有趣的小知識或鼓勵金句">
                             ✨ 每日一句
                         </button>
+                        <!-- 注音字體大小：緊接在「注音」按鈕左邊，隨時可調（不用先開注音模式） -->
+                        <div class="ml-auto flex items-center bg-white rounded-lg shadow-md border border-amber-300 overflow-hidden text-amber-900" title="調整注音模式的整體字體大小">
+                            <button onclick="adjustZyChar(-1)" class="px-2.5 py-1.5 hover:bg-amber-50 font-black text-sm transition-colors" title="字體縮小">－</button>
+                            <span id="zyc-char" class="px-1 text-xs font-bold min-w-[38px] text-center">自動</span>
+                            <button onclick="adjustZyChar(1)" class="px-2.5 py-1.5 hover:bg-amber-50 font-black text-sm transition-colors" title="字體放大">＋</button>
+                            <button id="zyc-auto-btn" onclick="autoZyChar()" class="px-2 py-1.5 text-xs font-bold hover:bg-amber-50 border-l border-amber-200 transition-colors" title="自動填滿黑板">自動</button>
+                        </div>
                         <!-- 注音模式與擦黑板按鈕置於此列最右側 -->
-                        <button id="btn-zhuyin" onclick="toggleZhuyin()" class="ml-auto px-3 py-1.5 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 font-bold transition-colors text-sm shadow-md border border-yellow-700" title="注音模式：把黑板文字變成直式注音（像課本）">
+                        <button id="btn-zhuyin" onclick="toggleZhuyin()" class="px-3 py-1.5 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 font-bold transition-colors text-sm shadow-md border border-yellow-700" title="注音模式：把黑板文字變成直式注音（像課本）">
                             <span class="font-black">ㄅ</span> 注音
                         </button>
                         <button onclick="clearBlackboard()" class="px-3 py-1.5 bg-amber-700 text-white rounded-lg hover:bg-amber-800 font-bold transition-colors text-sm shadow-md border border-amber-900">
@@ -739,25 +709,11 @@
                         <!-- 注音模式顯示區：開啟時直式呈現黑板內容並標注注音 -->
                         <div id="zhuyin-view"></div>
 
-                        <!-- 注音模式字體控制列 -->
+                        <!-- 結束注音模式：浮在注音畫面左上角，隨時都能點到 -->
                         <div id="zhuyin-controls">
-                            <!-- 結束注音模式：直接放在控制列最前面，隨時都能點到 -->
                             <button id="zyc-exit-btn" onclick="toggleZhuyin()" class="zyc-exit" title="結束注音模式，回到編輯">
                                 <i class="fa-solid fa-xmark mr-1"></i>結束注音
                             </button>
-                            <div class="zyc-group">
-                                <span class="zyc-label">字體</span>
-                                <button onclick="adjustZyChar(-1)" title="字體縮小">－</button>
-                                <span class="zyc-val" id="zyc-char">自動</span>
-                                <button onclick="adjustZyChar(1)" title="字體放大">＋</button>
-                                <button class="zyc-auto" id="zyc-auto-btn" onclick="autoZyChar()" title="字體自動填滿黑板">自動</button>
-                            </div>
-                            <div class="zyc-group">
-                                <span class="zyc-label">注音</span>
-                                <button onclick="adjustZyZhuyin(-1)" title="注音縮小">－</button>
-                                <span class="zyc-val" id="zyc-zy">42%</span>
-                                <button onclick="adjustZyZhuyin(1)" title="注音放大">＋</button>
-                            </div>
                         </div>
                     </div>
 
@@ -1937,14 +1893,23 @@
                     if (!/[一-鿿]/.test(c)) return `<span class="zy-plain">${escapeHtml(c)}</span>`;
                     const zy = hasPinyin ? pinyinSylToZhuyin(py[i] || '') : '';
                     if (!zy) return `<span class="zy-plain">${escapeHtml(c)}</span>`;
-                    // 拆出聲調符號，讓它標在注音符號的右側（輕聲則標在上方），符合課本排版
+                    // 拆出聲調符號：二、三、四聲貼在「最後一個注音符號」右上角，
+                    // 輕聲貼在「第一個注音符號」正上方，符合台灣課本標準直式注音排版。
                     let sym = zy, tone = '';
                     const last = zy.slice(-1);
                     if ('ˊˇˋ˙'.includes(last)) { tone = last; sym = zy.slice(0, -1); }
-                    const toneCls = tone === '˙' ? 'zy-tone zy-tone-neutral' : 'zy-tone';
-                    const toneHtml = tone ? `<span class="${toneCls}">${tone}</span>` : '';
-                    // 聲調符號放進 .zy-sym 內，以注音符號本身為定位基準
-                    return `<ruby>${escapeHtml(c)}<rt><span class="zy-sym">${sym}${toneHtml}</span></rt></ruby>`;
+                    const symChars = [...sym];
+                    const lastIdx = symChars.length - 1;
+                    const symHtml = symChars.map((ch, idx) => {
+                        let mark = '';
+                        if (tone === '˙' && idx === 0) {
+                            mark = `<span class="zy-tone zy-tone-neutral">˙</span>`;
+                        } else if (tone && tone !== '˙' && idx === lastIdx) {
+                            mark = `<span class="zy-tone">${tone}</span>`;
+                        }
+                        return `<span class="zy-char">${ch}${mark}</span>`;
+                    }).join('');
+                    return `<ruby>${escapeHtml(c)}<rt><span class="zy-sym">${symHtml}</span></rt></ruby>`;
                 }).join('');
                 return `<div class="zy-col">${inner}</div>`;
             }).join('');
@@ -1965,10 +1930,9 @@
             }
         }
 
-        // --- 注音模式字體設定 (可手動調整字體與注音大小) ---
+        // --- 注音模式字體設定 (整體字體大小，可手動調整或自動填滿；放在工具列，不用先開注音模式也能調) ---
         const ZY_CHAR_MIN = 20, ZY_CHAR_MAX = 220, ZY_CHAR_STEP = 6;
-        const ZY_RATIO_MIN = 0.25, ZY_RATIO_MAX = 0.75, ZY_RATIO_STEP = 0.04;
-        let zyLayout = { charAuto: true, charPx: 60, ratio: 0.42 };
+        let zyLayout = { charAuto: true, charPx: 60 };
         (function initZyLayout() {
             const s = localStorage.getItem('qiaoru_zhuyin_layout');
             if (s) { try { zyLayout = { ...zyLayout, ...JSON.parse(s) }; } catch (e) {} }
@@ -1978,25 +1942,25 @@
         }
 
         function applyZyLayout() {
-            const view = document.getElementById('zhuyin-view');
+            // 標籤（工具列上的字級顯示）不管目前是否在注音模式都要更新，
+            // 才能在還沒開啟注音模式時，先設定好偏好的字級。
+            updateZyControlLabels();
+
             if (!isZhuyinActive()) return;
-            view.style.setProperty('--zy-ratio', zyLayout.ratio.toFixed(2));
+            const view = document.getElementById('zhuyin-view');
             if (zyLayout.charAuto) {
                 fitZhuyinFont();  // 自動填滿，並回存目前字級
                 zyLayout.charPx = parseInt(view.style.fontSize) || zyLayout.charPx;
             } else {
                 view.style.fontSize = zyLayout.charPx + 'px';
             }
-            updateZyControlLabels();
         }
 
         function updateZyControlLabels() {
             const c = document.getElementById('zyc-char');
             if (c) c.textContent = zyLayout.charAuto ? '自動' : zyLayout.charPx + 'px';
-            const z = document.getElementById('zyc-zy');
-            if (z) z.textContent = Math.round(zyLayout.ratio * 100) + '%';
             const autoBtn = document.getElementById('zyc-auto-btn');
-            if (autoBtn) autoBtn.classList.toggle('on', zyLayout.charAuto);
+            if (autoBtn) autoBtn.classList.toggle('bg-amber-400', zyLayout.charAuto);
         }
 
         function adjustZyChar(dir) {
@@ -2011,13 +1975,6 @@
         function autoZyChar() {
             zyLayout.charAuto = true;
             saveZyLayout();
-            applyZyLayout();
-        }
-
-        function adjustZyZhuyin(dir) {
-            zyLayout.ratio = Math.max(ZY_RATIO_MIN, Math.min(ZY_RATIO_MAX, +(zyLayout.ratio + dir * ZY_RATIO_STEP).toFixed(2)));
-            saveZyLayout();
-            // 注音大小改變後，自動模式要重新量測填滿
             applyZyLayout();
         }
 
