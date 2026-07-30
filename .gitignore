@@ -25,6 +25,10 @@ out/
 .env.*
 !.env.example
 
+# AI agent 工作目錄與金鑰
+.claude/
+.codex/
+
 # Generated caches
 .cache/
 .parcel-cache/
