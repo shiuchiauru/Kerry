@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#1a1440">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#1a1440"></rect>
+    <circle cx="240" cy="180" r="4" fill="#7de8ff"></circle>
+    <circle cx="920" cy="140" r="3" fill="#ffd45e"></circle>
+    <circle cx="1040" cy="560" r="4" fill="#ff9ac0"></circle>
+    <circle cx="180" cy="620" r="3" fill="#b8a8ff"></circle>
+    <text x="600" y="440" text-anchor="middle" font-size="280">🚀</text>
+    <text x="600" y="640" text-anchor="middle" font-size="64" font-weight="900" fill="#7de8ff" font-family="sans-serif">星際冒險學院</text>
+  </svg>
+</template>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#1a1440;font-family:"Huninn","Noto Sans TC",sans-serif}
+a{color:#7de8ff}a:hover{color:#b8f2ff}
+input,select,button,textarea{font-family:"Huninn","Noto Sans TC",sans-serif}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes flick{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.15) rotate(4deg)}}
+@keyframes pulseRing{0%{box-shadow:0 0 0 0 rgba(255,180,0,.55)}100%{box-shadow:0 0 0 16px rgba(255,180,0,0)}}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(240%)}}
+@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-6px) rotate(4deg)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-14px) rotate(-4deg)}40%{transform:translateX(12px) rotate(3deg)}60%{transform:translateX(-9px)}80%{transform:translateX(7px)}}
+@keyframes popIn{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+@keyframes rise{0%{transform:translateY(20px);opacity:0}30%{opacity:1}100%{transform:translateY(-70px);opacity:0}}
+@keyframes slideDown{0%{transform:translate(-50%,-30px);opacity:0}100%{transform:translate(-50%,0);opacity:1}}
+@keyframes spinSlow{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+@keyframes laserShot{0%{transform:scaleX(0);opacity:1}75%{transform:scaleX(1);opacity:1}100%{transform:scaleX(1);opacity:0}}
+@keyframes petJump{0%,100%{transform:translateY(0) scale(1)}30%{transform:translateY(-18px) scale(1.1)}60%{transform:translateY(0) scale(.95)}}
+
+/* 背景整合版：保留深色遮罩，讓文字與按鈕在不同畫面都清晰易讀。 */
+[data-screen-label]{background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;border-radius:24px;padding:24px;box-shadow:inset 0 0 0 1px rgba(190,220,255,.12)}
+[data-screen-label="登入"],[data-screen-label="冒險大廳"]{background-image:linear-gradient(90deg,rgba(12,9,42,.78),rgba(12,9,42,.42),rgba(12,9,42,.78)),url("assets/star-academy-lobby.png")!important}
+[data-screen-label="Boss星戰"]{background-image:linear-gradient(180deg,rgba(8,9,35,.28),rgba(8,9,35,.74)),url("assets/floating-crystal-planet.png")!important;min-height:calc(100vh - 160px)}
+[data-screen-label="討伐任務"],[data-screen-label="指揮中心"],[data-screen-label="家長報告"],[data-screen-label="星際夥伴"],[data-screen-label="排行榜"],[data-screen-label="任務設定"]{background-image:linear-gradient(90deg,rgba(18,18,62,.74),rgba(18,18,62,.38),rgba(18,18,62,.74)),url("assets/starship-observatory.png")!important;min-height:calc(100vh - 160px)}
+@media(max-width:700px){[data-screen-label]{border-radius:16px;padding:16px;background-position:center center!important}[data-screen-label="Boss星戰"],[data-screen-label="討伐任務"],[data-screen-label="指揮中心"],[data-screen-label="家長報告"],[data-screen-label="星際夥伴"],[data-screen-label="排行榜"],[data-screen-label="任務設定"]{min-height:calc(100vh - 120px)}}
+
+</style></helmet>
+<div style="min-height:100vh;background:linear-gradient(180deg,#1a1440 0%,#241a55 55%,#2c2060 100%);color:#fff;position:relative;overflow-x:hidden">
+<div style="position:fixed;top:60px;left:6%;color:#fff;font-size:13px;animation:twinkle 2s infinite;pointer-events:none">✦</div>
+<div style="position:fixed;top:180px;right:9%;color:#fff;font-size:17px;animation:twinkle 2.6s .4s infinite;pointer-events:none">✦</div>
+<div style="position:fixed;bottom:120px;left:14%;color:#fff;font-size:11px;animation:twinkle 1.8s .8s infinite;pointer-events:none">✦</div>
+<div style="position:fixed;bottom:220px;right:20%;color:#fff;font-size:14px;animation:twinkle 2.2s 1.1s infinite;pointer-events:none">✦</div>
+
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;top:84px;left:50%;transform:translateX(-50%);background:#0e0a2a;border:1px solid rgba(160,140,255,.6);color:#fff;padding:12px 26px;border-radius:999px;z-index:60;font-weight:700;font-size:15px;box-shadow:0 0 24px rgba(140,106,255,.5);animation:slideDown .3s ease-out;display:flex;align-items:center;gap:8px">🏅 {{ toast }}</div>
+</sc-if>
+
+<sc-if value="{{ lvlUp }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;background:rgba(10,6,30,.75);z-index:70;display:flex;align-items:center;justify-content:center">
+  <div style="text-align:center;animation:popIn .5s ease-out">
+    <div style="font-size:100px;animation:flick .8s infinite">🌟</div>
+    <div style="font-size:52px;font-weight:900;color:#ffd45e;text-shadow:0 0 30px rgba(255,212,94,.9);letter-spacing:4px">LEVEL UP!</div>
+    <div style="font-size:30px;font-weight:900;color:#7de8ff;margin-top:6px;text-shadow:0 0 20px rgba(125,232,255,.8)">升到 Lv.{{ level }} 了！</div>
+    <div style="font-size:16px;color:#b8a8ff;margin-top:10px">目前稱號：{{ curTitle }}</div>
+    <div style="display:flex;gap:26px;justify-content:center;margin-top:14px;font-size:26px">
+      <span style="animation:rise 1.6s .1s infinite">🎉</span><span style="animation:rise 1.6s .5s infinite">⭐</span><span style="animation:rise 1.6s .3s infinite">🎊</span><span style="animation:rise 1.6s .7s infinite">✨</span>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ checkinOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;background:rgba(10,6,30,.82);z-index:80;display:flex;align-items:center;justify-content:center;padding:20px">
+  <div style="background:linear-gradient(180deg,#241a55,#1a1440);border:1px solid rgba(255,212,94,.5);border-radius:28px;padding:32px;max-width:600px;text-align:center;display:flex;flex-direction:column;gap:16px;animation:popIn .4s ease-out;box-shadow:0 0 40px rgba(255,212,94,.25)">
+    <div style="font-size:54px">🛎️</div>
+    <div style="font-size:27px;font-weight:900;color:#ffd45e">每日報到！已連續 <span style="color:#ffb347">{{ streak }}</span> 天</div>
+    <div style="font-size:14px;color:#b8a8ff">每天登入都能領獎勵，連續 7 天有神祝大獎！</div>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <sc-for list="{{ checkinDays }}" as="d" hint-placeholder-count="7">
+        <div style="{{ d.style }}"><div style="font-size:11.5px;font-weight:900">{{ d.label }}</div><div style="font-size:24px">{{ d.icon }}</div><div style="font-size:11.5px;font-weight:900">{{ d.reward }}</div></div>
+      </sc-for>
+    </div>
+    <button onClick="{{ claimCheckin }}" style="background:linear-gradient(90deg,#ffd45e,#ffb100);border:none;border-radius:999px;padding:15px 40px;font-size:18px;font-weight:900;color:#4a3200;cursor:pointer;box-shadow:0 0 22px rgba(255,212,94,.4);white-space:nowrap;align-self:center;animation:pulseRing 1.6s infinite" style-hover="transform:scale(1.05)">🎁 領取今日獎勵：{{ todayReward }}</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ noticeOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;background:rgba(10,6,30,.82);z-index:80;display:flex;align-items:center;justify-content:center;padding:20px">
+  <div style="background:linear-gradient(180deg,#241a55,#1a1440);border:1px solid rgba(125,232,255,.5);border-radius:28px;padding:30px;width:520px;max-width:92vw;display:flex;flex-direction:column;gap:14px;animation:popIn .4s ease-out;box-shadow:0 0 40px rgba(125,232,255,.25)">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div style="font-size:48px;animation:bob 2.4s ease-in-out infinite">📜</div>
+      <div>
+        <div style="font-size:24px;font-weight:900;color:#7de8ff;text-shadow:0 0 14px rgba(125,232,255,.5)">星際公會通知</div>
+        <div style="font-size:13px;color:#b8a8ff">{{ noticeDate }} · {{ name }} 艦長的今日任務簡報</div>
+      </div>
+    </div>
+    <div style="background:rgba(255,212,94,.1);border:1px dashed rgba(255,212,94,.5);border-radius:14px;padding:11px 16px;display:flex;gap:10px;align-items:center">
+      <span style="font-size:24px">🤖</span>
+      <div style="font-size:13.5px;color:#e8d8a8;line-height:1.5"><b style="color:#ffd45e">老師廣播：</b>這週大家表現很棒！擊敗數學隕石獸 Boss 可以多拿 50 枚金幣喔！</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:14px;font-weight:900;color:#b8a8ff">⚔️ 今日要討伐的怪獸</div>
+      <sc-for list="{{ noticeTasks }}" as="nt" hint-placeholder-count="3">
+        <div style="{{ nt.row }}">
+          <span style="font-size:26px">{{ nt.icon }}</span>
+          <div style="flex:1"><div style="font-size:14.5px;font-weight:900">{{ nt.title }}</div><div style="font-size:12px;color:#9a8ad8">{{ nt.subject }} · {{ nt.monster }}</div></div>
+          <span style="{{ nt.tag }}">{{ nt.state }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <span style="background:rgba(216,74,122,.15);border:1px solid rgba(216,74,122,.5);color:#ff9ac0;border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:900;white-space:nowrap">👽 Boss 星戰開放中</span>
+      <span style="background:rgba(255,180,71,.12);border:1px solid rgba(255,180,71,.5);color:#ffb347;border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:900;white-space:nowrap">🔥 連續登入 {{ streak }} 天</span>
+      <span style="background:rgba(125,232,255,.12);border:1px solid rgba(125,232,255,.45);color:#7de8ff;border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:900;white-space:nowrap">👾 嗶嗶等你餵食</span>
+    </div>
+    <button onClick="{{ closeNotice }}" style="background:linear-gradient(90deg,#7de8ff,#8a6aff);border:none;border-radius:999px;padding:14px 36px;font-size:17px;font-weight:900;color:#1a1440;cursor:pointer;box-shadow:0 0 20px rgba(125,232,255,.4);white-space:nowrap;align-self:center" style-hover="transform:scale(1.05)">🚀 收到！出發冒險</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ uploadOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;background:rgba(10,6,30,.82);z-index:80;display:flex;align-items:center;justify-content:center;padding:20px">
+  <div style="background:linear-gradient(180deg,#241a55,#1a1440);border:1px solid rgba(125,232,255,.5);border-radius:28px;padding:30px;width:460px;max-width:92vw;display:flex;flex-direction:column;gap:14px;animation:popIn .35s ease-out;box-shadow:0 0 40px rgba(125,232,255,.2)">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font-size:44px">{{ upIcon }}</span>
+      <div><div style="font-size:19px;font-weight:900">📸 拍照打卡：{{ upTitle }}</div>
+      <div style="font-size:13px;color:#b8a8ff;margin-top:2px">上傳完成的照片，就能擊敗「{{ upMonster }}」！</div></div>
+    </div>
+    <sc-if value="{{ noUpPhoto }}" hint-placeholder-val="{{ true }}">
+      <label style="border:2px dashed rgba(125,232,255,.45);border-radius:16px;padding:28px;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;color:#7de8ff;font-weight:900" style-hover="background:rgba(125,232,255,.08)">
+        <span style="font-size:40px">📷</span>
+        <span>點這裡拍照或選擇照片</span>
+        <span style="font-size:12px;color:#8a80b8;font-weight:700">手機可直接開相機拍作業成果</span>
+        <input type="file" accept="image/*" capture="environment" onChange="{{ onUpFile }}" style="display:none"></input>
+      </label>
+    </sc-if>
+    <sc-if value="{{ hasUpPhoto }}" hint-placeholder-val="{{ false }}">
+      <div style="{{ upPhotoStyle }}"></div>
+      <label style="align-self:center;color:#8a80b8;font-size:13px;cursor:pointer;text-decoration:underline" style-hover="color:#b8a8ff">重新選一張<input type="file" accept="image/*" capture="environment" onChange="{{ onUpFile }}" style="display:none"></input></label>
+    </sc-if>
+    <div style="display:flex;gap:10px">
+      <button onClick="{{ cancelUpload }}" style="flex:1;background:none;border:1px solid rgba(160,140,255,.4);color:#b8a8ff;border-radius:14px;padding:13px;font-size:15px;font-weight:900;cursor:pointer" style-hover="background:rgba(160,140,255,.12)">取消</button>
+      <button onClick="{{ submitUpload }}" style="{{ upSubmitStyle }}" style-hover="transform:scale(1.02)">🚀 送出打卡・出擊！</button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="登入" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;gap:22px">
+  <div style="text-align:center">
+    <div style="font-size:74px;animation:float 3s ease-in-out infinite">🚀</div>
+    <div style="font-size:42px;font-weight:900;white-space:nowrap;text-shadow:0 0 20px rgba(140,120,255,.8)">星際冒險學院</div>
+    <div style="font-size:16px;color:#b8a8ff;margin-top:6px">完成任務、打倒作業怪獸，和夥伴一起升級！</div>
+  </div>
+  <div style="width:380px;background:rgba(255,255,255,.07);border:1px solid rgba(125,232,255,.4);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:14px">
+    <div style="font-size:20px;font-weight:900;display:flex;align-items:center;gap:8px">👨‍🚀 學生登入</div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label style="font-size:13px;color:#b8a8ff;font-weight:700">班級</label>
+      <select value="{{ klass }}" onChange="{{ pickClass }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.4);border-radius:12px;padding:12px 14px;color:#fff;font-size:16px;outline:none">
+        <sc-for list="{{ classOpts }}" as="c" hint-placeholder-count="3"><option value="{{ c }}">{{ c }}</option></sc-for>
+      </select>
+    </div>
+    <div style="display:flex;gap:10px">
+      <div style="display:flex;flex-direction:column;gap:6px;width:90px">
+        <label style="font-size:13px;color:#b8a8ff;font-weight:700">座號</label>
+        <input value="{{ loginSid }}" onChange="{{ onSid }}" placeholder="12" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.4);border-radius:12px;padding:12px 14px;color:#fff;font-size:16px;outline:none;width:100%;box-sizing:border-box"></input>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;flex:1">
+        <label style="font-size:13px;color:#b8a8ff;font-weight:700">學號</label>
+        <input value="{{ loginSno }}" onChange="{{ onSno }}" placeholder="例如：30112" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.4);border-radius:12px;padding:12px 14px;color:#fff;font-size:16px;outline:none;width:100%;box-sizing:border-box"></input>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label style="font-size:13px;color:#b8a8ff;font-weight:700">姓名</label>
+      <input value="{{ loginName }}" onChange="{{ onName }}" placeholder="例如：王小明" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.4);border-radius:12px;padding:12px 14px;color:#fff;font-size:16px;outline:none;width:100%;box-sizing:border-box"></input>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label style="font-size:13px;color:#b8a8ff;font-weight:700">選一個頭像</label>
+      <div style="display:flex;gap:8px">
+        <sc-for list="{{ avatarOpts }}" as="av" hint-placeholder-count="6"><button onClick="{{ av.pick }}" style="{{ av.style }}" style-hover="transform:scale(1.12)">{{ av.icon }}</button></sc-for>
+      </div>
+    </div>
+    <label style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:#b8a8ff;font-weight:700;cursor:pointer"><input type="checkbox" checked="{{ remember }}" onChange="{{ toggleRemember }}" style="width:16px;height:16px;accent-color:#8a6aff"></input>記住我，下次自動填好</label>
+    <button onClick="{{ loginStudent }}" style="margin-top:6px;background:linear-gradient(90deg,#7de8ff,#8a6aff);border:none;border-radius:14px;padding:14px;font-size:18px;font-weight:900;color:#1a1440;cursor:pointer;box-shadow:0 0 18px rgba(125,232,255,.4);white-space:nowrap" style-hover="transform:scale(1.03)">🚀 出發冒險！</button>
+  </div>
+  <sc-if value="{{ showTeacherLogin }}" hint-placeholder-val="{{ false }}">
+  <div style="width:380px;background:rgba(255,255,255,.07);border:1px solid rgba(255,212,94,.4);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:14px;animation:popIn .35s ease-out">
+    <div style="font-size:20px;font-weight:900;display:flex;align-items:center;gap:8px">👩‍🏫 老師登入</div>
+    <div style="font-size:12.5px;color:#9a8ad8;line-height:1.5">每位老師使用自己的帳號登入，各自管理自己的班級與題庫。</div>
+    <button onClick="{{ openGPicker }}" style="background:#fff;border:none;border-radius:12px;padding:12px;font-size:15px;font-weight:700;color:#3c4043;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px" style-hover="box-shadow:0 0 14px rgba(255,255,255,.35)"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path></svg>使用 Google 帳號登入</button>
+    <sc-if value="{{ gPickerOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:6px;display:flex;flex-direction:column;gap:2px">
+      <div style="font-size:12px;color:#8a80b8;padding:8px 12px 4px">選擇帳號</div>
+      <sc-for list="{{ gAccounts }}" as="ga" hint-placeholder-count="2">
+        <button onClick="{{ ga.pick }}" style="background:none;border:none;border-radius:10px;padding:9px 12px;display:flex;align-items:center;gap:12px;cursor:pointer;text-align:left" style-hover="background:rgba(255,255,255,.08)">
+          <div style="width:34px;height:34px;border-radius:50%;background:{{ ga.color }};display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:#fff;flex-shrink:0">{{ ga.initial }}</div>
+          <div><div style="font-size:14px;font-weight:700;color:#fff">{{ ga.name }}</div><div style="font-size:12px;color:#9a8ad8">{{ ga.email }}</div></div>
+        </button>
+      </sc-for>
+    </div>
+    </sc-if>
+    <div style="display:flex;align-items:center;gap:10px"><div style="flex:1;height:1px;background:rgba(255,255,255,.15)"></div><span style="font-size:12px;color:#8a80b8">或使用帳號密碼</span><div style="flex:1;height:1px;background:rgba(255,255,255,.15)"></div></div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label style="font-size:13px;color:#e8d8a8;font-weight:700">帳號（Email）</label>
+      <input value="{{ tEmail }}" onChange="{{ onTEmail }}" placeholder="例如：teacher@school.edu.tw" style="background:rgba(0,0,0,.35);border:1px solid rgba(255,212,94,.4);border-radius:12px;padding:12px 14px;color:#fff;font-size:15px;outline:none;box-sizing:border-box"></input>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label style="font-size:13px;color:#e8d8a8;font-weight:700">密碼</label>
+      <input type="password" value="{{ tPwd }}" onChange="{{ onTPwd }}" placeholder="••••••••" style="background:rgba(0,0,0,.35);border:1px solid rgba(255,212,94,.4);border-radius:12px;padding:12px 14px;color:#fff;font-size:15px;outline:none;box-sizing:border-box"></input>
+    </div>
+    <button onClick="{{ loginTeacher }}" style="background:linear-gradient(90deg,#ffd45e,#ffb100);border:none;border-radius:14px;padding:14px;font-size:18px;font-weight:900;color:#4a3200;cursor:pointer;box-shadow:0 0 18px rgba(255,212,94,.35);white-space:nowrap" style-hover="transform:scale(1.03)">🛰️ 進入指揮中心</button>
+    <div style="font-size:11.5px;color:#8a80b8;text-align:center">新老師第一次用 Google 登入會自動建立個人帳號</div>
+  </div>
+  </sc-if>
+  <sc-if value="{{ showParent }}" hint-placeholder-val="{{ false }}">
+  <div style="width:380px;background:rgba(255,255,255,.07);border:1px solid rgba(90,200,120,.4);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:14px;animation:popIn .35s ease-out">
+    <div style="font-size:20px;font-weight:900;display:flex;align-items:center;gap:8px">👪 家長查詢</div>
+    <div style="font-size:13px;color:#9a8ad8">輸入孩子的班級和學號，查看學習報告（不會動到孩子的遊戲進度）。</div>
+    <div style="display:flex;gap:10px">
+      <select value="{{ parentKlass }}" onChange="{{ pickParentKlass }}" style="flex:1;background:rgba(0,0,0,.35);border:1px solid rgba(90,200,120,.4);border-radius:12px;padding:12px;color:#fff;font-size:15px;outline:none">
+        <sc-for list="{{ classOpts }}" as="c4" hint-placeholder-count="3"><option value="{{ c4 }}">{{ c4 }}</option></sc-for>
+      </select>
+      <input value="{{ parentSid }}" onChange="{{ onParentSid }}" placeholder="學號，例如 30101" style="width:150px;background:rgba(0,0,0,.35);border:1px solid rgba(90,200,120,.4);border-radius:12px;padding:12px;color:#fff;font-size:15px;outline:none;box-sizing:border-box"></input>
+    </div>
+    <button onClick="{{ parentGo }}" style="background:linear-gradient(90deg,#7de8a0,#3aa860);border:none;border-radius:14px;padding:14px;font-size:17px;font-weight:900;color:#0a2a14;cursor:pointer;white-space:nowrap" style-hover="transform:scale(1.03)">📋 查看冒險報告</button>
+  </div>
+  </sc-if>
+  <div style="display:flex;gap:14px">
+    <button onClick="{{ toggleParent }}" style="background:none;border:none;color:#8a80b8;font-size:13px;cursor:pointer;padding:6px 12px" style-hover="color:#7de8a0">{{ parentLinkLabel }}</button>
+    <button onClick="{{ toggleTeacher }}" style="background:none;border:none;color:#8a80b8;font-size:13px;cursor:pointer;padding:6px 12px" style-hover="color:#b8a8ff">{{ teacherLinkLabel }}</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isParent }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="家長報告" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px">
+  <div style="width:560px;background:rgba(255,255,255,.07);border:1px solid rgba(125,232,255,.4);border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:18px">
+    <div style="text-align:center">
+      <div style="font-size:54px">👪</div>
+      <div style="font-size:28px;font-weight:900">冒險成長報告書</div>
+      <div style="font-size:14px;color:#b8a8ff;margin-top:4px">{{ pKlass }} · {{ pSid }} 號 · {{ pName }}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="background:rgba(125,232,255,.08);border:1px solid rgba(125,232,255,.35);border-radius:16px;padding:14px 16px"><div style="font-size:12.5px;color:#7de8ff;font-weight:900">⚔️ 討伐任務進度</div><div style="font-size:24px;font-weight:900;margin-top:2px">{{ pProgress }}</div></div>
+      <div style="background:rgba(255,212,94,.08);border:1px solid rgba(255,212,94,.35);border-radius:16px;padding:14px 16px"><div style="font-size:12.5px;color:#ffd45e;font-weight:900">🪙 累積金幣</div><div style="font-size:24px;font-weight:900;margin-top:2px">{{ pCoins }}</div></div>
+      <div style="background:rgba(255,154,192,.08);border:1px solid rgba(255,154,192,.35);border-radius:16px;padding:14px 16px"><div style="font-size:12.5px;color:#ff9ac0;font-weight:900">👽 Boss 戰最新成績</div><div style="font-size:24px;font-weight:900;margin-top:2px">{{ pScore }}</div><sc-if value="{{ pHasBoss }}" hint-placeholder-val="{{ false }}"><div style="font-size:11.5px;color:#c8a0b4;margin-top:2px">{{ pBossName }}</div></sc-if></div>
+      <div style="background:rgba(140,106,255,.1);border:1px solid rgba(160,140,255,.35);border-radius:16px;padding:14px 16px"><div style="font-size:12.5px;color:#c8baff;font-weight:900">🔁 補救輪數</div><div style="font-size:24px;font-weight:900;margin-top:2px">{{ pRounds }}</div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px"><span style="font-size:13.5px;color:#b8a8ff;font-weight:900;white-space:nowrap">目前狀態</span><span style="{{ pTagStyle }}">{{ pStatus }}</span></div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:13.5px;font-weight:900;color:#7de8ff">📅 本週每日任務完成</div>
+      <div style="display:flex;gap:8px">
+        <sc-for list="{{ pWeekCells }}" as="pwc" hint-placeholder-count="5">
+          <div style="{{ pwc.style }}"><div style="font-size:11.5px;font-weight:700;white-space:nowrap">{{ pwc.day }}</div><div style="font-size:16px;font-weight:900">{{ pwc.val }}</div></div>
+        </sc-for>
+      </div>
+    </div>
+    <sc-if value="{{ pHasHist }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:13.5px;font-weight:900;color:#ff9ac0">📈 Boss 戰歷次成績趨勢</span><span style="font-size:12px;color:#8a80b8">{{ pTrendNote }}</span></div>
+      <div style="background:rgba(0,0,0,.25);border-radius:16px;padding:14px 16px 10px;display:flex;align-items:flex-end;gap:10px;height:120px">
+        <sc-for list="{{ pHistBars }}" as="hb" hint-placeholder-count="3">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;height:100%">
+            <div style="font-size:13px;font-weight:900;color:{{ hb.color }}">{{ hb.score }}</div>
+            <div style="width:100%;max-width:44px;border-radius:8px 8px 3px 3px;height:{{ hb.h }};background:{{ hb.bg }}"></div>
+            <div style="font-size:11px;color:#8a80b8;white-space:nowrap">{{ hb.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+    <sc-if value="{{ pHasWrong }}" hint-placeholder-val="{{ false }}">
+    <div style="background:rgba(0,0,0,.25);border-radius:16px;padding:14px 18px;display:flex;flex-direction:column;gap:6px">
+      <div style="font-size:13.5px;font-weight:900;color:#ffb347">📝 需要加強的題目</div>
+      <sc-for list="{{ pWrong }}" as="pw" hint-placeholder-count="1"><div style="font-size:14px;color:#e8e2ff;line-height:1.5">{{ pw }}</div></sc-for>
+    </div>
+    </sc-if>
+    <div style="background:rgba(90,200,120,.1);border:1px dashed rgba(90,200,120,.45);border-radius:16px;padding:14px 18px">
+      <div style="font-size:13.5px;font-weight:900;color:#7de8a0;margin-bottom:4px">💬 給家長的話</div>
+      <div style="font-size:14.5px;color:#cfe8d8;line-height:1.6">{{ pMsg }}</div>
+    </div>
+    <button onClick="{{ backToLogin }}" style="background:rgba(255,255,255,.08);border:1px solid rgba(160,140,255,.4);color:#c8baff;border-radius:14px;padding:12px;font-size:15px;font-weight:900;cursor:pointer" style-hover="background:rgba(160,140,255,.15)">← 返回登入頁</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isApp }}" hint-placeholder-val="{{ false }}">
+<div>
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(160,140,255,.3);position:sticky;top:0;z-index:40;backdrop-filter:blur(8px)">
+    <div style="display:flex;align-items:center;gap:10px;font-size:21px;font-weight:900;white-space:nowrap;text-shadow:0 0 14px rgba(140,120,255,.8)">🚀 星際冒險學院</div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <sc-if value="{{ isStudent }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(160,140,255,.35);border-radius:999px;padding:6px 14px">
+          <div style="background:#ffd45e;color:#7a4a00;font-weight:900;border-radius:999px;padding:2px 10px;font-size:14px">Lv.{{ level }}</div>
+          <div style="width:130px;height:12px;background:rgba(0,0,0,.4);border-radius:999px;overflow:hidden">
+            <div style="width:{{ xpPct }}%;height:100%;background:linear-gradient(90deg,#7de8ff,#8a6aff);border-radius:999px;position:relative;overflow:hidden;box-shadow:0 0 10px rgba(140,120,255,.8);transition:width .6s ease">
+              <div style="position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);animation:shimmer 2.2s infinite"></div>
+            </div>
+          </div>
+          <div style="font-size:12px;opacity:.85;white-space:nowrap">{{ xp }}/{{ xpPer }} XP</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.1);border:1px solid rgba(160,140,255,.35);border-radius:999px;padding:6px 14px;font-weight:900;color:#ffe08a;white-space:nowrap"><span style="font-size:18px">🪙</span> {{ coins }}</div>
+        <div style="display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.1);border:1px solid rgba(160,140,255,.35);border-radius:999px;padding:6px 12px;font-weight:900;color:#ffb347;white-space:nowrap"><span style="display:inline-block;font-size:18px;animation:flick 1s infinite">🔥</span> {{ streak }} 天</div>
+      </div>
+      </sc-if>
+      <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border-radius:999px;padding:4px 12px 4px 4px;white-space:nowrap">
+        <div style="width:30px;height:30px;border-radius:999px;background:#8a6aff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;border:2px solid rgba(255,255,255,.5)">{{ avatarChar }}</div>
+        <span style="font-size:14px;font-weight:700">{{ userLabel }}</span>
+      </div>
+      <button onClick="{{ logout }}" style="background:none;border:1px solid rgba(160,140,255,.4);color:#b8a8ff;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap" style-hover="background:rgba(160,140,255,.15)">登出</button>
+    </div>
+  </div>
+
+  <div style="max-width:1100px;margin:0 auto;padding:24px 24px 60px">
+    <sc-if value="{{ isStudent }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap">
+      <sc-for list="{{ tabBtns }}" as="tb" hint-placeholder-count="4">
+        <button onClick="{{ tb.go }}" style="{{ tb.style }}" style-hover="transform:translateY(-2px)">{{ tb.label }}</button>
+      </sc-for>
+    </div>
+    </sc-if>
+    <sc-if value="{{ isTeacher }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap">
+      <sc-for list="{{ teacherTabs }}" as="tb2" hint-placeholder-count="4">
+        <button onClick="{{ tb2.go }}" style="{{ tb2.style }}" style-hover="transform:translateY(-2px)">{{ tb2.label }}</button>
+      </sc-for>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabLobby }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="冒險大廳" style="display:flex;flex-direction:column;gap:22px">
+      <div style="display:flex;gap:22px;flex-wrap:wrap">
+        <div style="flex:1;min-width:480px;background:linear-gradient(135deg,rgba(122,90,255,.35),rgba(60,40,150,.45));border:1px solid rgba(160,140,255,.4);border-radius:24px;padding:26px 30px;position:relative;overflow:hidden">
+          <div style="position:absolute;right:20px;top:16px;font-size:52px;opacity:.6;animation:float 4s ease-in-out infinite">🪐</div>
+          <div style="font-size:30px;font-weight:900;margin-bottom:6px;text-shadow:0 0 18px rgba(140,120,255,.7)">{{ name }} 艦長，早安！🌌</div>
+          <div style="font-size:16px;opacity:.9;margin-bottom:18px">雷達偵測到 {{ remainMonsters }} 隻作業怪獸入侵星系，準備出擊！</div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <div style="background:rgba(0,0,0,.35);border-radius:999px;padding:6px 14px;font-size:13.5px;font-weight:700;white-space:nowrap">目前軍階</div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;flex-wrap:wrap">
+              <sc-for list="{{ titleChips }}" as="tc" hint-placeholder-count="4">
+                <span style="{{ tc.style }}">{{ tc.text }}</span>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="width:280px;background:rgba(255,255,255,.08);border:1px solid rgba(160,140,255,.4);border-radius:24px;padding:20px;display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div style="font-size:15px;font-weight:900;color:#b8a8ff">我的星際夥伴</div>
+          <div style="font-size:80px;line-height:1;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 0 18px rgba(120,230,255,.7))">{{ petIcon }}</div>
+          <div style="font-size:18px;font-weight:900">嗶嗶 · Lv.{{ petLv }}</div>
+          <div style="width:100%;display:flex;align-items:center;gap:8px">
+            <span style="font-size:13px;color:#b8a8ff;font-weight:700">能量</span>
+            <div style="flex:1;height:10px;background:rgba(0,0,0,.4);border-radius:999px;overflow:hidden"><div style="width:{{ friend }}%;height:100%;background:linear-gradient(90deg,#7de8ff,#8a6aff);border-radius:999px;box-shadow:0 0 8px rgba(125,232,255,.8);transition:width .6s"></div></div>
+          </div>
+          <div style="width:100%;display:flex;align-items:center;gap:8px">
+            <span style="font-size:13px;color:#ff9ac0;font-weight:700">心情</span>
+            <div style="flex:1;height:10px;background:rgba(0,0,0,.4);border-radius:999px;overflow:hidden"><div style="width:{{ mood }}%;height:100%;background:linear-gradient(90deg,#ff9ac0,#d84a7a);border-radius:999px;transition:width .6s"></div></div>
+          </div>
+          <div style="font-size:12.5px;color:#9a8ad8;text-align:center">{{ petHint }}</div>
+          <button onClick="{{ goPet }}" style="background:rgba(125,232,255,.12);border:1px solid rgba(125,232,255,.45);color:#7de8ff;border-radius:999px;padding:8px 18px;font-size:13.5px;font-weight:900;cursor:pointer;white-space:nowrap" style-hover="background:rgba(125,232,255,.25)">👾 去餵食・玩遊戲</button>
+        </div>
+      </div>
+      <div style="background:rgba(255,212,94,.12);border:1px dashed rgba(255,212,94,.5);border-radius:18px;padding:14px 20px;display:flex;align-items:center;gap:14px">
+        <div style="font-size:34px;animation:bob 2.4s ease-in-out infinite">🤖</div>
+        <div><div style="font-weight:900;color:#ffd45e;font-size:15px">總部 AI 通訊（老師廣播）</div>
+        <div style="color:#e8d8a8;font-size:14px">這週大家表現很棒！擊敗數學隕石獸 Boss 可以多拿 50 枚金幣喔！</div></div>
+      </div>
+      <div>
+        <div style="font-size:19px;font-weight:900;color:#b8a8ff;margin-bottom:12px">🌌 星圖 · 第一星系：閃光星雲</div>
+        <div style="display:flex;align-items:center;background:rgba(0,0,0,.25);border:1px solid rgba(160,140,255,.3);border-radius:20px;padding:18px 24px">
+          <sc-for list="{{ stages }}" as="st" hint-placeholder-count="6">
+            <div style="display:flex;align-items:center;flex:{{ st.flex }}">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px"><div style="{{ st.dot }}">{{ st.icon }}</div><span style="{{ st.lbl }}">{{ st.name }}</span></div>
+              <sc-if value="{{ st.line }}" hint-placeholder-val="{{ true }}"><div style="flex:1;border-top:3px dashed rgba(160,140,255,.4);margin:0 8px 18px;min-width:30px"></div></sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px">
+        <button onClick="{{ goTasks }}" style="text-align:left;cursor:pointer;background:rgba(255,255,255,.07);border:1px solid rgba(125,232,255,.4);border-radius:22px;padding:20px 22px;display:flex;flex-direction:column;gap:8px;color:#fff" style-hover="transform:translateY(-4px);box-shadow:0 8px 24px rgba(125,232,255,.25)">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:40px">⚔️</span><span style="background:rgba(125,232,255,.15);color:#7de8ff;font-size:12.5px;font-weight:900;border-radius:999px;padding:4px 12px;white-space:nowrap">還剩 {{ remainMonsters }} 隻怪獸</span></div>
+          <div style="font-size:21px;font-weight:900">討伐任務</div>
+          <div style="font-size:14px;color:#a89ad8">擊落今天的作業怪獸，賺 XP 和金幣</div>
+        </button>
+        <button onClick="{{ goBoss }}" style="text-align:left;cursor:pointer;background:rgba(255,255,255,.07);border:1px solid rgba(255,154,192,.4);border-radius:22px;padding:20px 22px;display:flex;flex-direction:column;gap:8px;color:#fff" style-hover="transform:translateY(-4px);box-shadow:0 8px 24px rgba(255,154,192,.25)">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:40px">👽</span><span style="background:rgba(216,74,122,.2);color:#ff9ac0;font-size:12.5px;font-weight:900;border-radius:999px;padding:4px 12px;animation:twinkle 1.4s infinite;white-space:nowrap">還剩 {{ remainBosses }} 隻 Boss！</span></div>
+          <div style="font-size:21px;font-weight:900">Boss 星戰</div>
+          <div style="font-size:14px;color:#a89ad8">答對就發射雷射，滿分 100 打倒 Boss！</div>
+        </button>
+        <button onClick="{{ goStore }}" style="text-align:left;cursor:pointer;background:rgba(255,255,255,.07);border:1px solid rgba(255,212,94,.4);border-radius:22px;padding:20px 22px;display:flex;flex-direction:column;gap:8px;color:#fff" style-hover="transform:translateY(-4px);box-shadow:0 8px 24px rgba(255,212,94,.25)">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:40px">🛸</span><span style="background:rgba(255,212,94,.15);color:#ffd45e;font-size:12.5px;font-weight:900;border-radius:999px;padding:4px 12px;white-space:nowrap">{{ storeCount }} 樣寶物</span></div>
+          <div style="font-size:21px;font-weight:900">太空補給站</div>
+          <div style="font-size:14px;color:#a89ad8">用金幣換獎勵，還能幫夥伴充電</div>
+        </button>
+      </div>
+      <div style="background:rgba(0,0,0,.2);border:1px solid rgba(160,140,255,.25);border-radius:18px;padding:14px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <span style="font-size:14px;font-weight:900;color:#b8a8ff;white-space:nowrap">🎖️ 我的勳章牆</span>
+        <span style="background:rgba(125,232,255,.12);border:1px solid rgba(125,232,255,.4);border-radius:999px;padding:5px 14px;font-size:13px;font-weight:700;white-space:nowrap">⚔️ 首次討伐</span>
+        <span style="background:rgba(255,180,71,.12);border:1px solid rgba(255,180,71,.4);border-radius:999px;padding:5px 14px;font-size:13px;font-weight:700;white-space:nowrap">🔥 連續 5 天登入</span>
+        <span style="background:rgba(255,154,192,.12);border:1px solid rgba(255,154,192,.4);border-radius:999px;padding:5px 14px;font-size:13px;font-weight:700;white-space:nowrap">📚 朗讀之星</span>
+        <span style="background:rgba(255,255,255,.05);border:1px dashed rgba(255,255,255,.25);border-radius:999px;padding:5px 14px;font-size:13px;color:#8a80b8;white-space:nowrap">🔒 Boss 終結者</span>
+        <span style="background:rgba(255,255,255,.05);border:1px dashed rgba(255,255,255,.25);border-radius:999px;padding:5px 14px;font-size:13px;color:#8a80b8;white-space:nowrap">🔒 滿分神射手</span>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabTasks }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="討伐任務" style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between">
+        <div style="font-size:24px;font-weight:900">⚔️ 今日討伐任務</div>
+        <div style="font-size:14px;color:#b8a8ff">打倒怪獸 = 完成作業＋拍照打卡</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px">
+        <sc-for list="{{ taskCards }}" as="t" hint-placeholder-count="3">
+          <div style="{{ t.card }}">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="background:rgba(125,232,255,.15);color:#7de8ff;font-size:12px;font-weight:900;border-radius:999px;padding:3px 12px;white-space:nowrap">{{ t.subject }}</span>
+              <span style="display:flex;gap:6px;font-size:12.5px;font-weight:900"><span style="background:rgba(255,212,94,.15);color:#ffd45e;border-radius:999px;padding:3px 10px;white-space:nowrap">🪙 +{{ t.coins }}</span><span style="background:rgba(140,106,255,.2);color:#c8baff;border-radius:999px;padding:3px 10px;white-space:nowrap">⚡ +{{ t.xp }} XP</span></span>
+            </div>
+            <div style="text-align:center;padding:6px 0 2px">
+              <div style="{{ t.iconStyle }}">{{ t.icon }}</div>
+              <div style="font-size:14px;font-weight:900;color:#ff9ac0;margin-top:4px">{{ t.monster }}</div>
+            </div>
+            <div style="font-size:18px;font-weight:900">{{ t.title }}</div>
+            <div style="font-size:13.5px;color:#a89ad8;flex:1">{{ t.desc }}</div>
+            <sc-if value="{{ t.done }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <sc-if value="{{ t.hasPhoto }}" hint-placeholder-val="{{ false }}"><div style="{{ t.photoStyle }}"></div></sc-if>
+                <div style="background:rgba(90,200,120,.15);border:1px solid rgba(90,200,120,.5);color:#7de8a0;font-weight:900;border-radius:14px;padding:11px;text-align:center;animation:popIn .4s ease-out">💥 已擊敗！打卡成功 ⭐</div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ t.notDone }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ t.openUpload }}" style="background:linear-gradient(90deg,#7de8ff,#8a6aff);border:none;border-radius:14px;padding:12px;font-size:16px;font-weight:900;color:#1a1440;cursor:pointer;white-space:nowrap" style-hover="box-shadow:0 0 18px rgba(125,232,255,.5);transform:scale(1.02)">📸 拍照打卡・出擊！</button>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+      <sc-if value="{{ allDefeated }}" hint-placeholder-val="{{ false }}">
+        <div style="background:rgba(90,200,120,.12);border:1px solid rgba(90,200,120,.4);border-radius:20px;padding:20px;text-align:center;animation:popIn .5s ease-out">
+          <div style="font-size:44px">🏆</div>
+          <div style="font-size:20px;font-weight:900;color:#7de8a0">今日怪獸全部掃蕩完畢！星系恢復和平 ✨</div>
+          <div style="font-size:14px;color:#a89ad8;margin-top:4px">去挑戰 Boss 星戰，或到補給站逛逛吧！</div>
+        </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabBoss }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Boss星戰">
+      <sc-if value="{{ qIdle }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+          <div style="font-size:24px;font-weight:900">🗺️ Boss 擊殺地圖</div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="background:rgba(255,212,94,.12);border:1px solid rgba(255,212,94,.45);color:#ffd45e;border-radius:999px;padding:6px 16px;font-size:13.5px;font-weight:900;white-space:nowrap">已擊殺 {{ killCount }} / {{ bossTotal }}</span>
+            <button onClick="{{ toggleSound }}" style="background:none;border:1px solid rgba(160,140,255,.4);color:#b8a8ff;border-radius:999px;padding:6px 16px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap" style-hover="background:rgba(160,140,255,.15)">{{ soundLabel }}</button>
+          </div>
+        </div>
+        <div style="font-size:14px;color:#b8a8ff">每隻 Boss 守著一個科目！成績以 100 分計算，全對＝一擊必殺；答錯別擔心，AI 會出「更簡單、有提示」的題目讓你再戰，最多 5 輪。</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px">
+          <sc-for list="{{ bossMap }}" as="bm" hint-placeholder-count="3">
+            <div style="{{ bm.card }}">
+              <div style="display:flex;justify-content:space-between;align-items:center"><span style="{{ bm.subjChip }}">{{ bm.subject }}</span><span style="{{ bm.stateChip }}">{{ bm.state }}</span></div>
+              <div style="text-align:center;padding:6px 0"><div style="{{ bm.iconStyle }}">{{ bm.icon }}</div></div>
+              <div style="font-size:19px;font-weight:900;text-align:center">{{ bm.name }}</div>
+              <div style="display:flex;align-items:center;gap:8px"><span style="font-size:12px;font-weight:900;color:#ff9ac0">HP</span>
+                <div style="flex:1;height:12px;background:rgba(0,0,0,.4);border-radius:999px;overflow:hidden;border:1px solid rgba(255,154,192,.35)"><div style="width:{{ bm.hpPct }}%;height:100%;background:linear-gradient(90deg,#ff9ac0,#d84a7a);transition:width .5s"></div></div>
+                <span style="font-size:12px;color:#9a8ad8;white-space:nowrap">{{ bm.qCount }} 題</span></div>
+              <sc-if value="{{ bm.canFight }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ bm.fight }}" style="background:linear-gradient(90deg,#ff9ac0,#d84a7a);border:none;border-radius:14px;padding:12px;font-size:16px;font-weight:900;color:#fff;cursor:pointer;white-space:nowrap;box-shadow:0 0 14px rgba(216,74,122,.35)" style-hover="transform:scale(1.04)">⚡ 出戰！</button>
+              </sc-if>
+              <sc-if value="{{ bm.dead }}" hint-placeholder-val="{{ false }}">
+                <div style="background:rgba(90,200,120,.15);border:1px solid rgba(90,200,120,.5);color:#7de8a0;font-weight:900;border-radius:14px;padding:11px;text-align:center">💀 已擊殺 · {{ bm.record }}</div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ qBattle }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap">
+        <div style="width:300px;background:rgba(0,0,0,.25);border:1px solid rgba(255,154,192,.4);border-radius:24px;padding:24px;display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;overflow:hidden">
+          <sc-if value="{{ showHit }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;left:-10%;top:46%;width:120%;height:6px;background:linear-gradient(90deg,transparent,#7de8ff 40%,#fff);border-radius:999px;box-shadow:0 0 18px #7de8ff;transform-origin:left;animation:laserShot .5s ease-out forwards;pointer-events:none;z-index:2"></div>
+          </sc-if>
+          <div style="font-size:16px;font-weight:900;color:#ff9ac0">{{ activeBossName }}</div>
+          <div style="font-size:96px;line-height:1;animation:{{ bossAnim }};filter:drop-shadow(0 0 20px rgba(216,74,122,.7))">{{ activeBossIcon }}</div>
+          <div style="width:100%;display:flex;align-items:center;gap:8px"><span style="font-size:13px;font-weight:900;color:#ff9ac0">HP</span>
+            <div style="flex:1;height:16px;background:rgba(0,0,0,.5);border-radius:999px;overflow:hidden;border:1px solid rgba(255,154,192,.4)"><div style="width:{{ bossHpPct }}%;height:100%;background:linear-gradient(90deg,#ff9ac0,#d84a7a);transition:width .5s ease"></div></div>
+            <span style="font-size:13px;font-weight:900">{{ bossHp }}</span></div>
+          <sc-if value="{{ showHit }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:30px;font-weight:900;color:#7de8ff;text-shadow:0 0 16px rgba(125,232,255,.9);animation:rise 1.4s ease-out">💥 -{{ dmgPerQ }}</div>
+          </sc-if>
+          <sc-if value="{{ showBlock }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:22px;font-weight:900;color:#ffb347;animation:popIn .4s ease-out">🛡️ 擋下了！</div>
+          </sc-if>
+        </div>
+        <div style="flex:1;min-width:420px;background:rgba(255,255,255,.07);border:1px solid rgba(160,140,255,.4);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <span style="font-size:14px;font-weight:900;color:#b8a8ff;white-space:nowrap">{{ qProgress }}</span>
+            <span style="display:flex;align-items:center;gap:8px"><span style="{{ roundBadgeStyle }}">{{ roundBadge }}</span><button onClick="{{ toggleSound }}" style="background:none;border:1px solid rgba(160,140,255,.35);color:#b8a8ff;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">{{ soundLabel }}</button></span>
+          </div>
+          <div style="font-size:21px;font-weight:900;line-height:1.5">{{ qText }}</div>
+          <sc-if value="{{ hasHint }}" hint-placeholder-val="{{ false }}">
+            <div style="background:rgba(255,212,94,.1);border:1px dashed rgba(255,212,94,.5);border-radius:14px;padding:11px 16px;font-size:14.5px;color:#ffd45e;font-weight:700">💡 {{ qHint }}</div>
+          </sc-if>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <sc-for list="{{ opts }}" as="o" hint-placeholder-count="4">
+              <button onClick="{{ o.pick }}" style="{{ o.style }}" style-hover="transform:translateY(-2px)">{{ o.text }}</button>
+            </sc-for>
+          </div>
+          <sc-if value="{{ hasFb }}" hint-placeholder-val="{{ false }}">
+            <div style="{{ fbStyle }}">{{ fbMsg }}</div>
+          </sc-if>
+        </div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ qRoundResult }}" hint-placeholder-val="{{ false }}">
+      <div style="text-align:center;padding:36px 20px;display:flex;flex-direction:column;align-items:center;gap:14px">
+        <div style="font-size:80px">💨</div>
+        <div style="font-size:30px;font-weight:900;color:#ffb347">第 {{ round }} 輪成績：{{ lastScore }} 分</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+          <sc-for list="{{ roundChips }}" as="rc" hint-placeholder-count="1"><span style="{{ rc.style }}">{{ rc.text }}</span></sc-for>
+        </div>
+        <div style="font-size:16px;color:#b8a8ff;max-width:500px">有 {{ wrongCount }} 題還不太熟。讓 AI 幫你出「更簡單、有提示」的類似題，打好基礎再戰 Boss！</div>
+        <button onClick="{{ nextRound }}" style="background:linear-gradient(90deg,#7de8a0,#3aa860);border:none;border-radius:999px;padding:16px 44px;font-size:19px;font-weight:900;color:#0a2a14;cursor:pointer;box-shadow:0 0 24px rgba(90,200,120,.4);white-space:nowrap" style-hover="transform:scale(1.06)">🤖 AI 生成更簡單的題目（第 {{ nextRoundNum }} 輪）</button>
+        <div style="font-size:13px;color:#8a80b8">最多 5 輪，每一輪都會更簡單、提示更多</div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ qGenerating }}" hint-placeholder-val="{{ false }}">
+      <div style="text-align:center;padding:60px 20px;display:flex;flex-direction:column;align-items:center;gap:16px">
+        <div style="font-size:90px;display:inline-block;animation:spinSlow 2.4s linear infinite">🛸</div>
+        <div style="font-size:26px;font-weight:900;color:#7de8ff">AI 出題中…</div>
+        <div style="font-size:15px;color:#b8a8ff">正在根據你答錯的題目，準備第 {{ nextRoundNum }} 輪「更簡單＋有提示」的題目</div>
+        <div style="width:220px;height:10px;background:rgba(0,0,0,.4);border-radius:999px;overflow:hidden"><div style="width:60%;height:100%;background:linear-gradient(90deg,#7de8ff,#8a6aff);border-radius:999px;position:relative;overflow:hidden"><div style="position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);animation:shimmer 1.2s infinite"></div></div></div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ qVictory }}" hint-placeholder-val="{{ false }}">
+      <div style="text-align:center;padding:36px 20px;display:flex;flex-direction:column;align-items:center;gap:14px;position:relative">
+        <span style="position:absolute;top:30px;left:22%;font-size:28px;animation:rise 1.8s .1s infinite">🎉</span>
+        <span style="position:absolute;top:60px;right:24%;font-size:24px;animation:rise 1.8s .6s infinite">✨</span>
+        <span style="position:absolute;top:120px;left:32%;font-size:22px;animation:rise 1.8s .9s infinite">🎊</span>
+        <div style="font-size:110px;animation:popIn .6s ease-out">🏆</div>
+        <div style="font-size:32px;font-weight:900;color:#ffd45e;text-shadow:0 0 24px rgba(255,212,94,.8)">{{ victoryTitle }}</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+          <sc-for list="{{ roundChips }}" as="rc2" hint-placeholder-count="1"><span style="{{ rc2.style }}">{{ rc2.text }}</span></sc-for>
+        </div>
+        <div style="display:flex;gap:12px;font-size:17px;font-weight:900">
+          <span style="background:rgba(255,212,94,.15);border:1px solid rgba(255,212,94,.5);color:#ffd45e;border-radius:999px;padding:8px 20px;white-space:nowrap">🪙 +{{ vCoins }}</span>
+          <span style="background:rgba(140,106,255,.2);border:1px solid rgba(160,140,255,.5);color:#c8baff;border-radius:999px;padding:8px 20px;white-space:nowrap">⚡ +{{ vXp }} XP</span>
+        </div>
+        <div style="display:flex;gap:12px">
+          <button onClick="{{ resetBoss }}" style="background:none;border:1px solid rgba(255,154,192,.5);color:#ff9ac0;border-radius:999px;padding:13px 30px;font-size:16px;font-weight:900;cursor:pointer;white-space:nowrap" style-hover="background:rgba(255,154,192,.12)">🗺️ 回 Boss 地圖</button>
+          <button onClick="{{ goLobby }}" style="background:linear-gradient(90deg,#7de8ff,#8a6aff);border:none;border-radius:999px;padding:13px 30px;font-size:16px;font-weight:900;color:#1a1440;cursor:pointer;white-space:nowrap" style-hover="transform:scale(1.05)">🏠 凱旋回大廳</button>
+        </div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ qFail5 }}" hint-placeholder-val="{{ false }}">
+      <div style="text-align:center;padding:36px 20px;display:flex;flex-direction:column;align-items:center;gap:14px">
+        <div style="font-size:96px;animation:popIn .5s ease-out">💪</div>
+        <div style="font-size:26px;font-weight:900;color:#7de8a0">你已經很努力地完成 5 輪了！</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+          <sc-for list="{{ roundChips }}" as="rc3" hint-placeholder-count="1"><span style="{{ rc3.style }}">{{ rc3.text }}</span></sc-for>
+        </div>
+        <div style="font-size:16px;color:#b8a8ff;max-width:480px">老師已經收到通知，明天會親自幫你一起複習這些題目。今天的努力 +30 XP，休息一下吧！</div>
+        <button onClick="{{ goLobby }}" style="background:linear-gradient(90deg,#7de8ff,#8a6aff);border:none;border-radius:999px;padding:13px 30px;font-size:16px;font-weight:900;color:#1a1440;cursor:pointer;white-space:nowrap" style-hover="transform:scale(1.05)">🏠 回大廳</button>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabStore }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="太空補給站" style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <div style="font-size:24px;font-weight:900">🛸 太空補給站</div>
+        <div style="font-size:14px;color:#b8a8ff">目前擁有 <span style="color:#ffd45e;font-weight:900;font-size:18px">{{ coins }}</span> 🪙</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+        <sc-for list="{{ storeCards }}" as="it" hint-placeholder-count="4">
+          <div style="background:rgba(255,255,255,.07);border:1px solid rgba(160,140,255,.35);border-radius:20px;padding:20px 16px;text-align:center;display:flex;flex-direction:column;gap:8px">
+            <div style="font-size:48px">{{ it.icon }}</div>
+            <div style="font-size:16px;font-weight:900">{{ it.name }}</div>
+            <div style="font-size:15px;font-weight:900;color:#ffd45e">🪙 {{ it.price }}</div>
+            <button onClick="{{ it.buy }}" style="{{ it.btnStyle }}" style-hover="transform:scale(1.04)">{{ it.btnLabel }}</button>
+          </div>
+        </sc-for>
+      </div>
+      <sc-if value="{{ hasInv }}" hint-placeholder-val="{{ false }}">
+        <div style="background:rgba(0,0,0,.25);border:1px solid rgba(160,140,255,.3);border-radius:18px;padding:16px 20px">
+          <div style="font-size:15px;font-weight:900;color:#b8a8ff;margin-bottom:10px">🎒 我的裝備艙</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <sc-for list="{{ inv }}" as="v" hint-placeholder-count="1">
+              <span style="background:rgba(255,255,255,.08);border:1px solid rgba(160,140,255,.4);border-radius:999px;padding:6px 14px;font-size:13.5px;font-weight:700;animation:popIn .4s ease-out;white-space:nowrap">{{ v.icon }} {{ v.name }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabPet }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="星際夥伴" style="display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between">
+        <div style="font-size:24px;font-weight:900">👾 我的星際夥伴</div>
+        <div style="font-size:14px;color:#b8a8ff">餵食和互動可以讓嗶嗶升級進化！</div>
+      </div>
+      <div style="display:flex;gap:22px;flex-wrap:wrap">
+        <div style="flex:1;min-width:340px;background:rgba(255,255,255,.07);border:1px solid rgba(125,232,255,.4);border-radius:24px;padding:26px;display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;overflow:hidden">
+          <sc-if value="{{ hasPetFx }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:34%;font-size:34px;animation:rise 1.4s ease-out;pointer-events:none;z-index:2">{{ petFx }}</div>
+          </sc-if>
+          <div style="font-size:110px;line-height:1;animation:{{ petAnim }};filter:drop-shadow(0 0 22px rgba(120,230,255,.7))">{{ petIcon }}</div>
+          <div style="font-size:24px;font-weight:900">嗶嗶 · Lv.{{ petLv }}</div>
+          <div style="background:rgba(125,232,255,.15);color:#7de8ff;font-size:13px;font-weight:900;border-radius:999px;padding:4px 14px;white-space:nowrap">{{ petStageName }}</div>
+          <div style="width:100%;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:8px"><span style="width:38px;font-size:13px;color:#b8a8ff;font-weight:700">能量</span>
+              <div style="flex:1;height:12px;background:rgba(0,0,0,.4);border-radius:999px;overflow:hidden"><div style="width:{{ friend }}%;height:100%;background:linear-gradient(90deg,#7de8ff,#8a6aff);border-radius:999px;transition:width .5s"></div></div>
+              <span style="font-size:12px;color:#b8a8ff;width:38px;text-align:right">{{ friend }}%</span></div>
+            <div style="display:flex;align-items:center;gap:8px"><span style="width:38px;font-size:13px;color:#ff9ac0;font-weight:700">心情</span>
+              <div style="flex:1;height:12px;background:rgba(0,0,0,.4);border-radius:999px;overflow:hidden"><div style="width:{{ mood }}%;height:100%;background:linear-gradient(90deg,#ff9ac0,#d84a7a);border-radius:999px;transition:width .5s"></div></div>
+              <span style="font-size:12px;color:#ff9ac0;width:38px;text-align:right">{{ mood }}%</span></div>
+          </div>
+          <div style="font-size:13px;color:#9a8ad8;text-align:center">{{ petEvoHint }}</div>
+          <div style="display:flex;gap:12px">
+            <button onClick="{{ feedPet }}" style="background:linear-gradient(90deg,#ffd45e,#ffb100);border:none;border-radius:14px;padding:12px 22px;font-size:15.5px;font-weight:900;color:#4a3200;cursor:pointer;white-space:nowrap" style-hover="transform:scale(1.05)">{{ feedLabel }}</button>
+            <button onClick="{{ patPet }}" style="background:rgba(255,154,192,.15);border:1px solid rgba(255,154,192,.5);border-radius:14px;padding:12px 22px;font-size:15.5px;font-weight:900;color:#ff9ac0;cursor:pointer;white-space:nowrap" style-hover="background:rgba(255,154,192,.28)">🤚 摸摸頭</button>
+          </div>
+        </div>
+        <div style="width:320px;background:rgba(0,0,0,.25);border:1px solid rgba(160,140,255,.35);border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:16px;font-weight:900;color:#b8a8ff">🧬 進化樹</div>
+          <sc-for list="{{ evoChips }}" as="ev" hint-placeholder-count="4">
+            <div style="{{ ev.style }}">
+              <span style="font-size:30px">{{ ev.icon }}</span>
+              <div style="flex:1"><div style="font-size:15px;font-weight:900">{{ ev.name }}</div><div style="font-size:12px;opacity:.75">{{ ev.need }}</div></div>
+              <span style="font-size:14px;font-weight:900">{{ ev.mark }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,212,94,.35);border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px">
+          <div style="font-size:17px;font-weight:900">✊ 星際猜拳（和嗶嗶玩）</div>
+          <div style="font-size:13.5px;color:#ffd45e;font-weight:700">🏆 已勝 {{ rpsWins }} 場 · 贏了 +5 🪙</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+          <div style="display:flex;gap:10px">
+            <sc-for list="{{ rpsBtns }}" as="rb" hint-placeholder-count="3">
+              <button onClick="{{ rb.pick }}" style="font-size:32px;background:rgba(255,255,255,.08);border:2px solid rgba(160,140,255,.4);border-radius:18px;padding:12px 20px;cursor:pointer" style-hover="transform:translateY(-3px);border-color:#7de8ff">{{ rb.icon }}</button>
+            </sc-for>
+          </div>
+          <div style="font-size:15px;color:#b8a8ff;font-weight:700">嗶嗶出：<span style="font-size:30px">{{ rpsPetShow }}</span></div>
+          <sc-if value="{{ hasRps }}" hint-placeholder-val="{{ false }}">
+            <div style="flex:1;min-width:220px;background:rgba(0,0,0,.25);border-radius:14px;padding:12px 16px;font-size:14.5px;font-weight:700;color:#ffd45e;animation:popIn .3s ease-out">{{ rpsResult }}</div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabRank }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="排行榜" style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between">
+        <div style="font-size:24px;font-weight:900">🏆 星際排行榜</div>
+        <div style="font-size:14px;color:#b8a8ff">依金幣排名 · 每天都會更新</div>
+      </div>
+      <div style="display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start">
+        <div style="flex:1.3;min-width:420px;background:rgba(255,255,255,.06);border:1px solid rgba(255,212,94,.3);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:16px;font-weight:900;margin-bottom:4px">⭐ {{ klass }} 艦隊英雄榜</div>
+          <sc-for list="{{ rankRows }}" as="rr" hint-placeholder-count="4">
+            <div style="{{ rr.row }}">
+              <span style="width:40px;font-size:20px;font-weight:900;text-align:center">{{ rr.medal }}</span>
+              <span style="flex:1;font-size:15.5px;font-weight:900">{{ rr.name }} {{ rr.me }}</span>
+              <span style="width:120px;height:8px;background:rgba(0,0,0,.35);border-radius:999px;overflow:hidden"><span style="display:block;width:{{ rr.pct }}%;height:100%;background:linear-gradient(90deg,#7de8ff,#8a6aff)"></span></span>
+              <span style="width:80px;text-align:right;font-weight:900;color:#ffd45e;white-space:nowrap">🪙 {{ rr.coins }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="flex:1;min-width:340px;background:rgba(255,255,255,.06);border:1px solid rgba(125,232,255,.3);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:16px;font-weight:900">🚩 班級星系爭霸（討伐完成率）</div>
+          <sc-for list="{{ classBars }}" as="cb" hint-placeholder-count="3">
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:900"><span>{{ cb.medal }} {{ cb.name }} {{ cb.cur }}</span><span style="color:#7de8ff">{{ cb.pct }}%</span></div>
+              <div style="height:14px;background:rgba(0,0,0,.35);border-radius:999px;overflow:hidden"><div style="width:{{ cb.pct }}%;height:100%;background:{{ cb.color }};border-radius:999px;transition:width .6s"></div></div>
+            </div>
+          </sc-for>
+          <div style="font-size:13px;color:#9a8ad8">全班一起完成討伐任務，就能幫班級拿下星系寶座！</div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabDash }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="指揮中心" style="display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+        <div style="font-size:24px;font-weight:900;display:flex;align-items:center;gap:10px;white-space:nowrap">🛰️ 艦隊指揮中心 <span style="font-size:13px;font-weight:700;background:rgba(255,212,94,.15);color:#ffd45e;border-radius:999px;padding:4px 12px;border:1px solid rgba(255,212,94,.4);white-space:nowrap">冒險週報</span></div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:14px;color:#b8a8ff;font-weight:700;white-space:nowrap">切換艦隊</span>
+          <select value="{{ klass }}" onChange="{{ pickClass }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.4);border-radius:12px;padding:9px 14px;color:#fff;font-size:15px;outline:none">
+            <sc-for list="{{ classOpts }}" as="c3" hint-placeholder-count="3"><option value="{{ c3 }}">{{ c3 }}</option></sc-for>
+          </select>
+          <button onClick="{{ exportCsv }}" style="background:linear-gradient(90deg,#7de8a0,#3aa860);border:none;border-radius:12px;padding:9px 18px;font-size:14px;font-weight:900;color:#0a2a14;cursor:pointer;white-space:nowrap;box-shadow:0 0 14px rgba(90,200,120,.3)" style-hover="transform:scale(1.04)">📊 匯出 Excel／試算表</button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+        <div style="background:rgba(125,232,255,.08);border:1px solid rgba(125,232,255,.35);border-radius:20px;padding:20px">
+          <div style="font-size:14px;font-weight:900;color:#7de8ff;margin-bottom:4px">⚔️ 今日討伐完成率</div>
+          <div style="font-size:34px;font-weight:900">{{ statRate }}%</div>
+        </div>
+        <div style="background:rgba(255,154,192,.08);border:1px solid rgba(255,154,192,.35);border-radius:20px;padding:20px">
+          <div style="font-size:14px;font-weight:900;color:#ff9ac0;margin-bottom:4px">🆘 需要老師協助</div>
+          <div style="font-size:34px;font-weight:900">{{ statHelp }} 人</div>
+        </div>
+        <div style="background:rgba(255,212,94,.08);border:1px solid rgba(255,212,94,.35);border-radius:20px;padding:20px">
+          <div style="font-size:14px;font-weight:900;color:#ffd45e;margin-bottom:4px">🪙 已發出金幣</div>
+          <div style="font-size:34px;font-weight:900">{{ statCoins }}</div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(160,140,255,.3);border-radius:22px;padding:24px">
+        <div style="font-size:17px;font-weight:900;margin-bottom:6px">📆 本週每日任務完成紀錄</div>
+        <div style="font-size:13px;color:#9a8ad8;margin-bottom:12px">每格顯示當天完成的討伐任務數（完成／總數）。<span style="color:#7de8a0">綠＝全部完成</span>、<span style="color:#ffb347">黃＝部分完成</span>、<span style="color:#ff9ac0">紅＝未完成</span>，今天欄位會隨學生打卡即時更新。</div>
+        <div style="display:grid;grid-template-columns:130px repeat(5,1fr) 90px;gap:0;font-size:14px">
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">學生</div>
+          <sc-for list="{{ weekDays }}" as="wd" hint-placeholder-count="5"><div style="{{ wd.style }}">{{ wd.label }}</div></sc-for>
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3);text-align:center">週完成率</div>
+          <sc-for list="{{ weekRows }}" as="wr" hint-placeholder-count="3">
+            <div style="display:contents">
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);font-weight:700"><span style="color:#9a8ad8">{{ wr.sid }}</span> {{ wr.name }}</div>
+              <sc-for list="{{ wr.cells }}" as="wc" hint-placeholder-count="5"><div style="{{ wc.style }}">{{ wc.text }}</div></sc-for>
+              <div style="{{ wr.rateStyle }}">{{ wr.rate }}%</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(160,140,255,.3);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:16px">
+        <div style="font-size:17px;font-weight:900">🏫 班級管理</div>
+        <div style="display:flex;gap:22px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label style="font-size:13px;color:#b8a8ff;font-weight:700">新增班級</label>
+            <div style="display:flex;gap:8px">
+              <input value="{{ newKlass }}" onChange="{{ onNewKlass }}" placeholder="例如：四年甲班" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:9px 12px;color:#fff;font-size:14px;outline:none;width:160px"></input>
+              <button onClick="{{ addKlass }}" style="background:linear-gradient(90deg,#7de8ff,#8a6aff);border:none;border-radius:10px;padding:9px 16px;font-size:14px;font-weight:900;color:#1a1440;cursor:pointer;white-space:nowrap" style-hover="transform:scale(1.04)">＋ 新增</button>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label style="font-size:13px;color:#b8a8ff;font-weight:700">修改目前班級名稱</label>
+            <div style="display:flex;gap:8px">
+              <input value="{{ klassRename }}" onChange="{{ onKlassRename }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:9px 12px;color:#fff;font-size:14px;outline:none;width:160px"></input>
+              <button onClick="{{ renameKlass }}" style="background:rgba(255,212,94,.15);border:1px solid rgba(255,212,94,.5);border-radius:10px;padding:9px 16px;font-size:14px;font-weight:900;color:#ffd45e;cursor:pointer;white-space:nowrap" style-hover="background:rgba(255,212,94,.25)">✏️ 改名</button>
+              <button onClick="{{ delKlass }}" style="background:rgba(216,74,122,.12);border:1px solid rgba(216,74,122,.5);border-radius:10px;padding:9px 16px;font-size:14px;font-weight:900;color:#ff9ac0;cursor:pointer;white-space:nowrap" style-hover="background:rgba(216,74,122,.25)">🗑️ 刪除班級</button>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label style="font-size:13px;color:#b8a8ff;font-weight:700">加入學生（座號＋學號＋姓名）</label>
+            <div style="display:flex;gap:8px">
+              <input value="{{ stuSid }}" onChange="{{ onStuSid }}" placeholder="座號" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:9px 12px;color:#fff;font-size:14px;outline:none;width:60px"></input>
+              <input value="{{ stuSno }}" onChange="{{ onStuSno }}" placeholder="學號" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:9px 12px;color:#fff;font-size:14px;outline:none;width:80px"></input>
+              <input value="{{ stuName }}" onChange="{{ onStuName }}" placeholder="姓名" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:9px 12px;color:#fff;font-size:14px;outline:none;width:100px"></input>
+              <button onClick="{{ addStu }}" style="background:rgba(90,200,120,.15);border:1px solid rgba(90,200,120,.5);border-radius:10px;padding:9px 16px;font-size:14px;font-weight:900;color:#7de8a0;cursor:pointer;white-space:nowrap" style-hover="background:rgba(90,200,120,.25)">＋ 加入</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(160,140,255,.3);border-radius:22px;padding:24px">
+        <div style="font-size:17px;font-weight:900;margin-bottom:6px">👨‍🚀 {{ klass }} 艦隊成員狀況</div>
+        <div style="font-size:13px;color:#9a8ad8;margin-bottom:12px">Boss 戰以 100 分計算；答錯會由 AI 出降階提示題再測，最多 5 輪。「輪數」為學生本次測驗用了幾輪。</div>
+        <div style="display:grid;grid-template-columns:60px 84px 1fr 1fr 70px 90px 100px 1.2fr 118px;gap:0;font-size:14px">
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">座號</div>
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">學號</div>
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">姓名</div>
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">討伐進度</div>
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">輪數</div>
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">最新成績</div>
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">答錯題號</div>
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">狀態</div>
+          <div style="padding:10px 8px;border-bottom:1px solid rgba(160,140,255,.3)"></div>
+          <sc-for list="{{ roster }}" as="r" hint-placeholder-count="3">
+            <div style="display:contents">
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);color:#9a8ad8;font-weight:700">{{ r.sid }}</div>
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);color:#9a8ad8;font-weight:700">{{ r.snoText }}</div>
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);font-weight:700">{{ r.name }}</div>
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:8px">
+                <div style="width:70px;height:9px;background:rgba(0,0,0,.4);border-radius:999px;overflow:hidden"><div style="width:{{ r.pct }}%;height:100%;background:linear-gradient(90deg,#7de8ff,#8a6aff);border-radius:999px"></div></div>
+                <span style="color:#b8a8ff;white-space:nowrap">{{ r.progress }}</span>
+              </div>
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);font-weight:900;color:#c8baff">{{ r.roundsText }}</div>
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08)"><span style="{{ r.scoreStyle }}">{{ r.scoreText }}</span></div>
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);color:#ffb347;font-weight:700">{{ r.wrongText }}</div>
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08)"><span style="{{ r.tagStyle }}">{{ r.status }}</span></div>
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;gap:6px">
+                <button onClick="{{ r.showDetail }}" style="background:rgba(125,232,255,.1);border:1px solid rgba(125,232,255,.45);color:#7de8ff;border-radius:8px;padding:4px 10px;font-size:12px;cursor:pointer;white-space:nowrap" style-hover="background:rgba(125,232,255,.22)">📋 詳情</button>
+                <button onClick="{{ r.del }}" style="background:none;border:1px solid rgba(216,74,122,.4);color:#ff9ac0;border-radius:8px;padding:4px 10px;font-size:12px;cursor:pointer" style-hover="background:rgba(216,74,122,.2)">✕</button>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{ detailOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:16px;background:rgba(0,0,0,.3);border:1px solid rgba(125,232,255,.4);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:12px;animation:popIn .3s ease-out">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-size:16px;font-weight:900;color:#7de8ff">🔍 {{ detailName }} 的補救教學紀錄</div>
+            <button onClick="{{ closeDetail }}" style="background:none;border:1px solid rgba(160,140,255,.4);color:#b8a8ff;border-radius:8px;padding:4px 12px;font-size:12.5px;cursor:pointer" style-hover="background:rgba(160,140,255,.15)">✕ 收起</button>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <span style="font-size:13px;color:#b8a8ff;font-weight:900">各輪成績：</span>
+            <sc-for list="{{ detailHist }}" as="dh" hint-placeholder-count="2"><span style="{{ dh.style }}">{{ dh.text }}</span></sc-for>
+            <sc-if value="{{ detailNoHist }}" hint-placeholder-val="{{ false }}"><span style="font-size:13.5px;color:#8a80b8">尚未進行 Boss 挑戰</span></sc-if>
+          </div>
+          <sc-if value="{{ hasDetailWrong }}" hint-placeholder-val="{{ false }}">
+          <div style="background:rgba(255,180,71,.08);border:1px solid rgba(255,180,71,.35);border-radius:14px;padding:12px 16px;display:flex;flex-direction:column;gap:5px">
+            <div style="font-size:13px;font-weight:900;color:#ffb347">📝 原始答錯題目</div>
+            <sc-for list="{{ detailWrongQs }}" as="dw" hint-placeholder-count="1"><div style="font-size:14px;color:#e8e2ff;line-height:1.5">{{ dw }}</div></sc-for>
+          </div>
+          </sc-if>
+          <div style="background:rgba(125,232,255,.07);border:1px dashed rgba(125,232,255,.4);border-radius:14px;padding:12px 16px;font-size:14px;color:#9fe4f5;line-height:1.6">💡 {{ detailSuggest }}</div>
+          <div style="display:flex;gap:10px">
+            <button onClick="{{ markCoached }}" style="background:rgba(90,200,120,.15);border:1px solid rgba(90,200,120,.5);color:#7de8a0;border-radius:12px;padding:10px 18px;font-size:14px;font-weight:900;cursor:pointer;white-space:nowrap" style-hover="background:rgba(90,200,120,.28)">✅ 已當面輔導完成</button>
+            <button onClick="{{ reassign }}" style="background:rgba(255,180,71,.12);border:1px solid rgba(255,180,71,.5);color:#ffb347;border-radius:12px;padding:10px 18px;font-size:14px;font-weight:900;cursor:pointer;white-space:nowrap" style-hover="background:rgba(255,180,71,.25)">🔁 指派再測一輪</button>
+          </div>
+        </div>
+        </sc-if>
+        <sc-if value="{{ rosterEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:20px;text-align:center;color:#8a80b8;font-size:14px">這個班級還沒有學生，用上方「加入學生」新增吧！</div>
+        </sc-if>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabSetTasks }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="任務設定" style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:24px;font-weight:900">⚔️ 討伐任務設定</div>
+        <button onClick="{{ addTask }}" style="background:linear-gradient(90deg,#7de8ff,#8a6aff);border:none;border-radius:12px;padding:11px 20px;font-size:15px;font-weight:900;color:#1a1440;cursor:pointer;white-space:nowrap" style-hover="transform:scale(1.04)">＋ 新增任務</button>
+      </div>
+      <div style="font-size:14px;color:#9a8ad8">學生端的「討伐任務」會即時顯示這裡的設定。怪獸圖示可貼上任何 emoji。</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <sc-for list="{{ taskEdits }}" as="te" hint-placeholder-count="3">
+          <div style="background:rgba(255,255,255,.06);border:1px solid rgba(125,232,255,.3);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:15px;font-weight:900;color:#7de8ff">{{ te.label }}</span>
+              <button onClick="{{ te.del }}" style="background:none;border:1px solid rgba(216,74,122,.4);color:#ff9ac0;border-radius:8px;padding:4px 12px;font-size:12.5px;cursor:pointer;white-space:nowrap" style-hover="background:rgba(216,74,122,.2)">🗑️ 刪除</button>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 84px;gap:10px">
+              <div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">科目</label>
+                <input value="{{ te.subject }}" onChange="{{ te.setSubject }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none"></input></div>
+              <div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">怪獸名字</label>
+                <input value="{{ te.monster }}" onChange="{{ te.setMonster }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none"></input></div>
+              <div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">圖示</label>
+                <input value="{{ te.icon }}" onChange="{{ te.setIcon }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:18px;outline:none;text-align:center"></input></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">任務標題</label>
+              <input value="{{ te.title }}" onChange="{{ te.setTitle }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none"></input></div>
+            <div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">任務說明</label>
+              <input value="{{ te.desc }}" onChange="{{ te.setDesc }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none"></input></div>
+            <div style="display:flex;gap:10px">
+              <div style="display:flex;flex-direction:column;gap:4px;flex:1"><label style="font-size:12px;color:#ffd45e;font-weight:700">🪙 金幣</label>
+                <input type="number" value="{{ te.coins }}" onChange="{{ te.setCoins }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(255,212,94,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none"></input></div>
+              <div style="display:flex;flex-direction:column;gap:4px;flex:1"><label style="font-size:12px;color:#c8baff;font-weight:700">⚡ XP</label>
+                <input type="number" value="{{ te.xp }}" onChange="{{ te.setXp }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none"></input></div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabSetBoss }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Boss題目設定" style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:24px;font-weight:900">👽 Boss 星戰題目設定</div>
+        <button onClick="{{ addQ }}" style="background:linear-gradient(90deg,#ff9ac0,#d84a7a);border:none;border-radius:12px;padding:11px 20px;font-size:15px;font-weight:900;color:#fff;cursor:pointer;white-space:nowrap" style-hover="transform:scale(1.04)">＋ 手動新增題目</button>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,154,192,.3);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+          <div style="font-size:15px;font-weight:900;color:#ff9ac0">👾 Boss 清單（點選切換要編輯的 Boss，每隻都有自己的題庫）</div>
+          <button onClick="{{ addBoss }}" style="background:linear-gradient(90deg,#7de8ff,#8a6aff);border:none;border-radius:10px;padding:9px 16px;font-size:14px;font-weight:900;color:#1a1440;cursor:pointer;white-space:nowrap" style-hover="transform:scale(1.04)">＋ 新增 Boss</button>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <sc-for list="{{ bossChips }}" as="bc" hint-placeholder-count="3"><button onClick="{{ bc.sel }}" style="{{ bc.style }}" style-hover="transform:translateY(-2px)">{{ bc.icon }} {{ bc.name }}（{{ bc.qCount }} 題）</button></sc-for>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:160px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">Boss 名稱</label>
+            <input value="{{ ebName }}" onChange="{{ setEbName }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none"></input></div>
+          <div style="display:flex;flex-direction:column;gap:4px;width:110px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">科目</label>
+            <input value="{{ ebSubject }}" onChange="{{ setEbSubject }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none;width:100%;box-sizing:border-box"></input></div>
+          <div style="display:flex;flex-direction:column;gap:4px;width:70px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">圖示</label>
+            <input value="{{ ebIcon }}" onChange="{{ setEbIcon }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px;color:#fff;font-size:18px;outline:none;text-align:center;width:100%;box-sizing:border-box"></input></div>
+          <button onClick="{{ delBoss }}" style="background:rgba(216,74,122,.12);border:1px solid rgba(216,74,122,.5);border-radius:10px;padding:9px 16px;font-size:14px;font-weight:900;color:#ff9ac0;cursor:pointer;white-space:nowrap" style-hover="background:rgba(216,74,122,.25)">🗑️ 刪除此 Boss</button>
+        </div>
+      </div>
+      <div style="background:rgba(125,232,255,.06);border:1px solid rgba(125,232,255,.35);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:17px;font-weight:900;color:#7de8ff">📥 匯入題目到「{{ ebIcon }} {{ ebName }}」（Excel / Google 試算表 + AI 自動分析）</div>
+        <div style="font-size:13.5px;color:#9a8ad8;line-height:1.6">從 Excel 或 Google 試算表<b style="color:#b8a8ff">匯出成 CSV 上傳</b>，或直接<b style="color:#b8a8ff">複製儲存格內容貼在下方</b>。AI 會自動分析成選擇題並加入題庫。建議欄位：題目、選項A、選項B、選項C、選項D、正確答案。</div>
+        <input type="file" accept=".csv,.tsv,.txt" onChange="{{ onImportFile }}" style="color:#b8a8ff;font-size:13.5px"></input>
+        <textarea value="{{ importText }}" onChange="{{ onImportText }}" rows="5" placeholder="例：&#10;24÷4=?, 4, 6, 8, 12, 6&#10;12×3=?, 24, 36, 48, 15, 36&#10;（或直接從試算表複製貼上）" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:12px;padding:12px;color:#fff;font-size:14px;outline:none;resize:vertical;line-height:1.6"></textarea>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <button onClick="{{ analyzeImport }}" style="{{ analyzeBtnStyle }}" style-hover="transform:scale(1.03)">{{ analyzeBtnLabel }}</button>
+          <span style="font-size:13.5px;color:#7de8a0;font-weight:700">{{ importStatus }}</span>
+        </div>
+      </div>
+      <div style="font-size:14px;color:#9a8ad8">學生成績以 100 分計算（答對題數 ÷ 總題數 × 100）。答錯的題目會由 AI 自動生成「更簡單＋有提示」的類似題，最多重測 5 輪。</div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <sc-for list="{{ quizEdits }}" as="qe" hint-placeholder-count="2">
+          <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,154,192,.3);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:15px;font-weight:900;color:#ff9ac0">{{ qe.label }}</span>
+              <button onClick="{{ qe.del }}" style="background:none;border:1px solid rgba(216,74,122,.4);color:#ff9ac0;border-radius:8px;padding:4px 12px;font-size:12.5px;cursor:pointer;white-space:nowrap" style-hover="background:rgba(216,74,122,.2)">🗑️ 刪除</button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">題目</label>
+              <input value="{{ qe.question }}" onChange="{{ qe.setQuestion }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none"></input></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <sc-for list="{{ qe.opts }}" as="ao" hint-placeholder-count="4">
+                <div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">{{ ao.label }}</label>
+                  <input value="{{ ao.text }}" onChange="{{ ao.set }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none"></input></div>
+              </sc-for>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <label style="font-size:13px;color:#7de8a0;font-weight:900;white-space:nowrap">✅ 正確答案</label>
+              <select value="{{ qe.answer }}" onChange="{{ qe.setAnswer }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(90,200,120,.5);border-radius:10px;padding:8px 12px;color:#7de8a0;font-size:14px;font-weight:700;outline:none">
+                <sc-for list="{{ qe.opts }}" as="ao2" hint-placeholder-count="4"><option value="{{ ao2.text }}">{{ ao2.text }}</option></sc-for>
+              </select>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabSetStore }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="補給站設定" style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:24px;font-weight:900">🛸 補給站獎勵設定</div>
+        <button onClick="{{ addItem }}" style="background:linear-gradient(90deg,#ffd45e,#ffb100);border:none;border-radius:12px;padding:11px 20px;font-size:15px;font-weight:900;color:#4a3200;cursor:pointer;white-space:nowrap" style-hover="transform:scale(1.04)">＋ 新增獎勵</button>
+      </div>
+      <div style="font-size:14px;color:#9a8ad8">學生會用金幣兌換這些獎勵。圖示可貼上任何 emoji。</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <sc-for list="{{ itemEdits }}" as="ie" hint-placeholder-count="4">
+          <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,212,94,.3);border-radius:18px;padding:16px;display:flex;align-items:flex-end;gap:10px">
+            <div style="display:flex;flex-direction:column;gap:4px;width:70px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">圖示</label>
+              <input value="{{ ie.icon }}" onChange="{{ ie.setIcon }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px;color:#fff;font-size:20px;outline:none;text-align:center;width:100%;box-sizing:border-box"></input></div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex:1"><label style="font-size:12px;color:#b8a8ff;font-weight:700">獎勵名稱</label>
+              <input value="{{ ie.name }}" onChange="{{ ie.setName }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none;width:100%;box-sizing:border-box"></input></div>
+            <div style="display:flex;flex-direction:column;gap:4px;width:90px"><label style="font-size:12px;color:#ffd45e;font-weight:700">🪙 價格</label>
+              <input type="number" value="{{ ie.price }}" onChange="{{ ie.setPrice }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(255,212,94,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none;width:100%;box-sizing:border-box"></input></div>
+            <button onClick="{{ ie.del }}" style="background:none;border:1px solid rgba(216,74,122,.4);color:#ff9ac0;border-radius:10px;padding:8px 12px;font-size:13px;cursor:pointer;white-space:nowrap" style-hover="background:rgba(216,74,122,.2)">🗑️</button>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+  </div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;bossMaxHp&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:100,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:50,&quot;max&quot;:300,&quot;step&quot;:10,&quot;section&quot;:&quot;遊戲平衡&quot;},&quot;xpPerLevel&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:500,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:100,&quot;max&quot;:1000,&quot;step&quot;:50,&quot;section&quot;:&quot;遊戲平衡&quot;},&quot;perfectBonus&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:50,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:10,&quot;max&quot;:200,&quot;step&quot;:10,&quot;section&quot;:&quot;遊戲平衡&quot;},&quot;maxRounds&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:5,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:2,&quot;max&quot;:10,&quot;step&quot;:1,&quot;section&quot;:&quot;遊戲平衡&quot;}}">
+class Component extends DCLogic {
+  static TITLES = [
+    { icon:'🛰️', name:'見習飛行員', lv:1 },
+    { icon:'🚀', name:'星際隊長', lv:5 },
+    { icon:'🌟', name:'銀河指揮官', lv:10 },
+    { icon:'👑', name:'傳說艦長', lv:15 }
+  ];
+  static AVATARS = ['🧑‍🚀','👩‍🚀','🦊','🐱','🐼','🦖'];
+  static PET_STAGES = [
+    { lv:1, icon:'🥚', name:'星際蛋' },
+    { lv:2, icon:'👾', name:'幼生嗶嗶' },
+    { lv:5, icon:'🐙', name:'超級嗶嗶' },
+    { lv:8, icon:'🐲', name:'傳說嗶嗶' }
+  ];
+  static CHECKIN = [
+    { coins:10, xp:20 },{ coins:12, xp:25 },{ coins:15, xp:30 },{ coins:18, xp:35 },{ coins:20, xp:40 },{ coins:25, xp:50 },{ coins:40, xp:80 }
+  ];
+  state = {
+    screen:'login', role:'student', name:'王小明', sid:'12', klass:'三年甲班', tab:'lobby',
+    showTeacherLogin:false, showParent:false, loginSid:'', loginName:'', loginSno:'', sno:'', avatar:'🧑‍🚀', remember:false,
+    tEmail:'', tPwd:'', gPickerOpen:false, teacherName:'', teacherEmail:'',
+    coins:85, xp:320, level:7, streak:5, petLv:3, friend:70, feeds:0,
+    mood:72, snacks:1, petFx:'', rpsPet:'', rpsResult:'', rpsWins:0, sound:true,
+    checkinOpen:false, noticeOpen:false, parentSid:'', parentKlass:'三年甲班', detailIdx:-1, uploadTask:null, uploadPhoto:'',
+    tasks:[
+      { id:1, subject:'國語', monster:'碎碎唸史萊姆', icon:'👾', title:'大聲朗讀第三課課文', desc:'請家長簽名或錄音上傳，就能打倒牠！', coins:15, xp:30, done:false },
+      { id:2, subject:'數學', monster:'算式甲蟲', icon:'🪲', title:'完成數學習作 P.12', desc:'拍下完成的頁面，甲蟲就會投降！', coins:20, xp:40, done:false },
+      { id:3, subject:'生活', monster:'灰塵絨毛怪', icon:'🌪️', title:'幫忙做一件家事', desc:'洗碗、摺衣服或掃地都可以！', coins:10, xp:20, done:false }
+    ],
+    bosses:[
+      { id:'b1', name:'數學隕石獸', subject:'數學', icon:'👽', questions:[
+        { id:'q1', question:'小明有 24 顆糖果，平分給 4 個好朋友，每個人可以得到幾顆？', options:['4 顆','6 顆','8 顆','12 顆'], answer:'6 顆' },
+        { id:'q2', question:'一盒鉛筆有 12 支，老師買了 3 盒，一共買了幾支鉛筆？', options:['24 支','36 支','48 支','15 支'], answer:'36 支' } ] },
+      { id:'b2', name:'國語幽靈艦', subject:'國語', icon:'👻', questions:[
+        { id:'q3', question:'「秋高氣爽」是形容哪個季節的詞語？', options:['春天','夏天','秋天','冬天'], answer:'秋天' },
+        { id:'q4', question:'下列哪一個量詞用法正確？', options:['一隻書','一本牛','一朵花','一條貓'], answer:'一朵花' } ] },
+      { id:'b3', name:'英語雷電龍', subject:'英語', icon:'🐉', questions:[
+        { id:'q5', question:'apple 的中文意思是？', options:['蘋果','香蕉','橘子','葡萄'], answer:'蘋果' },
+        { id:'q6', question:'「Good morning!」是什麼意思？', options:['晚安','早安','再見','謝謝'], answer:'早安' } ] }
+    ],
+    defeated:{}, activeBoss:null, editBoss:'b1',
+    items:[
+      { id:'item1', name:'免寫生字一次券', price:100, icon:'🎫' },
+      { id:'item2', name:'榮譽小隊長一天', price:50, icon:'👑' },
+      { id:'item3', name:'自選座位一週', price:200, icon:'🪑' },
+      { id:'item4', name:'夥伴能量點心', price:80, icon:'🔋' }
+    ],
+    classes:{
+      '三年甲班':[
+        {sid:'01',sno:'30101',name:'王小明',done:2,score:100,coins:120,bossId:'b1',rounds:1,status:'💯 一輪通過',wrongNums:[],week:[3,3,2,3,0]},
+        {sid:'02',sno:'30102',name:'陳小華',done:1,score:50,coins:45,bossId:'b1',rounds:3,status:'⏳ 補救中',wrongNums:[1],hist:[30,40,50],week:[2,1,1,1,0]},
+        {sid:'03',sno:'30103',name:'林小美',done:3,score:100,coins:300,bossId:'b2',rounds:1,status:'💯 一輪通過',wrongNums:[],week:[3,3,3,3,0]},
+        {sid:'04',sno:'30104',name:'張大同',done:2,score:100,coins:95,bossId:'b1',rounds:2,status:'🌱 補救通過',wrongNums:[2],hist:[50,100],week:[3,2,3,2,0]} ],
+      '三年乙班':[
+        {sid:'01',sno:'30201',name:'李小龍',done:3,score:100,coins:210,bossId:'b2',rounds:1,status:'💯 一輪通過',wrongNums:[],week:[3,3,3,3,0]},
+        {sid:'02',sno:'30202',name:'吳小菲',done:2,score:40,coins:60,bossId:'b1',rounds:5,status:'🆘 需老師協助',wrongNums:[1,2],hist:[20,20,30,35,40],week:[1,0,2,2,0]},
+        {sid:'03',sno:'30203',name:'周小倫',done:1,score:0,coins:80,rounds:0,status:'— 未測驗',wrongNums:[],week:[2,1,0,1,0]} ],
+      '三年丙班':[
+        {sid:'01',sno:'30301',name:'黃小玉',done:3,score:100,coins:260,bossId:'b3',rounds:1,status:'💯 一輪通過',wrongNums:[],week:[3,3,3,3,0]},
+        {sid:'02',sno:'30302',name:'蔡小英',done:3,score:100,coins:180,bossId:'b2',rounds:3,status:'🌱 補救通過',wrongNums:[2],hist:[66,83,100],week:[3,3,2,3,0]},
+        {sid:'03',sno:'30303',name:'許小維',done:0,score:55,coins:20,bossId:'b1',rounds:5,status:'🆘 需老師協助',wrongNums:[1,2],hist:[25,40,45,50,55],week:[0,1,0,0,0]},
+        {sid:'04',sno:'30304',name:'鄭小潔',done:2,score:0,coins:140,rounds:0,status:'— 未測驗',wrongNums:[],week:[2,3,1,2,0]} ]
+    },
+    newKlass:'', klassRename:'三年甲班', stuSid:'', stuName:'', stuSno:'',
+    importText:'', importStatus:'', importing:false,
+    inv:[], toast:'', lvlUp:false,
+    qPhase:'idle', round:1, roundQs:[], roundScores:[], qIndex:0, bossHp:100, wrong:[], fb:null, r1Wrong:[]
+  };
+  exportCsv(){
+    const s = this.state, nTasks = s.tasks.length;
+    const esc = v => { const t = String(v ?? ''); return /[",\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; };
+    const todayIdx = Math.min(4, Math.max(0, (new Date().getDay() + 6) % 7));
+    const dayCols = ['週一','週二','週三','週四','週五'].map(d => `${d}完成數`);
+    const rows = [['班級','座號','學號','姓名','討伐進度', ...dayCols, '週完成率','執行輪數','最新成績','答錯題號','狀態']];
+    (s.classes[s.klass] || []).forEach(r => {
+      const wk = r.week || [0,0,0,0,0];
+      const dayVal = i => i === todayIdx ? r.done : wk[i];
+      const dayCells = [0,1,2,3,4].map(i => i > todayIdx ? '—' : `${dayVal(i)}/${nTasks}`);
+      const tot = [0,1,2,3,4].slice(0, todayIdx + 1).reduce((a, i) => a + dayVal(i), 0);
+      const rate = nTasks ? Math.round(tot / ((todayIdx + 1) * nTasks) * 100) + '%' : '0%';
+      rows.push([
+      s.klass, r.sid, r.sno || '—', r.name, `${r.done}/${nTasks}`, ...dayCells, rate,
+      r.rounds ? r.rounds : '未測驗',
+      r.rounds ? r.score : '未測驗',
+      (r.wrongNums && r.wrongNums.length) ? r.wrongNums.map(n => '第' + n + '題').join('、') : (r.rounds ? '全對' : '—'),
+      r.status
+    ]);});
+    const csv = '\ufeff' + rows.map(row => row.map(esc).join(',')).join('\r\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type:'text/csv;charset=utf-8' }));
+    a.download = `${s.klass}_成員狀況_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    this.showToast(`已匯出「${s.klass}」成員狀況，可直接用 Excel／Google 試算表開啟 📊`);
+  }
+  get xpPer(){ return this.props.xpPerLevel ?? 500; }
+  get bossMax(){ return this.props.bossMaxHp ?? 100; }
+  get bonus(){ return this.props.perfectBonus ?? 50; }
+  get maxRounds(){ return this.props.maxRounds ?? 5; }
+  showToast(msg){
+    clearTimeout(this._tt);
+    this.setState({ toast: msg });
+    this._tt = setTimeout(() => this.setState({ toast:'' }), 3200);
+  }
+  componentDidMount(){
+    try{
+      const saved = JSON.parse(localStorage.getItem('starAcademy_login') || 'null');
+      if (saved && saved.remember) this.setState(s => ({ loginSid: saved.sid || '', loginName: saved.name || '', loginSno: saved.sno || '', klass: saved.klass && s.classes[saved.klass] ? saved.klass : s.klass, avatar: saved.avatar || s.avatar, remember: true }));
+    }catch(e){}
+  }
+  beep(freq, dur, type){
+    if (!this.state.sound) return;
+    try{
+      const C = this._ac || (this._ac = new (window.AudioContext || window.webkitAudioContext)());
+      const o = C.createOscillator(), g = C.createGain();
+      o.type = type || 'square'; o.frequency.value = freq;
+      g.gain.setValueAtTime(.07, C.currentTime);
+      g.gain.exponentialRampToValueAtTime(.001, C.currentTime + dur);
+      o.connect(g); g.connect(C.destination);
+      o.start(); o.stop(C.currentTime + dur);
+    }catch(e){}
+  }
+  sfx(kind){
+    if (kind === 'hit'){ this.beep(660,.12); setTimeout(() => this.beep(880,.12), 90); setTimeout(() => this.beep(1320,.18), 180); }
+    else if (kind === 'miss'){ this.beep(196,.28,'sawtooth'); }
+    else if (kind === 'win'){ [523,659,784,1047].forEach((f,i) => setTimeout(() => this.beep(f,.22,'triangle'), i*140)); }
+    else if (kind === 'coin'){ this.beep(988,.09,'triangle'); setTimeout(() => this.beep(1319,.15,'triangle'), 80); }
+  }
+  petFxShow(fx){
+    this.setState({ petFx: fx });
+    clearTimeout(this._fx);
+    this._fx = setTimeout(() => this.setState({ petFx:'' }), 1400);
+  }
+  feedPet(){
+    const s = this.state, PS = Component.PET_STAGES;
+    if (s.snacks <= 0 && s.coins < 10){ this.showToast('點心和金幣都不夠，先去討伐怪獸貺金幣吧 ⚔️'); return; }
+    const useSnack = s.snacks > 0, feeds = s.feeds + 1, lvUp = feeds % 3 === 0, newLv = lvUp ? s.petLv + 1 : s.petLv;
+    const stage = lv => Math.max(0, PS.map(p => p.lv <= lv).lastIndexOf(true));
+    this.setState({ snacks: useSnack ? s.snacks - 1 : s.snacks, coins: useSnack ? s.coins : s.coins - 10, friend: Math.min(100, s.friend + 20), mood: Math.min(100, s.mood + 10), feeds, petLv: newLv });
+    this.petFxShow('🍖');
+    this.sfx('coin');
+    if (lvUp) this.showToast(stage(newLv) > stage(s.petLv) ? `🎉 嗶嗶進化成「${PS[stage(newLv)].name}」了！` : `嗶嗶升到 Lv.${newLv} 了！⚡`);
+  }
+  patPet(){
+    this.setState(s => ({ mood: Math.min(100, s.mood + 5) }));
+    this.petFxShow('❤️');
+    this.beep(880,.1,'sine');
+  }
+  rps(mine){
+    const opts = ['✊','✌️','🖐️'], pet = opts[Math.floor(Math.random()*3)];
+    const beats = { '✊':'✌️', '✌️':'🖐️', '🖐️':'✊' };
+    const win = beats[mine] === pet, tie = mine === pet;
+    const msg = tie ? '平手！嗶嗶歪著頭看你 😙 再來一次！' : win ? '你贏了！嗶嗶佩服地拍拍手 👏 獲得 5 🪙' : '嗶嗶贏了！牠開心地轉圈圈 🌀 心情 +5';
+    this.setState(s => ({ rpsPet: pet, rpsResult: msg, rpsWins: s.rpsWins + (win ? 1 : 0), mood: Math.min(100, s.mood + (win ? 10 : 5)), coins: s.coins + (win ? 5 : 0) }));
+    if (win) this.sfx('coin'); else this.beep(392,.14,'triangle');
+  }
+  claimCheckin(){
+    const day = this.state.streak % 7, r = Component.CHECKIN[day];
+    try{ localStorage.setItem('starAcademy_checkin', new Date().toDateString()); }catch(e){}
+    this.setState(s => ({ checkinOpen:false, noticeOpen:true, streak: s.streak + 1 }));
+    this.sfx('coin');
+    this.reward(r.coins, r.xp, `第 ${day + 1} 天報到成功！+${r.coins} 🪙 +${r.xp} XP 🎁`);
+  }
+  gainXp(n){
+    this.setState(s => {
+      let xp = s.xp + n, lv = s.level, up = false;
+      while (xp >= this.xpPer) { xp -= this.xpPer; lv++; up = true; }
+      if (up) { clearTimeout(this._lt); this._lt = setTimeout(() => this.setState({ lvlUp:false }), 3000); }
+      return { xp, level: lv, lvlUp: up || s.lvlUp };
+    });
+  }
+  reward(coins, xp, msg){
+    this.setState(s => ({ coins: s.coins + coins }));
+    this.gainXp(xp);
+    if (msg) this.showToast(msg);
+  }
+  attack(id, photo){
+    const t = this.state.tasks.find(t => t.id === id);
+    if (!t || t.done) return;
+    this.setState(s => ({
+      tasks: s.tasks.map(x => x.id === id ? { ...x, done:true, photo: photo || '' } : x),
+      friend: Math.min(100, s.friend + 10), mood: Math.min(100, s.mood + 5)
+    }));
+    this.reward(t.coins, t.xp, `打倒「${t.monster}」！獲得 ${t.coins} 金幣＋${t.xp} XP 🪙`);
+  }
+  updateRecord(status, score, rounds, wrongNums){
+    this.setState(s => {
+      const list = s.classes[s.klass] || [];
+      const i = list.findIndex(r => r.sid === s.sid);
+      const wn = wrongNums !== undefined ? wrongNums : (i >= 0 ? list[i].wrongNums : []);
+      const prevHist = (i >= 0 && list[i].hist) || [];
+      const hist = rounds === 1 ? [score] : [...prevHist, score];
+      const rec = i >= 0 ? { ...list[i], name: s.name, sno: s.sno || list[i].sno, bossId: s.activeBoss, score, rounds, status, wrongNums: wn, hist }
+        : { sid: s.sid, name: s.name, sno: s.sno, bossId: s.activeBoss, done: s.tasks.filter(t => t.done).length, coins: s.coins, score, rounds, status, wrongNums: wn, hist };
+      const next = i >= 0 ? list.map((r, j) => j === i ? rec : r) : [...list, rec];
+      return { classes: { ...s.classes, [s.klass]: next } };
+    });
+  }
+  get dmg(){ return Math.max(1, Math.round(this.bossMax / Math.max(1, this.state.roundQs.length))); }
+  startBoss(bossId){
+    const b = this.state.bosses.find(x => x.id === bossId);
+    if (!b || !b.questions.length) { this.showToast('這隻 Boss 還沒有題目，請老師先上傳 📭'); return; }
+    this.setState({ activeBoss: bossId, qPhase:'battle', round:1, roundQs: b.questions.map(q => ({ ...q })), roundScores:[], qIndex:0, bossHp:this.bossMax, wrong:[], fb:null, r1Wrong:[] });
+  }
+  pick(opt){
+    if (this.state.fb) return;
+    const q = this.state.roundQs[this.state.qIndex];
+    const ok = opt === q.answer, dmg = this.dmg;
+    this.sfx(ok ? 'hit' : 'miss');
+    this.setState(s => ({
+      fb: { ok, pick: opt, msg: ok ? `⚡ 雷射直接命中！Boss -${dmg} HP` : '🛡️ 被 Boss 擋下了！等等 AI 會出簡單一點的題目' },
+      bossHp: ok ? Math.max(0, s.bossHp - dmg) : s.bossHp,
+      wrong: ok ? s.wrong : [...s.wrong, q]
+    }));
+    setTimeout(() => {
+      const s = this.state, next = s.qIndex + 1;
+      if (next < s.roundQs.length) { this.setState({ fb:null, qIndex:next }); return; }
+      const total = s.roundQs.length, score = Math.round((total - s.wrong.length) / total * 100);
+      const roundScores = [...s.roundScores, { round: s.round, score }];
+      const bq = (s.bosses.find(b => b.id === s.activeBoss) || { questions:[] }).questions;
+      const wrongNums = s.round === 1
+        ? s.wrong.map(w => bq.findIndex(q => q.id === w.id) + 1).filter(n => n > 0)
+        : s.r1Wrong;
+      if (s.round === 1) this.setState({ r1Wrong: wrongNums });
+      if (s.wrong.length === 0) {
+        this.setState(x => ({ fb:null, qPhase:'victory', roundScores, defeated: { ...x.defeated, [x.activeBoss]: { round: s.round, score: 100 } } }));
+        this.sfx('win');
+        const first = s.round === 1;
+        this.updateRecord(first ? '💯 一輪通過' : '🌱 補救通過', 100, s.round, wrongNums);
+        this.reward(first ? this.bonus : 20, first ? 100 : 40, first ? `一擊必殺！獲得 ${this.bonus} 金幣＋100 XP 🏆` : '補救成功！獲得 20 金幣＋40 XP 🌱');
+      } else if (s.round >= this.maxRounds) {
+        this.setState({ fb:null, qPhase:'fail5', roundScores });
+        this.updateRecord('🆘 需老師協助', score, s.round, wrongNums);
+        this.gainXp(30);
+      } else {
+        this.setState({ fb:null, qPhase:'roundResult', roundScores });
+        this.updateRecord('⏳ 補救中', score, s.round, wrongNums);
+      }
+    }, 1600);
+  }
+  parseJsonArr(text){
+    const a = text.indexOf('['), b = text.lastIndexOf(']');
+    if (a < 0 || b < a) throw new Error('no json');
+    return JSON.parse(text.slice(a, b + 1));
+  }
+  async nextRound(){
+    const wrongQs = this.state.wrong, nextN = this.state.round + 1;
+    this.setState({ qPhase:'generating' });
+    let newQs;
+    try {
+      const prompt = `你是溫柔的國小老師。學生答錯了這些選擇題：\n${JSON.stringify(wrongQs.map(q => ({ question: q.question, options: q.options, answer: q.answer })))}\n這已是第 ${nextN} 輪補救（輪數越高要越簡單）。請為每一題出一題「類似但明顯更簡單」的選擇題：數字更小、步驟更少，並附一句給國小學生的具體解題提示（提示要教方法，不能直接說答案）。全部使用繁體中文。只輸出 JSON 陣列，不要其他文字，格式：[{"question":"...","options":["..","..","..",".."],"answer":"必須完全等於 options 其中一項","hint":"..."}]`;
+      const text = await window.claude.complete({ messages:[{ role:'user', content: prompt }], max_tokens: 3000 });
+      const arr = this.parseJsonArr(text);
+      newQs = arr.filter(q => q && q.question && Array.isArray(q.options) && q.options.length >= 2 && q.options.includes(q.answer))
+        .map((q, i) => ({ id:'r' + nextN + '_' + i, question: q.question, options: q.options, answer: q.answer, hint: q.hint || '提示：先把算式寫下來，一步一步算！' }));
+      if (!newQs.length) throw new Error('empty');
+    } catch (e) {
+      newQs = wrongQs.map((q, i) => ({ id:'f' + nextN + '_' + i, question: q.question, options: q.options, answer: q.answer, hint:'提示：仔細讀題目，先寫下算式，再對照選項算一次！' }));
+      this.showToast('AI 暫時忙線，先用原題＋提示練習');
+    }
+    this.setState({ round: nextN, roundQs: newQs, qIndex:0, bossHp: this.bossMax, wrong:[], fb:null, qPhase:'battle' });
+    this.showToast(`第 ${nextN} 輪開始！題目變簡單了，加油 💪`);
+  }
+  parseCsv(txt){
+    const out = [];
+    txt.split(/\r?\n/).map(l => l.trim()).filter(Boolean).forEach(line => {
+      const cells = (line.includes('\t') ? line.split('\t') : line.split(/[,，]/)).map(c => c.trim()).filter(c => c !== '');
+      if (cells.length < 6 || /題目/.test(cells[0])) return;
+      const [question, a, b, c, d, ans] = cells;
+      const options = [a, b, c, d];
+      let answer = ans;
+      const letter = { A:0, B:1, C:2, D:3 }[ans.toUpperCase()];
+      if (letter !== undefined) answer = options[letter];
+      if (options.includes(answer)) out.push({ id:'csv' + Date.now() + Math.random(), question, options, answer });
+    });
+    return out;
+  }
+  async analyzeImport(){
+    if (this.state.importing) return;
+    const txt = (this.state.importText || '').trim();
+    if (!txt) { this.setState({ importStatus:'⚠️ 請先上傳檔案或貼上內容' }); return; }
+    this.setState({ importing:true, importStatus:'🤖 AI 分析中…' });
+    let qs = [];
+    try {
+      const prompt = `以下是老師從 Excel 或 Google 試算表貼上的出題內容（格式不固定）：\n"""\n${txt.slice(0, 6000)}\n"""\n請把它整理成國小選擇題題庫。每題必須有 4 個選項。全部使用繁體中文。只輸出 JSON 陣列，不要其他文字，格式：[{"question":"...","options":["..","..","..",".."],"answer":"必須完全等於 options 其中一項"}]`;
+      const text = await window.claude.complete({ messages:[{ role:'user', content: prompt }], max_tokens: 4000 });
+      qs = this.parseJsonArr(text).filter(q => q && q.question && Array.isArray(q.options) && q.options.length >= 2 && q.options.includes(q.answer))
+        .map((q, i) => ({ id:'ai' + Date.now() + '_' + i, question: q.question, options: q.options, answer: q.answer }));
+    } catch (e) { qs = []; }
+    if (!qs.length) qs = this.parseCsv(txt);
+    if (qs.length) {
+      this.setState(s => ({ bosses: s.bosses.map(b => b.id === s.editBoss ? { ...b, questions:[...b.questions, ...qs] } : b), importText:'', importStatus:`✅ 已分析並新增 ${qs.length} 題`, importing:false }));
+    } else {
+      this.setState({ importStatus:'❌ 無法解析，請確認每行為：題目, 選項A, 選項B, 選項C, 選項D, 答案', importing:false });
+    }
+  }
+  resetBoss(){ this.setState({ qPhase:'idle', activeBoss:null, round:1, roundQs:[], roundScores:[], qIndex:0, bossHp:this.bossMax, wrong:[], fb:null }); }
+  updList(key, i, k, v){ this.setState(s => ({ [key]: s[key].map((x, j) => j === i ? { ...x, [k]: v } : x) })); }
+  updBoss(k, v){ this.setState(s => ({ bosses: s.bosses.map(b => b.id === s.editBoss ? { ...b, [k]: v } : b) })); }
+  updBossQ(qi, k, v){ this.setState(s => ({ bosses: s.bosses.map(b => b.id === s.editBoss ? { ...b, questions: b.questions.map((q, j) => j === qi ? { ...q, [k]: v } : q) } : b) })); }
+  updBossQOpt(qi, oj, v){ this.setState(s => ({ bosses: s.bosses.map(b => b.id === s.editBoss ? { ...b, questions: b.questions.map((q, x) => x === qi ? { ...q, options: q.options.map((o, y) => y === oj ? v : o), answer: q.answer === q.options[oj] ? v : q.answer } : q) } : b) })); }
+  renderVals(){
+    const s = this.state, T = Component.TITLES;
+    const tIdx = Math.max(0, T.map(t => t.lv <= s.level).lastIndexOf(true));
+    const chip = { done:'white-space:nowrap;background:#ffd45e;color:#5a3a00;border-radius:999px;padding:6px 14px',
+      cur:'white-space:nowrap;background:#fff;color:#4a2ab8;border-radius:999px;padding:6px 14px;animation:pulseRing 1.6s infinite',
+      lock:'white-space:nowrap;background:rgba(255,255,255,.18);border-radius:999px;padding:6px 14px;color:#fff' };
+    const titleChips = [];
+    T.forEach((t, i) => {
+      titleChips.push({ text: `${t.icon} ${t.name}${i < tIdx ? ' ✓' : i === tIdx ? '（現在）' : ''}`, style: i < tIdx ? chip.done : i === tIdx ? chip.cur : chip.lock });
+      if (i < T.length - 1) titleChips.push({ text:'→', style:'opacity:.7;color:#fff' });
+    });
+    const nTasks = s.tasks.length, doneCount = s.tasks.filter(t => t.done).length;
+    const dotC = 'width:52px;height:52px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:22px;';
+    const stages = [
+      { name:'月光站', st:'clear' }, { name:'彗星帶', st:'clear' }, { name:'紅色行星', st:'cur' },
+      { name:'冰凍衛星', st:'lock' }, { name:'環形星', st:'lock' }, { name:'星系Boss', st:'boss' }
+    ].map((x, i, a) => ({
+      name: x.st === 'cur' ? x.name + '·現在' : x.name,
+      icon: x.st === 'clear' ? '⭐' : x.st === 'cur' ? '🚀' : x.st === 'boss' ? '👽' : '🔒',
+      dot: x.st === 'clear' ? dotC + 'background:#8a6aff;border:2px solid #c8baff;box-shadow:0 0 12px rgba(140,106,255,.8)'
+        : x.st === 'cur' ? 'width:60px;height:60px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:26px;background:#ffb100;border:2px solid #ffe0a0;animation:pulseRing 1.6s infinite'
+        : x.st === 'boss' ? 'width:56px;height:56px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:24px;background:#d84a7a;border:2px solid #ffb8d0;box-shadow:0 0 14px rgba(216,74,122,.8)'
+        : dotC + 'background:rgba(255,255,255,.12);color:#8a80b8;border:2px solid rgba(255,255,255,.25)',
+      lbl: x.st === 'cur' ? 'font-size:12px;font-weight:900;color:#ffd45e;white-space:nowrap' : x.st === 'boss' ? 'font-size:12px;font-weight:700;color:#ff9ac0;white-space:nowrap' : x.st === 'clear' ? 'font-size:12px;font-weight:700;color:#c8baff;white-space:nowrap' : 'font-size:12px;color:#8a80b8;white-space:nowrap',
+      line: i < a.length - 1, flex: i < a.length - 1 ? '1' : 'none'
+    }));
+    const tabOn = 'white-space:nowrap;cursor:pointer;border:none;background:linear-gradient(90deg,#7de8ff,#8a6aff);color:#1a1440;font-weight:900;font-size:15.5px;border-radius:999px;padding:11px 22px;box-shadow:0 0 16px rgba(125,232,255,.4)';
+    const tabOff = 'white-space:nowrap;cursor:pointer;background:rgba(255,255,255,.08);border:1px solid rgba(160,140,255,.35);color:#c8baff;font-weight:900;font-size:15.5px;border-radius:999px;padding:11px 22px';
+    const tabBtns = [ ['lobby','🏠 冒險大廳'], ['tasks','⚔️ 討伐任務'], ['boss','👽 Boss 星戰'], ['pet','👾 星際夥伴'], ['rank','🏆 排行榜'], ['store','🛸 補給站'] ].map(([k, label]) => ({
+      label: k === 'tasks' && doneCount < nTasks ? `${label}（${nTasks - doneCount}）` : label,
+      go: () => this.setState({ tab:k }), style: s.tab === k ? tabOn : tabOff
+    }));
+    const teacherTabs = [ ['dashboard','🛰️ 指揮中心'], ['setTasks','⚔️ 任務設定'], ['setBoss','👽 Boss 題目'], ['setStore','🛸 補給站設定'] ].map(([k, label]) => ({
+      label, go: () => this.setState({ tab:k }), style: s.tab === k ? tabOn : tabOff
+    }));
+    const taskCards = s.tasks.map(t => ({ ...t, notDone: !t.done, hasPhoto: !!t.photo,
+      photoStyle: t.photo ? `width:100%;height:110px;border-radius:12px;border:1px solid rgba(90,200,120,.4);background:rgba(0,0,0,.35) url(${JSON.stringify(t.photo)}) center/cover no-repeat` : '',
+      openUpload: () => this.setState({ uploadTask: t.id, uploadPhoto:'' }),
+      card: t.done ? 'background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.15);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:10px;opacity:.75'
+        : 'background:rgba(255,255,255,.07);border:1px solid rgba(125,232,255,.4);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:10px',
+      iconStyle: t.done ? 'font-size:58px;line-height:1;filter:grayscale(1);opacity:.5' : 'font-size:58px;line-height:1;display:inline-block;animation:bob 2.4s ease-in-out infinite;filter:drop-shadow(0 0 14px rgba(255,154,192,.5))',
+      attack: () => this.attack(t.id)
+    }));
+    const storeCards = s.items.map(it => {
+      const can = s.coins >= it.price;
+      return { ...it, buy: () => {
+          if (this.state.coins >= it.price) { this.setState(x => ({ coins: x.coins - it.price, inv:[...x.inv, it], snacks: it.id === 'item4' ? x.snacks + 1 : x.snacks })); this.showToast(it.id === 'item4' ? '點心已放進背包，去「星際夥伴」頁餵嗶嗶吧！🍖' : `成功兌換「${it.name}」！🎁`); }
+          else this.showToast('金幣不夠喔，再去討伐幾隻怪獸吧！');
+        },
+        btnStyle: can ? 'cursor:pointer;border:none;background:linear-gradient(90deg,#ffd45e,#ffb100);color:#4a3200;font-weight:900;font-size:14.5px;border-radius:12px;padding:10px;white-space:nowrap'
+          : 'cursor:pointer;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#8a80b8;font-weight:900;font-size:14.5px;border-radius:12px;padding:10px;white-space:nowrap',
+        btnLabel: can ? '兌換' : '金幣不足' };
+    });
+    const curQ = s.qPhase === 'battle' ? s.roundQs[s.qIndex] : null;
+    const eb = s.bosses.find(b => b.id === s.editBoss) || s.bosses[0] || { id:'', name:'', subject:'', icon:'👾', questions:[] };
+    const aBoss = s.bosses.find(b => b.id === s.activeBoss);
+    const killCount = s.bosses.filter(b => s.defeated[b.id]).length;
+    const qsOfRec = rec => { const b = s.bosses.find(x => x.id === rec.bossId) || s.bosses[0] || { questions:[] }; return b.questions; };
+    const baseOpt = 'cursor:pointer;text-align:left;font-size:16.5px;font-weight:700;border-radius:16px;padding:15px 18px;color:#fff;transition:all .15s;';
+    const opts = curQ ? curQ.options.map(o => {
+      let st = baseOpt + 'background:rgba(255,255,255,.08);border:2px solid rgba(160,140,255,.4)';
+      if (s.fb) {
+        if (o === curQ.answer) st = baseOpt + 'background:rgba(90,200,120,.25);border:2px solid #5ac878';
+        else if (o === s.fb.pick) st = baseOpt + 'background:rgba(216,74,122,.25);border:2px solid #d84a7a';
+        else st = baseOpt + 'background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.15);opacity:.6';
+      }
+      return { text:o, style:st, pick: () => this.pick(o) };
+    }) : [];
+    const roundChips = s.roundScores.map(r => ({
+      text: `第 ${r.round} 輪 ${r.score} 分`,
+      style: r.score >= 100 ? 'white-space:nowrap;background:rgba(90,200,120,.15);border:1px solid rgba(90,200,120,.5);color:#7de8a0;border-radius:999px;padding:6px 14px;font-size:13.5px;font-weight:900'
+        : 'white-space:nowrap;background:rgba(255,180,71,.12);border:1px solid rgba(255,180,71,.5);color:#ffb347;border-radius:999px;padding:6px 14px;font-size:13.5px;font-weight:900'
+    }));
+    const classOpts = Object.keys(s.classes);
+    const roster = (s.classes[s.klass] || []).map((r, i) => ({ ...r,
+      snoText: r.sno || '—',
+      progress: `${r.done} / ${nTasks}`, pct: Math.round(r.done / Math.max(1, nTasks) * 100),
+      roundsText: r.rounds ? `${r.rounds} 輪` : '—',
+      scoreText: r.rounds ? `${r.score} 分` : '—',
+      wrongText: (r.wrongNums && r.wrongNums.length) ? r.wrongNums.map(n => '#' + n).join('、') : (r.rounds ? '全對 ✨' : '—'),
+      scoreStyle: !r.rounds ? 'color:#8a80b8;font-weight:700' : r.score >= 100 ? 'color:#7de8a0;font-weight:900;white-space:nowrap' : r.score < 60 ? 'color:#ff9ac0;font-weight:900;white-space:nowrap' : 'color:#ffb347;font-weight:900;white-space:nowrap',
+      tagStyle: r.status.includes('🆘') ? 'background:rgba(216,74,122,.2);color:#ff9ac0;font-size:12.5px;font-weight:900;border-radius:999px;padding:4px 12px;white-space:nowrap'
+        : r.status.includes('⏳') ? 'background:rgba(255,180,71,.15);color:#ffb347;font-size:12.5px;font-weight:900;border-radius:999px;padding:4px 12px;white-space:nowrap'
+        : r.status.includes('—') ? 'background:rgba(255,255,255,.06);color:#8a80b8;font-size:12.5px;font-weight:700;border-radius:999px;padding:4px 12px;white-space:nowrap'
+        : 'background:rgba(90,200,120,.15);color:#7de8a0;font-size:12.5px;font-weight:900;border-radius:999px;padding:4px 12px;white-space:nowrap',
+      del: () => this.setState(x => ({ detailIdx:-1, classes: { ...x.classes, [x.klass]: x.classes[x.klass].filter((_, j) => j !== i) } })),
+      showDetail: () => this.setState({ detailIdx: i })
+    }));
+    const taskEdits = s.tasks.map((t, i) => ({ ...t, label: `任務 ${i + 1}`,
+      setSubject: e => this.updList('tasks', i, 'subject', e.target.value),
+      setMonster: e => this.updList('tasks', i, 'monster', e.target.value),
+      setIcon: e => this.updList('tasks', i, 'icon', e.target.value),
+      setTitle: e => this.updList('tasks', i, 'title', e.target.value),
+      setDesc: e => this.updList('tasks', i, 'desc', e.target.value),
+      setCoins: e => this.updList('tasks', i, 'coins', parseInt(e.target.value) || 0),
+      setXp: e => this.updList('tasks', i, 'xp', parseInt(e.target.value) || 0),
+      del: () => this.setState(x => ({ tasks: x.tasks.filter((_, j) => j !== i) }))
+    }));
+    const quizEdits = eb.questions.map((q, i) => ({ label: `第 ${i + 1} 題`, question: q.question, answer: q.answer,
+      setQuestion: e => this.updBossQ(i, 'question', e.target.value),
+      setAnswer: e => this.updBossQ(i, 'answer', e.target.value),
+      opts: q.options.map((o, j) => ({ text: o, label: `選項 ${['A','B','C','D'][j] || j + 1}`, set: e => this.updBossQOpt(i, j, e.target.value) })),
+      del: () => this.setState(x => ({ bosses: x.bosses.map(b => b.id === x.editBoss ? { ...b, questions: b.questions.filter((_, j) => j !== i) } : b) }))
+    }));
+    const itemEdits = s.items.map((it, i) => ({ ...it,
+      setIcon: e => this.updList('items', i, 'icon', e.target.value),
+      setName: e => this.updList('items', i, 'name', e.target.value),
+      setPrice: e => this.updList('items', i, 'price', parseInt(e.target.value) || 0),
+      del: () => this.setState(x => ({ items: x.items.filter((_, j) => j !== i) }))
+    }));
+    const upTask = s.uploadTask ? s.tasks.find(t => t.id === s.uploadTask) : null;
+    const bossMap = s.bosses.map(b => {
+      const kill = s.defeated[b.id];
+      return { name: b.name, subject: b.subject, icon: b.icon, qCount: b.questions.length,
+        hpPct: kill ? 0 : 100, canFight: !kill, dead: !!kill,
+        record: kill ? (kill.round === 1 ? '一輪滿分' : `第 ${kill.round} 輪通過`) : '',
+        fight: () => this.startBoss(b.id),
+        card: kill ? 'background:rgba(255,255,255,.04);border:1px solid rgba(90,200,120,.35);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:10px;opacity:.85'
+          : 'background:rgba(255,255,255,.07);border:1px solid rgba(255,154,192,.4);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:10px',
+        iconStyle: kill ? 'font-size:64px;line-height:1;display:inline-block;filter:grayscale(1);opacity:.5' : 'font-size:64px;line-height:1;display:inline-block;animation:bob 2.4s ease-in-out infinite;filter:drop-shadow(0 0 16px rgba(216,74,122,.6))',
+        subjChip: 'background:rgba(125,232,255,.15);color:#7de8ff;font-size:12px;font-weight:900;border-radius:999px;padding:3px 12px;white-space:nowrap',
+        state: kill ? '💀 已擊殺' : '⚠️ 出沒中',
+        stateChip: kill ? 'background:rgba(90,200,120,.15);color:#7de8a0;font-size:12px;font-weight:900;border-radius:999px;padding:3px 12px;white-space:nowrap' : 'background:rgba(216,74,122,.2);color:#ff9ac0;font-size:12px;font-weight:900;border-radius:999px;padding:3px 12px;animation:twinkle 1.4s infinite;white-space:nowrap' };
+    });
+    const bossChips = s.bosses.map(b => ({ icon: b.icon, name: b.name, qCount: b.questions.length,
+      sel: () => this.setState({ editBoss: b.id }),
+      style: b.id === eb.id ? 'white-space:nowrap;cursor:pointer;border:none;background:linear-gradient(90deg,#ff9ac0,#d84a7a);color:#fff;font-weight:900;font-size:14px;border-radius:999px;padding:9px 18px;box-shadow:0 0 14px rgba(216,74,122,.35)' : 'white-space:nowrap;cursor:pointer;background:rgba(255,255,255,.08);border:1px solid rgba(255,154,192,.35);color:#ff9ac0;font-weight:900;font-size:14px;border-radius:999px;padding:9px 18px' }));
+    const lastScore = s.roundScores.length ? s.roundScores[s.roundScores.length - 1].score : 0;
+    const PS = Component.PET_STAGES;
+    const psIdx = Math.max(0, PS.map(p => p.lv <= s.petLv).lastIndexOf(true));
+    const nextStage = PS[psIdx + 1];
+    const evoBase = 'display:flex;align-items:center;gap:12px;border-radius:16px;padding:10px 14px;';
+    const evoChips = PS.map((p, i) => ({
+      icon: p.icon, name: p.name, need: `Lv.${p.lv} 解鎖`,
+      mark: i < psIdx ? '✓' : i === psIdx ? '現在' : '🔒',
+      style: i < psIdx ? evoBase + 'background:rgba(140,106,255,.18);border:1px solid rgba(160,140,255,.5)'
+        : i === psIdx ? evoBase + 'background:rgba(125,232,255,.14);border:1px solid #7de8ff;box-shadow:0 0 14px rgba(125,232,255,.3)'
+        : evoBase + 'background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.15);color:#8a80b8'
+    }));
+    const remFeeds = 3 - (s.feeds % 3);
+    const dayIdx = s.streak % 7, CK = Component.CHECKIN;
+    const ckBase = 'width:64px;border-radius:14px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;';
+    const checkinDays = CK.map((c, i) => ({
+      label: `第${i + 1}天`, icon: i < dayIdx ? '✅' : i === 6 ? '🎁' : '🪙', reward: `+${c.coins}`,
+      style: i < dayIdx ? ckBase + 'background:rgba(90,200,120,.15);border:1px solid rgba(90,200,120,.5);color:#7de8a0'
+        : i === dayIdx ? ckBase + 'background:rgba(255,212,94,.18);border:2px solid #ffd45e;color:#ffd45e;animation:pulseRing 1.6s infinite'
+        : ckBase + 'background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.18);color:#8a80b8'
+    }));
+    let rlist = [...(s.classes[s.klass] || [])];
+    if (s.role === 'student') {
+      const me = rlist.findIndex(r => r.sid === s.sid);
+      const mine = { sid: s.sid, name: s.name, coins: s.coins, done: doneCount };
+      if (me >= 0) rlist[me] = { ...rlist[me], ...mine }; else rlist.push(mine);
+    }
+    const maxCoins = Math.max(1, ...rlist.map(r => r.coins || 0));
+    const rowBase = 'display:flex;align-items:center;gap:10px;border-radius:14px;padding:10px 14px;';
+    const rankRows = rlist.sort((a, b) => (b.coins || 0) - (a.coins || 0)).map((r, i) => ({
+      name: r.name, coins: r.coins || 0, medal: ['🥇','🥈','🥉'][i] || `${i + 1}`,
+      pct: Math.round((r.coins || 0) / maxCoins * 100),
+      me: s.role === 'student' && r.sid === s.sid ? '（我）' : '',
+      row: s.role === 'student' && r.sid === s.sid ? rowBase + 'background:rgba(255,212,94,.14);border:1px solid rgba(255,212,94,.55)' : rowBase + 'background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12)'
+    }));
+    const barColors = ['linear-gradient(90deg,#ffd45e,#ffb100)','linear-gradient(90deg,#7de8ff,#8a6aff)','linear-gradient(90deg,#ff9ac0,#d84a7a)','linear-gradient(90deg,#7de8a0,#3aa860)'];
+    const classBars = Object.keys(s.classes).map(k => {
+      const l = s.classes[k];
+      return { name: k, pct: l.length && nTasks ? Math.round(l.reduce((a, r) => a + r.done, 0) / (l.length * nTasks) * 100) : 0 };
+    }).sort((a, b) => b.pct - a.pct).map((c, i) => ({ ...c, medal: ['🥇','🥈','🥉'][i] || `${i + 1}`, cur: c.name === s.klass ? '（我的班）' : '', color: barColors[i % barColors.length] }));
+    const todayIdx = Math.min(4, Math.max(0, (new Date().getDay() + 6) % 7));
+    const hdrCell = 'padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3);text-align:center;';
+    const weekDays = ['週一','週二','週三','週四','週五'].map((d, i) => ({
+      label: i === todayIdx ? d + '（今天）' : d,
+      style: i === todayIdx ? hdrCell + 'color:#ffd45e;white-space:nowrap' : hdrCell
+    }));
+    const wkCell = 'padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);text-align:center;font-weight:900;font-size:13.5px;';
+    const weekRows = (s.classes[s.klass] || []).map(r => {
+      const wk = r.week || [0,0,0,0,0];
+      const dayVal = i => i === todayIdx ? r.done : wk[i];
+      const days = todayIdx + 1;
+      const tot = [0,1,2,3,4].slice(0, days).reduce((a, i) => a + dayVal(i), 0);
+      const rate = nTasks ? Math.round(tot / (days * nTasks) * 100) : 0;
+      return {
+        sid: r.sid, name: r.name,
+        cells: [0,1,2,3,4].map(i => {
+          if (i > todayIdx) return { text:'—', style: wkCell + 'color:#5a5480' };
+          const d = dayVal(i);
+          return { text: `${d}/${nTasks}`, style: wkCell + (d >= nTasks ? 'color:#7de8a0' : d === 0 ? 'color:#ff9ac0' : 'color:#ffb347') };
+        }),
+        rate,
+        rateStyle: wkCell + (rate >= 80 ? 'color:#7de8a0' : rate >= 50 ? 'color:#ffb347' : 'color:#ff9ac0')
+      };
+    });
+    const pRec = (s.classes[s.parentKlass] || []).find(r => (r.sno || '') === (s.parentSid || '').trim());
+    const pMsgMap = st => st.includes('💯') ? '孩子第一輪就全對，觀念非常穩固，請給他一個大大的讚！'
+      : st.includes('🌱') ? '有些題目一開始不熟，但孩子靠著補救練習成功過關，學習態度很棒！'
+      : st.includes('⏳') ? '孩子正在進行 AI 補救練習，可以陪他一起看看需要加強的題目。'
+      : st.includes('🆘') ? '這個單元對孩子比較困難，老師會加強輔導，也建議在家多陪伴練習。'
+      : '孩子還沒進行 Boss 挑戰，鼓勵他登入挑戰看看！';
+    const dRec = s.detailIdx >= 0 ? (s.classes[s.klass] || [])[s.detailIdx] : null;
+    const histChip = sc => sc >= 100 ? 'white-space:nowrap;background:rgba(90,200,120,.15);border:1px solid rgba(90,200,120,.5);color:#7de8a0;border-radius:999px;padding:4px 12px;font-size:13px;font-weight:900'
+      : sc >= 60 ? 'white-space:nowrap;background:rgba(255,180,71,.12);border:1px solid rgba(255,180,71,.5);color:#ffb347;border-radius:999px;padding:4px 12px;font-size:13px;font-weight:900'
+      : 'white-space:nowrap;background:rgba(216,74,122,.15);border:1px solid rgba(216,74,122,.5);color:#ff9ac0;border-radius:999px;padding:4px 12px;font-size:13px;font-weight:900';
+    const dHist = dRec ? (dRec.hist || (dRec.rounds ? [dRec.score] : [])) : [];
+    const detailSuggest = !dRec ? '' : dRec.status.includes('🆘') ? `已完成 ${dRec.rounds} 輪補救仍未通過，建議當面用實物或畫圖講解，重點放在原始答錯的題目類型。`
+      : dRec.status.includes('⏳') ? `補救進行中（第 ${dRec.rounds} 輪），成績有進步趨勢，可先觀察下一輪結果再介入。`
+      : dRec.status.includes('🌱') ? '已透過降階題目補救通過，建議下次出題時混入一題同類型題目確認保留度。'
+      : dRec.status.includes('💯') ? '一輪滿分通過，可指派進階挑戰題，或請他擔任小老師協助同學。'
+      : '尚未進行 Boss 挑戰，可提醒學生本週完成測驗。';
+    const pTag = !pRec ? '' : pRec.status.includes('🆘') ? 'background:rgba(216,74,122,.2);color:#ff9ac0;font-size:13px;font-weight:900;border-radius:999px;padding:5px 14px;white-space:nowrap'
+      : pRec.status.includes('⏳') ? 'background:rgba(255,180,71,.15);color:#ffb347;font-size:13px;font-weight:900;border-radius:999px;padding:5px 14px;white-space:nowrap'
+      : pRec.status.includes('—') ? 'background:rgba(255,255,255,.06);color:#8a80b8;font-size:13px;font-weight:700;border-radius:999px;padding:5px 14px;white-space:nowrap'
+      : 'background:rgba(90,200,120,.15);color:#7de8a0;font-size:13px;font-weight:900;border-radius:999px;padding:5px 14px;white-space:nowrap';
+    const pBoss = pRec && pRec.bossId ? s.bosses.find(b => b.id === pRec.bossId) : null;
+    const pHist = pRec && pRec.rounds ? (pRec.hist || [pRec.score]) : [];
+    const pHistBars = pHist.map((sc, i) => {
+      const color = sc >= 100 ? '#7de8a0' : sc >= 60 ? '#ffd45e' : '#ff9ac0';
+      return { label: `第 ${i + 1} 輪`, score: sc, color,
+        h: Math.max(6, Math.round(sc * 0.6)) + 'px',
+        bg: sc >= 100 ? 'linear-gradient(180deg,#7de8a0,#3da868)' : sc >= 60 ? 'linear-gradient(180deg,#ffd45e,#d89a2b)' : 'linear-gradient(180deg,#ff9ac0,#c04a7a)' };
+    });
+    const pWeek = pRec ? (pRec.week || [0,0,0,0,0]) : [0,0,0,0,0];
+    const pwBase = 'flex:1;border-radius:12px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;';
+    const pWeekCells = ['週一','週二','週三','週四','週五'].map((d, i) => {
+      const v = i === todayIdx ? (pRec ? pRec.done : 0) : pWeek[i];
+      const fut = i > todayIdx;
+      return { day: i === todayIdx ? d + '·今天' : d, val: fut ? '—' : `${v}/${nTasks}`,
+        style: pwBase + (fut ? 'background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);color:#5a5480'
+          : v >= nTasks ? 'background:rgba(90,200,120,.12);border:1px solid rgba(90,200,120,.5);color:#7de8a0'
+          : v === 0 ? 'background:rgba(216,74,122,.1);border:1px solid rgba(216,74,122,.45);color:#ff9ac0'
+          : 'background:rgba(255,180,71,.1);border:1px solid rgba(255,180,71,.5);color:#ffb347') };
+    });
+    return {
+      isLogin: s.screen === 'login', isApp: s.screen === 'app', isParent: s.screen === 'parent',
+      showTeacherLogin: s.showTeacherLogin,
+      teacherLinkLabel: s.showTeacherLogin ? '收起教師入口' : '🔑 教師入口',
+      toggleTeacher: () => this.setState(x => ({ showTeacherLogin: !x.showTeacherLogin })),
+      isStudent: s.role === 'student' && s.screen === 'app', isTeacher: s.role === 'teacher' && s.screen === 'app',
+      tabLobby: s.role === 'student' && s.tab === 'lobby', tabTasks: s.role === 'student' && s.tab === 'tasks',
+      tabBoss: s.role === 'student' && s.tab === 'boss', tabStore: s.role === 'student' && s.tab === 'store',
+      tabPet: s.role === 'student' && s.tab === 'pet', tabRank: s.role === 'student' && s.tab === 'rank',
+      tabDash: s.role === 'teacher' && s.tab === 'dashboard', tabSetTasks: s.role === 'teacher' && s.tab === 'setTasks',
+      tabSetBoss: s.role === 'teacher' && s.tab === 'setBoss', tabSetStore: s.role === 'teacher' && s.tab === 'setStore',
+      name: s.name, klass: s.klass, classOpts,
+      avatarChar: s.role === 'teacher' ? '👩‍🏫' : s.avatar,
+      userLabel: s.role === 'teacher' ? (s.teacherName ? `${s.teacherName} · ${s.teacherEmail}` : `${s.klass} 導師`) : `${s.klass} ${s.sid} 號 · ${s.name}`,
+      coins: s.coins, xp: s.xp, xpPer: this.xpPer, xpPct: Math.round(s.xp / this.xpPer * 100), level: s.level, streak: s.streak,
+      petLv: s.petLv, friend: s.friend, mood: s.mood,
+      petIcon: PS[psIdx].icon, petStageName: PS[psIdx].name,
+      petAnim: s.petFx ? 'petJump .7s ease-out' : 'float 3s ease-in-out infinite',
+      petFx: s.petFx, hasPetFx: !!s.petFx,
+      petEvoHint: nextStage ? `再餵食或互動 ${remFeeds} 次升 1 級，到 Lv.${nextStage.lv} 就進化成「${nextStage.name}」！` : '嗶嗶已經是最終型態，超級厲害！👑',
+      petHint: s.mood >= 70 ? '嗶嗶今天超開心！來玩猜拳吧 ✊' : '嗶嗶想你了，餵它吃點心或摸摸頭吧！',
+      feedLabel: s.snacks > 0 ? `🍖 餵點心（還有 ${s.snacks} 份）` : '🍖 餵點心（花 10 🪙）',
+      feedPet: () => this.feedPet(), patPet: () => this.patPet(), goPet: () => this.setState({ tab:'pet' }),
+      evoChips, rpsWins: s.rpsWins, rpsPetShow: s.rpsPet || '❓', rpsResult: s.rpsResult, hasRps: !!s.rpsResult,
+      rpsBtns: ['✊','✌️','🖐️'].map(o => ({ icon: o, pick: () => this.rps(o) })),
+      curTitle: `${T[tIdx].icon} ${T[tIdx].name}`, titleChips, stages, tabBtns, teacherTabs,
+      remainMonsters: nTasks - doneCount, allDefeated: nTasks > 0 && doneCount === nTasks, taskCards, storeCount: s.items.length,
+      toast: s.toast, hasToast: !!s.toast, lvlUp: s.lvlUp,
+      qIdle: s.qPhase === 'idle', qBattle: s.qPhase === 'battle', qRoundResult: s.qPhase === 'roundResult',
+      qGenerating: s.qPhase === 'generating', qVictory: s.qPhase === 'victory', qFail5: s.qPhase === 'fail5',
+      bossHp: s.bossHp, bossMax: this.bossMax, bossHpPct: Math.round(s.bossHp / this.bossMax * 100), dmgPerQ: this.dmg,
+      bossAnim: s.fb ? (s.fb.ok ? 'shake .6s ease-in-out' : 'bob 2.4s ease-in-out infinite') : 'float 3s ease-in-out infinite',
+      showHit: !!s.fb && s.fb.ok && s.qPhase === 'battle', showBlock: !!s.fb && !s.fb.ok && s.qPhase === 'battle',
+      qText: curQ ? curQ.question : '',
+      hasHint: !!(curQ && curQ.hint), qHint: curQ && curQ.hint ? curQ.hint : '',
+      qProgress: `第 ${s.qIndex + 1} 題 / 共 ${s.roundQs.length} 題`,
+      round: s.round, nextRoundNum: s.round + 1,
+      roundBadge: s.round === 1 ? '第 1 輪 · 挑戰賽' : `第 ${s.round} 輪 · AI 補救題（更簡單）`,
+      roundBadgeStyle: s.round === 1 ? 'background:rgba(125,232,255,.15);color:#7de8ff;font-size:12.5px;font-weight:900;border-radius:999px;padding:4px 12px;white-space:nowrap' : 'background:rgba(90,200,120,.15);color:#7de8a0;font-size:12.5px;font-weight:900;border-radius:999px;padding:4px 12px;white-space:nowrap',
+      roundChips, lastScore,
+      victoryTitle: s.round === 1 ? `一擊必殺！${aBoss ? aBoss.name : 'Boss'} 被打倒了！` : `第 ${s.round} 輪全對！${aBoss ? aBoss.name : 'Boss'} 被打倒了！`,
+      vCoins: s.round === 1 ? this.bonus : 20, vXp: s.round === 1 ? 100 : 40,
+      opts, hasFb: !!s.fb, fbMsg: s.fb ? s.fb.msg : '',
+      fbStyle: s.fb && s.fb.ok ? 'background:rgba(90,200,120,.15);border:1px solid rgba(90,200,120,.5);color:#7de8a0;font-weight:900;border-radius:14px;padding:12px 16px;animation:popIn .3s ease-out' : 'background:rgba(255,180,71,.12);border:1px solid rgba(255,180,71,.5);color:#ffb347;font-weight:900;border-radius:14px;padding:12px 16px;animation:popIn .3s ease-out',
+      wrongCount: s.wrong.length,
+      bossMap, killCount, bossTotal: s.bosses.length, remainBosses: s.bosses.length - killCount,
+      activeBossName: aBoss ? aBoss.name : '', activeBossIcon: aBoss ? aBoss.icon : '👽',
+      bossChips, ebName: eb.name, ebSubject: eb.subject, ebIcon: eb.icon,
+      setEbName: e => this.updBoss('name', e.target.value),
+      setEbSubject: e => this.updBoss('subject', e.target.value),
+      setEbIcon: e => this.updBoss('icon', e.target.value),
+      addBoss: () => {
+        const id = 'b' + Date.now();
+        this.setState(x => ({ bosses: [...x.bosses, { id, name:'新 Boss（點下方修改）', subject:'科目', icon:'👾', questions:[] }], editBoss: id }));
+        this.showToast('已新增 Boss，幫牠取名並上傳題目吧！');
+      },
+      delBoss: () => {
+        if (this.state.bosses.length <= 1) { this.showToast('至少要保留一隻 Boss'); return; }
+        this.setState(x => {
+          const bosses = x.bosses.filter(b => b.id !== x.editBoss);
+          return { bosses, editBoss: bosses[0].id };
+        });
+        this.showToast('已刪除這隻 Boss');
+      },      uploadOpen: !!upTask, upIcon: upTask ? upTask.icon : '', upTitle: upTask ? upTask.title : '', upMonster: upTask ? upTask.monster : '',
+      upPhoto: s.uploadPhoto, hasUpPhoto: !!s.uploadPhoto, noUpPhoto: !s.uploadPhoto,
+      upPhotoStyle: s.uploadPhoto ? `width:100%;height:240px;border-radius:16px;border:1px solid rgba(125,232,255,.35);background:rgba(0,0,0,.35) url(${JSON.stringify(s.uploadPhoto)}) center/contain no-repeat` : '',
+      onUpFile: e => {
+        const f = e.target.files && e.target.files[0];
+        if (!f) return;
+        const r = new FileReader();
+        r.onload = () => this.setState({ uploadPhoto: String(r.result) });
+        r.readAsDataURL(f);
+      },
+      cancelUpload: () => this.setState({ uploadTask:null, uploadPhoto:'' }),
+      submitUpload: () => {
+        const st = this.state;
+        if (!st.uploadPhoto) { this.showToast('先拍一張照片才能出擊嗔 📷'); return; }
+        const id = st.uploadTask, photo = st.uploadPhoto;
+        this.setState({ uploadTask:null, uploadPhoto:'' });
+        this.attack(id, photo);
+      },
+      upSubmitStyle: s.uploadPhoto ? 'flex:1.4;background:linear-gradient(90deg,#7de8ff,#8a6aff);border:none;border-radius:14px;padding:13px;font-size:15px;font-weight:900;color:#1a1440;cursor:pointer;white-space:nowrap;box-shadow:0 0 16px rgba(125,232,255,.4)' : 'flex:1.4;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:13px;font-size:15px;font-weight:900;color:#8a80b8;cursor:pointer;white-space:nowrap',
+      storeCards, inv: s.inv, hasInv: s.inv.length > 0,
+      statRate: roster.length && nTasks ? Math.round(roster.reduce((a, r) => a + r.done, 0) / (roster.length * nTasks) * 100) : 0,
+      statHelp: roster.filter(r => r.status.includes('🆘')).length,
+      statCoins: roster.reduce((a, r) => a + (r.coins || 0), 0), roster, rosterEmpty: roster.length === 0,
+      taskEdits, quizEdits, itemEdits,
+      rankRows, classBars, weekDays, weekRows,
+      checkinDays, todayReward: `${CK[dayIdx].coins} 🪙 + ${CK[dayIdx].xp} XP`,
+      checkinOpen: s.checkinOpen, claimCheckin: () => this.claimCheckin(),
+      noticeOpen: s.noticeOpen, closeNotice: () => this.setState({ noticeOpen:false }),
+      noticeDate: `${new Date().getMonth() + 1} 月 ${new Date().getDate()} 日`,
+      noticeTasks: s.tasks.map(t => ({
+        icon: t.icon, title: t.title, subject: t.subject, monster: t.monster,
+        state: t.done ? '✅ 已擊敗' : `🪙 ${t.coins}＋⚡ ${t.xp}`,
+        tag: t.done ? 'background:rgba(90,200,120,.15);color:#7de8a0;font-size:12px;font-weight:900;border-radius:999px;padding:4px 12px;white-space:nowrap' : 'background:rgba(255,212,94,.12);color:#ffd45e;font-size:12px;font-weight:900;border-radius:999px;padding:4px 12px;white-space:nowrap',
+        row: t.done ? 'display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px 14px;opacity:.7' : 'display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.06);border:1px solid rgba(125,232,255,.3);border-radius:14px;padding:10px 14px'
+      })),
+      soundLabel: s.sound ? '🔊 音效開' : '🔇 音效關', toggleSound: () => this.setState(x => ({ sound: !x.sound })),
+      avatarOpts: Component.AVATARS.map(a => ({ icon: a, pick: () => this.setState({ avatar: a }),
+        style: a === s.avatar ? 'font-size:22px;width:44px;height:44px;border-radius:12px;cursor:pointer;background:rgba(140,106,255,.35);border:2px solid #7de8ff;box-shadow:0 0 10px rgba(125,232,255,.5)' : 'font-size:22px;width:44px;height:44px;border-radius:12px;cursor:pointer;background:rgba(0,0,0,.3);border:2px solid rgba(160,140,255,.3)' })),
+      loginSid: s.loginSid, loginName: s.loginName, loginSno: s.loginSno, remember: s.remember,
+      onSno: e => this.setState({ loginSno: e.target.value }),
+      toggleRemember: e => this.setState({ remember: e.target.checked }),
+      showParent: s.showParent, parentLinkLabel: s.showParent ? '收起家長查詢' : '👪 家長查詢',
+      toggleParent: () => this.setState(x => ({ showParent: !x.showParent })),
+      parentKlass: s.parentKlass, pickParentKlass: e => this.setState({ parentKlass: e.target.value }),
+      parentSid: s.parentSid, onParentSid: e => this.setState({ parentSid: e.target.value }),
+      parentGo: () => {
+        const st = this.state, rec = (st.classes[st.parentKlass] || []).find(r => (r.sno || '') === (st.parentSid || '').trim());
+        if (!rec) { this.showToast('找不到這位學生，請確認班級和學號'); return; }
+        this.setState({ screen:'parent' });
+      },
+      backToLogin: () => this.setState({ screen:'login', showParent:false }),
+      pKlass: s.parentKlass, pSid: pRec ? pRec.sid : '', pName: pRec ? pRec.name : '',
+      pHasHist: pHistBars.length > 0, pHistBars,
+      pTrendNote: pHistBars.length > 1 ? (pHist[pHist.length - 1] > pHist[0] ? `進步 ${pHist[pHist.length - 1] - pHist[0]} 分，越戰越勇！` : '持續補救練習中') : '第一輪即完成',
+      pWeekCells, pHasBoss: !!pBoss, pBossName: pBoss ? `${pBoss.icon} ${pBoss.name}（${pBoss.subject}）` : '',
+      pProgress: pRec ? `${pRec.done} / ${nTasks}` : '', pCoins: pRec ? pRec.coins : 0,
+      pScore: pRec ? (pRec.rounds ? `${pRec.score} 分` : '未測驗') : '', pRounds: pRec ? (pRec.rounds ? `${pRec.rounds} 輪` : '—') : '',
+      pStatus: pRec ? pRec.status : '', pTagStyle: pTag,
+      pHasWrong: !!(pRec && pRec.wrongNums && pRec.wrongNums.length),
+      pWrong: pRec ? (pRec.wrongNums || []).map(n => `第 ${n} 題：${(qsOfRec(pRec)[n - 1] || {}).question || ''}`) : [],
+      pMsg: pRec ? pMsgMap(pRec.status) : '',
+      detailOpen: !!dRec, detailName: dRec ? `${dRec.sid} 號 ${dRec.name}` : '',
+      detailHist: dHist.map((sc, i) => ({ text: `第 ${i + 1} 輪 ${sc} 分`, style: histChip(sc) })),
+      detailNoHist: !!dRec && dHist.length === 0,
+      hasDetailWrong: !!(dRec && dRec.wrongNums && dRec.wrongNums.length),
+      detailWrongQs: dRec ? (dRec.wrongNums || []).map(n => `第 ${n} 題：${(qsOfRec(dRec)[n - 1] || {}).question || '（題目已更動）'}`) : [],
+      detailSuggest,
+      closeDetail: () => this.setState({ detailIdx:-1 }),
+      markCoached: () => { this.setState(x => ({ classes: { ...x.classes, [x.klass]: x.classes[x.klass].map((r, j) => j === x.detailIdx ? { ...r, status:'🌱 補救通過' } : r) } })); this.showToast('已標記為輔導完成 ✅'); },
+      reassign: () => { this.setState(x => ({ classes: { ...x.classes, [x.klass]: x.classes[x.klass].map((r, j) => j === x.detailIdx ? { ...r, status:'⏳ 補救中' } : r) } })); this.showToast('已指派再測一輪 🔁'); },
+      importText: s.importText, importStatus: s.importStatus,
+      onImportText: e => this.setState({ importText: e.target.value }),
+      onImportFile: e => {
+        const f = e.target.files && e.target.files[0];
+        if (!f) return;
+        if (/\.xlsx?$/i.test(f.name)) { this.setState({ importStatus:'⚠️ 請先在 Excel／試算表中「另存為 CSV」再上傳' }); return; }
+        const r = new FileReader();
+        r.onload = () => this.setState({ importText: String(r.result), importStatus: `📄 已讀取「${f.name}」，按下 AI 分析` });
+        r.readAsText(f);
+      },
+      analyzeImport: () => this.analyzeImport(),
+      analyzeBtnLabel: s.importing ? '🤖 AI 分析中…' : '🤖 AI 分析並新增題目',
+      analyzeBtnStyle: s.importing ? 'white-space:nowrap;cursor:wait;border:none;background:rgba(255,255,255,.15);color:#8a80b8;font-weight:900;font-size:15px;border-radius:12px;padding:11px 22px'
+        : 'white-space:nowrap;cursor:pointer;border:none;background:linear-gradient(90deg,#7de8ff,#8a6aff);color:#1a1440;font-weight:900;font-size:15px;border-radius:12px;padding:11px 22px;box-shadow:0 0 14px rgba(125,232,255,.35)',
+      addTask: () => this.setState(x => ({ tasks: [...x.tasks, { id: Date.now(), subject:'科目', monster:'新怪獸', icon:'👾', title:'新任務標題', desc:'寫下完成方式，例如拍照上傳', coins:10, xp:20, done:false }] })),
+      addQ: () => this.setState(x => ({ bosses: x.bosses.map(b => b.id === x.editBoss ? { ...b, questions:[...b.questions, { id:'q' + Date.now(), question:'新題目（點這裡修改）', options:['選項一','選項二','選項三','選項四'], answer:'選項一' }] } : b) })),
+      addItem: () => this.setState(x => ({ items: [...x.items, { id:'i' + Date.now(), name:'新獎勵', price:50, icon:'🎁' }] })),
+      newKlass: s.newKlass, onNewKlass: e => this.setState({ newKlass: e.target.value }),
+      addKlass: () => {
+        const n = (this.state.newKlass || '').trim();
+        if (!n) { this.showToast('請先輸入班級名稱'); return; }
+        if (this.state.classes[n]) { this.showToast('這個班級已經存在囉'); return; }
+        this.setState(x => ({ classes: { ...x.classes, [n]: [] }, klass: n, klassRename: n, newKlass:'' }));
+        this.showToast(`已新增「${n}」，開始加入學生吧！`);
+      },
+      klassRename: s.klassRename, onKlassRename: e => this.setState({ klassRename: e.target.value }),
+      renameKlass: () => {
+        const n = (this.state.klassRename || '').trim(), old = this.state.klass;
+        if (!n || n === old) return;
+        if (this.state.classes[n]) { this.showToast('已有同名班級'); return; }
+        this.setState(x => {
+          const c = {}; Object.keys(x.classes).forEach(k => { c[k === old ? n : k] = x.classes[k]; });
+          return { classes: c, klass: n };
+        });
+        this.showToast(`「${old}」已改名為「${n}」`);
+      },
+      delKlass: () => {
+        if (Object.keys(this.state.classes).length <= 1) { this.showToast('至少要保留一個班級'); return; }
+        const old = this.state.klass;
+        this.setState(x => {
+          const c = { ...x.classes }; delete c[old];
+          const first = Object.keys(c)[0];
+          return { classes: c, klass: first, klassRename: first };
+        });
+        this.showToast(`已刪除「${old}」`);
+      },
+      stuSid: s.stuSid, stuName: s.stuName, stuSno: s.stuSno,
+      onStuSid: e => this.setState({ stuSid: e.target.value }), onStuName: e => this.setState({ stuName: e.target.value }),
+      onStuSno: e => this.setState({ stuSno: e.target.value }),
+      addStu: () => {
+        const sid = (this.state.stuSid || '').trim(), name = (this.state.stuName || '').trim(), sno = (this.state.stuSno || '').trim();
+        if (!sid || !name) { this.showToast('請填座號和姓名'); return; }
+        this.setState(x => ({ classes: { ...x.classes, [x.klass]: [...x.classes[x.klass], { sid, name, sno, done:0, score:0, coins:0, rounds:0, status:'— 未測驗', wrongNums:[], week:[0,0,0,0,0] }] }, stuSid:'', stuName:'', stuSno:'' }));
+        this.showToast(`已把 ${name} 加入 ${this.state.klass}`);
+      },
+      onSid: e => this.setState({ loginSid: e.target.value }), onName: e => this.setState({ loginName: e.target.value }),
+      loginStudent: () => {
+        const st = this.state, name = (st.loginName || '').trim() || '王小明', sid = (st.loginSid || '').trim() || '12', sno = (st.loginSno || '').trim();
+        try{ localStorage.setItem('starAcademy_login', JSON.stringify({ remember: st.remember, sid, name, sno, klass: st.klass, avatar: st.avatar })); }catch(e){}
+        let open = true;
+        try{ open = localStorage.getItem('starAcademy_checkin') !== new Date().toDateString(); }catch(e){}
+        this.setState({ screen:'app', role:'student', tab:'lobby', name, sid, sno, checkinOpen: open, noticeOpen: !open });
+      },
+      openGPicker: () => this.setState(x => ({ gPickerOpen: !x.gPickerOpen })),
+      gPickerOpen: s.gPickerOpen,
+      gAccounts: [
+        { name:'林雅婷', email:'yating.lin@gmail.com', color:'#7c4dff' },
+        { name:'陳志明', email:'cmchen.teacher@gmail.com', color:'#00897b' },
+        { name:'黃佩君', email:'peichun.h@school.edu.tw', color:'#e65100' }
+      ].map(a => ({ ...a, name: a.name + ' 老師', initial: a.name[0],
+        pick: () => {
+          this.setState({ screen:'app', role:'teacher', tab:'dashboard', teacherName: a.name + ' 老師', teacherEmail: a.email, gPickerOpen:false, klassRename: this.state.klass });
+          this.showToast(`👋 ${a.name} 老師，歡迎回來！已載入你的班級資料`);
+        } })),
+      tEmail: s.tEmail, onTEmail: e => this.setState({ tEmail: e.target.value }),
+      tPwd: s.tPwd, onTPwd: e => this.setState({ tPwd: e.target.value }),
+      loginTeacher: () => {
+        const em = (this.state.tEmail || '').trim();
+        if (!em || !em.includes('@')) { this.showToast('請輸入正確的 Email 帳號'); return; }
+        if (!(this.state.tPwd || '').trim()) { this.showToast('請輸入密碼'); return; }
+        this.setState({ screen:'app', role:'teacher', tab:'dashboard', teacherName: em.split('@')[0] + ' 老師', teacherEmail: em, klassRename: this.state.klass });
+      },
+      logout: () => this.setState({ screen:'login', showTeacherLogin:false, showParent:false, checkinOpen:false, noticeOpen:false, gPickerOpen:false, tPwd:'' }),
+      pickClass: e => this.setState({ klass: e.target.value, klassRename: e.target.value, detailIdx:-1 }),
+      goTasks: () => this.setState({ tab:'tasks' }), goBoss: () => this.setState({ tab:'boss' }),
+      goStore: () => this.setState({ tab:'store' }), goLobby: () => { this.resetBoss(); this.setState({ tab:'lobby' }); },
+      exportCsv: () => this.exportCsv(),
+      nextRound: () => this.nextRound(),
+      resetBoss: () => this.resetBoss()
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Work+Sans:wght@700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  color: #f8fafc;
+  background: #17143d;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; }
+button { font: inherit; }
+h1, h2, h3, p { margin: 0; text-wrap: pretty; }
+h1, h2 { font-family: 'Work Sans', 'Noto Sans TC', sans-serif; }
+h2 { font-size: 1.25rem; font-weight: 900; }
+
+@layer components {
+  .panel {
+    @apply rounded-3xl border border-white/15 bg-white/10 p-5 shadow-2xl shadow-black/15 backdrop-blur sm:p-6;
+  }
+
+  .action-button {
+    @apply rounded-xl px-4 py-2.5 text-sm font-black shadow-lg transition hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-white/30;
+  }
+
+  .tab-button {
+    @apply whitespace-nowrap rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-bold text-violet-100 transition hover:bg-white/15 focus:outline-none focus:ring-4 focus:ring-cyan-200/30;
+  }
+
+  .tab-button-active {
+    @apply border-cyan-200/40 bg-cyan-200 text-slate-950;
+  }
+
+  .text-button {
+    @apply rounded-lg px-3 py-2 text-sm font-bold text-cyan-200 transition hover:bg-cyan-200/10 focus:outline-none focus:ring-4 focus:ring-cyan-200/20;
+  }
+}
+
+@media (max-width: 640px) {
+  h1 { font-size: 1.55rem !important; line-height: 1.35; }
+  .panel { border-radius: 1.25rem; }
+}

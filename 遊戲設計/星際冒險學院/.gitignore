@@ -1,0 +1,26 @@
+# 本機測試與暫存輸出
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+
+# 本機工具設定與測試結果
+.vscode/
+.idea/
+node_modules/
+coverage/
+test-results/
+
+# 環境設定與金鑰，一律不進版控
+.env
+.env.*
+!.env.example
+firebase key.txt
+# 這張截圖裡有 OAuth 用戶端密碼，repo 是公開的，絕對不能提交
+OAuth 用戶端建立.jpg
+.firebase/
+dist/
+
+# AI agent 工作目錄
+.claude/
+.codex/

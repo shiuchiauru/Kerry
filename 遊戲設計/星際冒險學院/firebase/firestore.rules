@@ -1,0 +1,77 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function owns(resourceData) {
+      return signedIn() && resourceData.teacherId == request.auth.uid;
+    }
+
+    match /teachers/{teacherId} {
+      allow read, create, update: if signedIn() && request.auth.uid == teacherId;
+    }
+
+    match /classrooms/{classroomId} {
+      allow create: if owns(request.resource.data);
+      allow read, delete: if owns(resource.data);
+      allow update: if owns(resource.data) && owns(request.resource.data);
+    }
+
+    match /questionBanks/{bankId} {
+      allow create: if owns(request.resource.data);
+      allow read, delete: if owns(resource.data);
+      allow update: if owns(resource.data) && owns(request.resource.data);
+    }
+
+    // 學生用班級代碼開啟遊戲時讀的公開副本，文件 id 就是班級代碼。
+    // 只允許「知道代碼」的人取單一文件（get），不允許列出整個集合（list），
+    // 也就無法把所有班級掃出來。寫入仍限該班老師本人。
+    // 這份副本的名冊只有座號與學號，不含學生姓名。
+    match /publicClasses/{joinCode} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if owns(request.resource.data);
+      allow update: if owns(resource.data) && owns(request.resource.data);
+      allow delete: if owns(resource.data);
+    }
+
+    // 學生的答題成績。學生以匿名身分寫入，文件 id 必須是「班級代碼_座號」，
+    // 且內容裡的代碼與座號要和 id 相符，才無法冒名寫到別人那一筆。
+    // 老師以 teacherId 查詢自己班上的所有成績。
+    match /studentProgress/{progressId} {
+      function matchesId() {
+        return progressId == request.resource.data.joinCode + '_' + request.resource.data.sid;
+      }
+
+      allow get: if true;
+      allow list: if signedIn() && resource.data.teacherId == request.auth.uid;
+      allow create, update: if signedIn()
+        && matchesId()
+        && request.resource.data.joinCode is string
+        && request.resource.data.sid is string
+        && request.resource.data.teacherId is string;
+      allow delete: if owns(resource.data);
+    }
+
+    // 拍照打卡的照片。照片可能拍到學生筆跡或姓名，比成績敏感，
+    // 所以只有該班老師讀得到，學生只能寫自己那一筆（id 必須是「班級代碼_座號_任務」）。
+    match /taskPhotos/{photoId} {
+      function ownPhotoId() {
+        return photoId == request.resource.data.joinCode
+          + '_' + request.resource.data.sid
+          + '_' + request.resource.data.taskId;
+      }
+
+      allow get, list: if signedIn() && resource.data.teacherId == request.auth.uid;
+      allow create, update: if signedIn()
+        && ownPhotoId()
+        && request.resource.data.teacherId is string
+        && request.resource.data.photo is string
+        && request.resource.data.photo.size() < 900000;
+      allow delete: if owns(resource.data);
+    }
+  }
+}

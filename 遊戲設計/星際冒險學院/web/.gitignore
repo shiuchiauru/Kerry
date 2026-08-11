@@ -1,0 +1,7 @@
+# Supabase 公開 URL 與 anon key 請放在本機，不提交。
+.env.local
+.env.*.local
+
+# 可再生的建置產物與依賴。
+node_modules/
+dist/

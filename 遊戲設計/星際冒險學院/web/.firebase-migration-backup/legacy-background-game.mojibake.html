@@ -1,0 +1,1719 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="module" src="/game-firebase-bridge.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#1a1440">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#1a1440"></rect>
+    <circle cx="240" cy="180" r="4" fill="#7de8ff"></circle>
+    <circle cx="920" cy="140" r="3" fill="#ffd45e"></circle>
+    <circle cx="1040" cy="560" r="4" fill="#ff9ac0"></circle>
+    <circle cx="180" cy="620" r="3" fill="#b8a8ff"></circle>
+    <text x="600" y="440" text-anchor="middle" font-size="280">??</text>
+    <text x="600" y="640" text-anchor="middle" font-size="64" font-weight="900" fill="#7de8ff" font-family="sans-serif">???摮賊</text>
+  </svg>
+</template>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#1a1440;font-family:"Huninn","Noto Sans TC",sans-serif}
+a{color:#7de8ff}a:hover{color:#b8f2ff}
+input,select,button,textarea{font-family:"Huninn","Noto Sans TC",sans-serif}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes flick{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.15) rotate(4deg)}}
+@keyframes pulseRing{0%{box-shadow:0 0 0 0 rgba(255,180,0,.55)}100%{box-shadow:0 0 0 16px rgba(255,180,0,0)}}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(240%)}}
+@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-6px) rotate(4deg)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-14px) rotate(-4deg)}40%{transform:translateX(12px) rotate(3deg)}60%{transform:translateX(-9px)}80%{transform:translateX(7px)}}
+@keyframes popIn{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+@keyframes rise{0%{transform:translateY(20px);opacity:0}30%{opacity:1}100%{transform:translateY(-70px);opacity:0}}
+@keyframes slideDown{0%{transform:translate(-50%,-30px);opacity:0}100%{transform:translate(-50%,0);opacity:1}}
+@keyframes spinSlow{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+@keyframes laserShot{0%{transform:scaleX(0);opacity:1}75%{transform:scaleX(1);opacity:1}100%{transform:scaleX(1);opacity:0}}
+@keyframes petJump{0%,100%{transform:translateY(0) scale(1)}30%{transform:translateY(-18px) scale(1.1)}60%{transform:translateY(0) scale(.95)}}
+
+/* ??游???靽?瘛梯?桃蔗嚗??????銝??恍?賣??唳?霈??*/
+[data-screen-label]{background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;border-radius:24px;padding:24px;box-shadow:inset 0 0 0 1px rgba(190,220,255,.12)}
+[data-screen-label="?餃"],[data-screen-label="?憭批輒"]{background-image:linear-gradient(90deg,rgba(12,9,42,.78),rgba(12,9,42,.42),rgba(12,9,42,.78)),url("/game-assets/star-academy-lobby.png")!important}
+[data-screen-label="Boss?"]{background-image:linear-gradient(180deg,rgba(8,9,35,.28),rgba(8,9,35,.74)),url("/game-assets/floating-crystal-planet.png")!important;min-height:calc(100vh - 160px)}
+[data-screen-label="閮?隞餃?"],[data-screen-label="?銝剖?"],[data-screen-label="摰園?勗?"],[data-screen-label="??憭乩撈"],[data-screen-label="??璁?],[data-screen-label="隞餃?閮剖?"]{background-image:linear-gradient(90deg,rgba(18,18,62,.74),rgba(18,18,62,.38),rgba(18,18,62,.74)),url("/game-assets/starship-observatory.png")!important;min-height:calc(100vh - 160px)}
+@media(max-width:700px){[data-screen-label]{border-radius:16px;padding:16px;background-position:center center!important}[data-screen-label="Boss?"],[data-screen-label="閮?隞餃?"],[data-screen-label="?銝剖?"],[data-screen-label="摰園?勗?"],[data-screen-label="??憭乩撈"],[data-screen-label="??璁?],[data-screen-label="隞餃?閮剖?"]{min-height:calc(100vh - 120px)}}
+
+</style></helmet>
+<div style="min-height:100vh;background:linear-gradient(180deg,#1a1440 0%,#241a55 55%,#2c2060 100%);color:#fff;position:relative;overflow-x:hidden">
+<div style="position:fixed;top:60px;left:6%;color:#fff;font-size:13px;animation:twinkle 2s infinite;pointer-events:none">??/div>
+<div style="position:fixed;top:180px;right:9%;color:#fff;font-size:17px;animation:twinkle 2.6s .4s infinite;pointer-events:none">??/div>
+<div style="position:fixed;bottom:120px;left:14%;color:#fff;font-size:11px;animation:twinkle 1.8s .8s infinite;pointer-events:none">??/div>
+<div style="position:fixed;bottom:220px;right:20%;color:#fff;font-size:14px;animation:twinkle 2.2s 1.1s infinite;pointer-events:none">??/div>
+
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;top:84px;left:50%;transform:translateX(-50%);background:#0e0a2a;border:1px solid rgba(160,140,255,.6);color:#fff;padding:12px 26px;border-radius:999px;z-index:60;font-weight:700;font-size:15px;box-shadow:0 0 24px rgba(140,106,255,.5);animation:slideDown .3s ease-out;display:flex;align-items:center;gap:8px">?? {{ toast }}</div>
+</sc-if>
+
+<sc-if value="{{ lvlUp }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;background:rgba(10,6,30,.75);z-index:70;display:flex;align-items:center;justify-content:center">
+  <div style="text-align:center;animation:popIn .5s ease-out">
+    <div style="font-size:100px;animation:flick .8s infinite">??</div>
+    <div style="font-size:52px;font-weight:900;color:#ffd45e;text-shadow:0 0 30px rgba(255,212,94,.9);letter-spacing:4px">LEVEL UP!</div>
+    <div style="font-size:30px;font-weight:900;color:#7de8ff;margin-top:6px;text-shadow:0 0 20px rgba(125,232,255,.8)">? Lv.{{ level }} 鈭?</div>
+    <div style="font-size:16px;color:#b8a8ff;margin-top:10px">?桀?蝔梯?嚗{ curTitle }}</div>
+    <div style="display:flex;gap:26px;justify-content:center;margin-top:14px;font-size:26px">
+      <span style="animation:rise 1.6s .1s infinite">??</span><span style="animation:rise 1.6s .5s infinite">潃?/span><span style="animation:rise 1.6s .3s infinite">??</span><span style="animation:rise 1.6s .7s infinite">??/span>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ checkinOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;background:rgba(10,6,30,.82);z-index:80;display:flex;align-items:center;justify-content:center;padding:20px">
+  <div style="background:linear-gradient(180deg,#241a55,#1a1440);border:1px solid rgba(255,212,94,.5);border-radius:28px;padding:32px;max-width:600px;text-align:center;display:flex;flex-direction:column;gap:16px;animation:popIn .4s ease-out;box-shadow:0 0 40px rgba(255,212,94,.25)">
+    <div style="font-size:54px">??儭?/div>
+    <div style="font-size:27px;font-weight:900;color:#ffd45e">瘥?勗嚗歇??? <span style="color:#ffb347">{{ streak }}</span> 憭?/div>
+    <div style="font-size:14px;color:#b8a8ff">瘥予?餃?質???蛛???? 7 憭拇?蟡?憭抒?嚗?/div>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <sc-for list="{{ checkinDays }}" as="d" hint-placeholder-count="7">
+        <div style="{{ d.style }}"><div style="font-size:11.5px;font-weight:900">{{ d.label }}</div><div style="font-size:24px">{{ d.icon }}</div><div style="font-size:11.5px;font-weight:900">{{ d.reward }}</div></div>
+      </sc-for>
+    </div>
+    <button onClick="{{ claimCheckin }}" style="background:linear-gradient(90deg,#ffd45e,#ffb100);border:none;border-radius:999px;padding:15px 40px;font-size:18px;font-weight:900;color:#4a3200;cursor:pointer;box-shadow:0 0 22px rgba(255,212,94,.4);white-space:nowrap;align-self:center;animation:pulseRing 1.6s infinite" style-hover="transform:scale(1.05)">?? ??隞?嚗{ todayReward }}</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ noticeOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;background:rgba(10,6,30,.82);z-index:80;display:flex;align-items:center;justify-content:center;padding:20px">
+  <div style="background:linear-gradient(180deg,#241a55,#1a1440);border:1px solid rgba(125,232,255,.5);border-radius:28px;padding:30px;width:520px;max-width:92vw;display:flex;flex-direction:column;gap:14px;animation:popIn .4s ease-out;box-shadow:0 0 40px rgba(125,232,255,.25)">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div style="font-size:48px;animation:bob 2.4s ease-in-out infinite">??</div>
+      <div>
+        <div style="font-size:24px;font-weight:900;color:#7de8ff;text-shadow:0 0 14px rgba(125,232,255,.5)">???祆??</div>
+        <div style="font-size:13px;color:#b8a8ff">{{ noticeDate }} 繚 {{ name }} ?阡???乩遙?陛??/div>
+      </div>
+    </div>
+    <div style="background:rgba(255,212,94,.1);border:1px dashed rgba(255,212,94,.5);border-radius:14px;padding:11px 16px;display:flex;gap:10px;align-items:center">
+      <span style="font-size:24px">??</span>
+      <div style="font-size:13.5px;color:#e8d8a8;line-height:1.5"><b style="color:#ffd45e">?葦撱?嚗?/b>?勗之摰嗉”?曉?璉????詨飛???Boss ?臭誑憭 50 ??撟??嚗?/div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:14px;font-weight:900;color:#b8a8ff">?? 隞閬?隡??芰</div>
+      <sc-for list="{{ noticeTasks }}" as="nt" hint-placeholder-count="3">
+        <div style="{{ nt.row }}">
+          <span style="font-size:26px">{{ nt.icon }}</span>
+          <div style="flex:1"><div style="font-size:14.5px;font-weight:900">{{ nt.title }}</div><div style="font-size:12px;color:#9a8ad8">{{ nt.subject }} 繚 {{ nt.monster }}</div></div>
+          <span style="{{ nt.tag }}">{{ nt.state }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <span style="background:rgba(216,74,122,.15);border:1px solid rgba(216,74,122,.5);color:#ff9ac0;border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:900;white-space:nowrap">? Boss ??銝?/span>
+      <span style="background:rgba(255,180,71,.12);border:1px solid rgba(255,180,71,.5);color:#ffb347;border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:900;white-space:nowrap">? ????餃 {{ streak }} 憭?/span>
+      <span style="background:rgba(125,232,255,.12);border:1px solid rgba(125,232,255,.45);color:#7de8ff;border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:900;white-space:nowrap">? ?嗅蝑?擗菟?</span>
+    </div>
+    <button onClick="{{ closeNotice }}" style="background:linear-gradient(90deg,#7de8ff,#8a6aff);border:none;border-radius:999px;padding:14px 36px;font-size:17px;font-weight:900;color:#1a1440;cursor:pointer;box-shadow:0 0 20px rgba(125,232,255,.4);white-space:nowrap;align-self:center" style-hover="transform:scale(1.05)">?? ?嗅嚗?澆???/button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ uploadOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;background:rgba(10,6,30,.82);z-index:80;display:flex;align-items:center;justify-content:center;padding:20px">
+  <div style="background:linear-gradient(180deg,#241a55,#1a1440);border:1px solid rgba(125,232,255,.5);border-radius:28px;padding:30px;width:460px;max-width:92vw;display:flex;flex-direction:column;gap:14px;animation:popIn .35s ease-out;box-shadow:0 0 40px rgba(125,232,255,.2)">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font-size:44px">{{ upIcon }}</span>
+      <div><div style="font-size:19px;font-weight:900">? ??嚗{ upTitle }}</div>
+      <div style="font-size:13px;color:#b8a8ff;margin-top:2px">銝摰????撠梯???{ upMonster }}??</div></div>
+    </div>
+    <sc-if value="{{ noUpPhoto }}" hint-placeholder-val="{{ true }}">
+      <label style="border:2px dashed rgba(125,232,255,.45);border-radius:16px;padding:28px;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;color:#7de8ff;font-weight:900" style-hover="background:rgba(125,232,255,.08)">
+        <span style="font-size:40px">?</span>
+        <span>暺ㄐ?????/span>
+        <span style="font-size:12px;color:#8a80b8;font-weight:700">???舐?仿??豢???璆剜???/span>
+        <input type="file" accept="image/*" capture="environment" onChange="{{ onUpFile }}" style="display:none"></input>
+      </label>
+    </sc-if>
+    <sc-if value="{{ hasUpPhoto }}" hint-placeholder-val="{{ false }}">
+      <div style="{{ upPhotoStyle }}"></div>
+      <label style="align-self:center;color:#8a80b8;font-size:13px;cursor:pointer;text-decoration:underline" style-hover="color:#b8a8ff">??訾?撘?input type="file" accept="image/*" capture="environment" onChange="{{ onUpFile }}" style="display:none"></input></label>
+    </sc-if>
+    <div style="display:flex;gap:10px">
+      <button onClick="{{ cancelUpload }}" style="flex:1;background:none;border:1px solid rgba(160,140,255,.4);color:#b8a8ff;border-radius:14px;padding:13px;font-size:15px;font-weight:900;cursor:pointer" style-hover="background:rgba(160,140,255,.12)">??</button>
+      <button onClick="{{ submitUpload }}" style="{{ upSubmitStyle }}" style-hover="transform:scale(1.02)">?? ???餃??</button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="?餃" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;gap:22px">
+  <div style="text-align:center">
+    <div style="font-size:74px;animation:float 3s ease-in-out infinite">??</div>
+    <div style="font-size:42px;font-weight:900;white-space:nowrap;text-shadow:0 0 20px rgba(140,120,255,.8)">???摮賊</div>
+    <div style="font-size:16px;color:#b8a8ff;margin-top:6px">摰?隞餃?????璆剜芰嚗?憭乩撈銝韏瑕?蝝?</div>
+  </div>
+  <div style="width:380px;background:rgba(255,255,255,.07);border:1px solid rgba(125,232,255,.4);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:14px">
+    <div style="font-size:20px;font-weight:900;display:flex;align-items:center;gap:8px">??? 摮貊??餃</div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label style="font-size:13px;color:#b8a8ff;font-weight:700">?剔?</label>
+      <select value="{{ klass }}" onChange="{{ pickClass }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.4);border-radius:12px;padding:12px 14px;color:#fff;font-size:16px;outline:none">
+        <sc-for list="{{ classOpts }}" as="c" hint-placeholder-count="3"><option value="{{ c }}">{{ c }}</option></sc-for>
+      </select>
+    </div>
+    <div style="display:flex;gap:10px">
+      <div style="display:flex;flex-direction:column;gap:6px;width:90px">
+        <label style="font-size:13px;color:#b8a8ff;font-weight:700">摨扯?</label>
+        <input value="{{ loginSid }}" onChange="{{ onSid }}" placeholder="12" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.4);border-radius:12px;padding:12px 14px;color:#fff;font-size:16px;outline:none;width:100%;box-sizing:border-box"></input>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;flex:1">
+        <label style="font-size:13px;color:#b8a8ff;font-weight:700">摮貉?</label>
+        <input value="{{ loginSno }}" onChange="{{ onSno }}" placeholder="靘?嚗?0112" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.4);border-radius:12px;padding:12px 14px;color:#fff;font-size:16px;outline:none;width:100%;box-sizing:border-box"></input>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label style="font-size:13px;color:#b8a8ff;font-weight:700">憪?</label>
+      <input value="{{ loginName }}" onChange="{{ onName }}" placeholder="靘?嚗?撠?" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.4);border-radius:12px;padding:12px 14px;color:#fff;font-size:16px;outline:none;width:100%;box-sizing:border-box"></input>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label style="font-size:13px;color:#b8a8ff;font-weight:700">?訾????/label>
+      <div style="display:flex;gap:8px">
+        <sc-for list="{{ avatarOpts }}" as="av" hint-placeholder-count="6"><button onClick="{{ av.pick }}" style="{{ av.style }}" style-hover="transform:scale(1.12)">{{ av.icon }}</button></sc-for>
+      </div>
+    </div>
+    <label style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:#b8a8ff;font-weight:700;cursor:pointer"><input type="checkbox" checked="{{ remember }}" onChange="{{ toggleRemember }}" style="width:16px;height:16px;accent-color:#8a6aff"></input>閮???銝活?芸?憛怠末</label>
+    <button onClick="{{ loginStudent }}" style="margin-top:6px;background:linear-gradient(90deg,#7de8ff,#8a6aff);border:none;border-radius:14px;padding:14px;font-size:18px;font-weight:900;color:#1a1440;cursor:pointer;box-shadow:0 0 18px rgba(125,232,255,.4);white-space:nowrap" style-hover="transform:scale(1.03)">?? ?箇?嚗?/button>
+  </div>
+  <sc-if value="{{ showTeacherLogin }}" hint-placeholder-val="{{ false }}">
+  <div style="width:380px;background:rgba(255,255,255,.07);border:1px solid rgba(255,212,94,.4);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:14px;animation:popIn .35s ease-out">
+    <div style="font-size:20px;font-weight:900;display:flex;align-items:center;gap:8px">?????葦?餃</div>
+    <div style="font-size:12.5px;color:#9a8ad8;line-height:1.5">瘥??葦雿輻?芸楛?董??伐??蝞∠??芸楛?蝝?憿澈??/div>
+    <button onClick="{{ openGPicker }}" style="background:#fff;border:none;border-radius:12px;padding:12px;font-size:15px;font-weight:700;color:#3c4043;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px" style-hover="box-shadow:0 0 14px rgba(255,255,255,.35)"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path></svg>雿輻 Google 撣唾??餃</button>
+    <sc-if value="{{ gPickerOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:6px;display:flex;flex-direction:column;gap:2px">
+      <div style="font-size:12px;color:#8a80b8;padding:8px 12px 4px">?豢?撣唾?</div>
+      <sc-for list="{{ gAccounts }}" as="ga" hint-placeholder-count="2">
+        <button onClick="{{ ga.pick }}" style="background:none;border:none;border-radius:10px;padding:9px 12px;display:flex;align-items:center;gap:12px;cursor:pointer;text-align:left" style-hover="background:rgba(255,255,255,.08)">
+          <div style="width:34px;height:34px;border-radius:50%;background:{{ ga.color }};display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:#fff;flex-shrink:0">{{ ga.initial }}</div>
+          <div><div style="font-size:14px;font-weight:700;color:#fff">{{ ga.name }}</div><div style="font-size:12px;color:#9a8ad8">{{ ga.email }}</div></div>
+        </button>
+      </sc-for>
+    </div>
+    </sc-if>
+    <div style="display:flex;align-items:center;gap:10px"><div style="flex:1;height:1px;background:rgba(255,255,255,.15)"></div><span style="font-size:12px;color:#8a80b8">?蝙?典董??蝣?/span><div style="flex:1;height:1px;background:rgba(255,255,255,.15)"></div></div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label style="font-size:13px;color:#e8d8a8;font-weight:700">撣唾?嚗mail嚗?/label>
+      <input value="{{ tEmail }}" onChange="{{ onTEmail }}" placeholder="靘?嚗eacher@school.edu.tw" style="background:rgba(0,0,0,.35);border:1px solid rgba(255,212,94,.4);border-radius:12px;padding:12px 14px;color:#fff;font-size:15px;outline:none;box-sizing:border-box"></input>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label style="font-size:13px;color:#e8d8a8;font-weight:700">撖Ⅳ</label>
+      <input type="password" value="{{ tPwd }}" onChange="{{ onTPwd }}" placeholder="?ＴＴＴＴＴＴＴ? style="background:rgba(0,0,0,.35);border:1px solid rgba(255,212,94,.4);border-radius:12px;padding:12px 14px;color:#fff;font-size:15px;outline:none;box-sizing:border-box"></input>
+    </div>
+    <button onClick="{{ loginTeacher }}" style="background:linear-gradient(90deg,#ffd45e,#ffb100);border:none;border-radius:14px;padding:14px;font-size:18px;font-weight:900;color:#4a3200;cursor:pointer;box-shadow:0 0 18px rgba(255,212,94,.35);white-space:nowrap" style-hover="transform:scale(1.03)">?儭??脣?銝剖?</button>
+    <div style="font-size:11.5px;color:#8a80b8;text-align:center">?啗葦蝚砌?甈∠ Google ?餃??遣蝡犖撣唾?</div>
+  </div>
+  </sc-if>
+  <sc-if value="{{ showParent }}" hint-placeholder-val="{{ false }}">
+  <div style="width:380px;background:rgba(255,255,255,.07);border:1px solid rgba(90,200,120,.4);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:14px;animation:popIn .35s ease-out">
+    <div style="font-size:20px;font-weight:900;display:flex;align-items:center;gap:8px">? 摰園?亥岷</div>
+    <div style="font-size:13px;color:#9a8ad8">頛詨摮拙??蝝?摮貉?嚗?飛蝧??銝??摮拙????脤脣漲嚗?/div>
+    <div style="display:flex;gap:10px">
+      <select value="{{ parentKlass }}" onChange="{{ pickParentKlass }}" style="flex:1;background:rgba(0,0,0,.35);border:1px solid rgba(90,200,120,.4);border-radius:12px;padding:12px;color:#fff;font-size:15px;outline:none">
+        <sc-for list="{{ classOpts }}" as="c4" hint-placeholder-count="3"><option value="{{ c4 }}">{{ c4 }}</option></sc-for>
+      </select>
+      <input value="{{ parentSid }}" onChange="{{ onParentSid }}" placeholder="摮貉?嚗?憒?30101" style="width:150px;background:rgba(0,0,0,.35);border:1px solid rgba(90,200,120,.4);border-radius:12px;padding:12px;color:#fff;font-size:15px;outline:none;box-sizing:border-box"></input>
+    </div>
+    <button onClick="{{ parentGo }}" style="background:linear-gradient(90deg,#7de8a0,#3aa860);border:none;border-radius:14px;padding:14px;font-size:17px;font-weight:900;color:#0a2a14;cursor:pointer;white-space:nowrap" style-hover="transform:scale(1.03)">?? ?亦???勗?</button>
+  </div>
+  </sc-if>
+  <div style="display:flex;gap:14px">
+    <button onClick="{{ toggleParent }}" style="background:none;border:none;color:#8a80b8;font-size:13px;cursor:pointer;padding:6px 12px" style-hover="color:#7de8a0">{{ parentLinkLabel }}</button>
+    <button onClick="{{ toggleTeacher }}" style="background:none;border:none;color:#8a80b8;font-size:13px;cursor:pointer;padding:6px 12px" style-hover="color:#b8a8ff">{{ teacherLinkLabel }}</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isParent }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="摰園?勗?" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px">
+  <div style="width:560px;background:rgba(255,255,255,.07);border:1px solid rgba(125,232,255,.4);border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:18px">
+    <div style="text-align:center">
+      <div style="font-size:54px">?</div>
+      <div style="font-size:28px;font-weight:900">???勗???/div>
+      <div style="font-size:14px;color:#b8a8ff;margin-top:4px">{{ pKlass }} 繚 {{ pSid }} ??繚 {{ pName }}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="background:rgba(125,232,255,.08);border:1px solid rgba(125,232,255,.35);border-radius:16px;padding:14px 16px"><div style="font-size:12.5px;color:#7de8ff;font-weight:900">?? 閮?隞餃??脣漲</div><div style="font-size:24px;font-weight:900;margin-top:2px">{{ pProgress }}</div></div>
+      <div style="background:rgba(255,212,94,.08);border:1px solid rgba(255,212,94,.35);border-radius:16px;padding:14px 16px"><div style="font-size:12.5px;color:#ffd45e;font-weight:900">?? 蝝舐??馳</div><div style="font-size:24px;font-weight:900;margin-top:2px">{{ pCoins }}</div></div>
+      <div style="background:rgba(255,154,192,.08);border:1px solid rgba(255,154,192,.35);border-radius:16px;padding:14px 16px"><div style="font-size:12.5px;color:#ff9ac0;font-weight:900">? Boss ?唳??唳?蝮?/div><div style="font-size:24px;font-weight:900;margin-top:2px">{{ pScore }}</div><sc-if value="{{ pHasBoss }}" hint-placeholder-val="{{ false }}"><div style="font-size:11.5px;color:#c8a0b4;margin-top:2px">{{ pBossName }}</div></sc-if></div>
+      <div style="background:rgba(140,106,255,.1);border:1px solid rgba(160,140,255,.35);border-radius:16px;padding:14px 16px"><div style="font-size:12.5px;color:#c8baff;font-weight:900">?? 鋆?頛芣</div><div style="font-size:24px;font-weight:900;margin-top:2px">{{ pRounds }}</div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px"><span style="font-size:13.5px;color:#b8a8ff;font-weight:900;white-space:nowrap">?桀????/span><span style="{{ pTagStyle }}">{{ pStatus }}</span></div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:13.5px;font-weight:900;color:#7de8ff">?? ?祇望??乩遙????/div>
+      <div style="display:flex;gap:8px">
+        <sc-for list="{{ pWeekCells }}" as="pwc" hint-placeholder-count="5">
+          <div style="{{ pwc.style }}"><div style="font-size:11.5px;font-weight:700;white-space:nowrap">{{ pwc.day }}</div><div style="font-size:16px;font-weight:900">{{ pwc.val }}</div></div>
+        </sc-for>
+      </div>
+    </div>
+    <sc-if value="{{ pHasHist }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:13.5px;font-weight:900;color:#ff9ac0">?? Boss ?唳風甈⊥?蝮曇隅??/span><span style="font-size:12px;color:#8a80b8">{{ pTrendNote }}</span></div>
+      <div style="background:rgba(0,0,0,.25);border-radius:16px;padding:14px 16px 10px;display:flex;align-items:flex-end;gap:10px;height:120px">
+        <sc-for list="{{ pHistBars }}" as="hb" hint-placeholder-count="3">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;height:100%">
+            <div style="font-size:13px;font-weight:900;color:{{ hb.color }}">{{ hb.score }}</div>
+            <div style="width:100%;max-width:44px;border-radius:8px 8px 3px 3px;height:{{ hb.h }};background:{{ hb.bg }}"></div>
+            <div style="font-size:11px;color:#8a80b8;white-space:nowrap">{{ hb.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+    <sc-if value="{{ pHasWrong }}" hint-placeholder-val="{{ false }}">
+    <div style="background:rgba(0,0,0,.25);border-radius:16px;padding:14px 18px;display:flex;flex-direction:column;gap:6px">
+      <div style="font-size:13.5px;font-weight:900;color:#ffb347">?? ?閬?撘瑞?憿</div>
+      <sc-for list="{{ pWrong }}" as="pw" hint-placeholder-count="1"><div style="font-size:14px;color:#e8e2ff;line-height:1.5">{{ pw }}</div></sc-for>
+    </div>
+    </sc-if>
+    <div style="background:rgba(90,200,120,.1);border:1px dashed rgba(90,200,120,.45);border-radius:16px;padding:14px 18px">
+      <div style="font-size:13.5px;font-weight:900;color:#7de8a0;margin-bottom:4px">? 蝯血振?瑞?閰?/div>
+      <div style="font-size:14.5px;color:#cfe8d8;line-height:1.6">{{ pMsg }}</div>
+    </div>
+    <button onClick="{{ backToLogin }}" style="background:rgba(255,255,255,.08);border:1px solid rgba(160,140,255,.4);color:#c8baff;border-radius:14px;padding:12px;font-size:15px;font-weight:900;cursor:pointer" style-hover="background:rgba(160,140,255,.15)">??餈??餃??/button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isApp }}" hint-placeholder-val="{{ false }}">
+<div>
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(160,140,255,.3);position:sticky;top:0;z-index:40;backdrop-filter:blur(8px)">
+    <div style="display:flex;align-items:center;gap:10px;font-size:21px;font-weight:900;white-space:nowrap;text-shadow:0 0 14px rgba(140,120,255,.8)">?? ???摮賊</div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <sc-if value="{{ isStudent }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(160,140,255,.35);border-radius:999px;padding:6px 14px">
+          <div style="background:#ffd45e;color:#7a4a00;font-weight:900;border-radius:999px;padding:2px 10px;font-size:14px">Lv.{{ level }}</div>
+          <div style="width:130px;height:12px;background:rgba(0,0,0,.4);border-radius:999px;overflow:hidden">
+            <div style="width:{{ xpPct }}%;height:100%;background:linear-gradient(90deg,#7de8ff,#8a6aff);border-radius:999px;position:relative;overflow:hidden;box-shadow:0 0 10px rgba(140,120,255,.8);transition:width .6s ease">
+              <div style="position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);animation:shimmer 2.2s infinite"></div>
+            </div>
+          </div>
+          <div style="font-size:12px;opacity:.85;white-space:nowrap">{{ xp }}/{{ xpPer }} XP</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.1);border:1px solid rgba(160,140,255,.35);border-radius:999px;padding:6px 14px;font-weight:900;color:#ffe08a;white-space:nowrap"><span style="font-size:18px">??</span> {{ coins }}</div>
+        <div style="display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.1);border:1px solid rgba(160,140,255,.35);border-radius:999px;padding:6px 12px;font-weight:900;color:#ffb347;white-space:nowrap"><span style="display:inline-block;font-size:18px;animation:flick 1s infinite">?</span> {{ streak }} 憭?/div>
+      </div>
+      </sc-if>
+      <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border-radius:999px;padding:4px 12px 4px 4px;white-space:nowrap">
+        <div style="width:30px;height:30px;border-radius:999px;background:#8a6aff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;border:2px solid rgba(255,255,255,.5)">{{ avatarChar }}</div>
+        <span style="font-size:14px;font-weight:700">{{ userLabel }}</span>
+      </div>
+      <button onClick="{{ logout }}" style="background:none;border:1px solid rgba(160,140,255,.4);color:#b8a8ff;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap" style-hover="background:rgba(160,140,255,.15)">?餃</button>
+    </div>
+  </div>
+
+  <div style="max-width:1100px;margin:0 auto;padding:24px 24px 60px">
+    <sc-if value="{{ isStudent }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap">
+      <sc-for list="{{ tabBtns }}" as="tb" hint-placeholder-count="4">
+        <button onClick="{{ tb.go }}" style="{{ tb.style }}" style-hover="transform:translateY(-2px)">{{ tb.label }}</button>
+      </sc-for>
+    </div>
+    </sc-if>
+    <sc-if value="{{ isTeacher }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap">
+      <sc-for list="{{ teacherTabs }}" as="tb2" hint-placeholder-count="4">
+        <button onClick="{{ tb2.go }}" style="{{ tb2.style }}" style-hover="transform:translateY(-2px)">{{ tb2.label }}</button>
+      </sc-for>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabLobby }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="?憭批輒" style="display:flex;flex-direction:column;gap:22px">
+      <div style="display:flex;gap:22px;flex-wrap:wrap">
+        <div style="flex:1;min-width:480px;background:linear-gradient(135deg,rgba(122,90,255,.35),rgba(60,40,150,.45));border:1px solid rgba(160,140,255,.4);border-radius:24px;padding:26px 30px;position:relative;overflow:hidden">
+          <div style="position:absolute;right:20px;top:16px;font-size:52px;opacity:.6;animation:float 4s ease-in-out infinite">??</div>
+          <div style="font-size:30px;font-weight:900;margin-bottom:6px;text-shadow:0 0 18px rgba(140,120,255,.7)">{{ name }} ?阡嚗摰???</div>
+          <div style="font-size:16px;opacity:.9;margin-bottom:18px">?琿??菜葫??{{ remainMonsters }} ?颱?璆剜芰?乩噩?頂嚗????</div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <div style="background:rgba(0,0,0,.35);border-radius:999px;padding:6px 14px;font-size:13.5px;font-weight:700;white-space:nowrap">?桀?頠?</div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;flex-wrap:wrap">
+              <sc-for list="{{ titleChips }}" as="tc" hint-placeholder-count="4">
+                <span style="{{ tc.style }}">{{ tc.text }}</span>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="width:280px;background:rgba(255,255,255,.08);border:1px solid rgba(160,140,255,.4);border-radius:24px;padding:20px;display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div style="font-size:15px;font-weight:900;color:#b8a8ff">????憭乩撈</div>
+          <div style="font-size:80px;line-height:1;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 0 18px rgba(120,230,255,.7))">{{ petIcon }}</div>
+          <div style="font-size:18px;font-weight:900">?嗅 繚 Lv.{{ petLv }}</div>
+          <div style="width:100%;display:flex;align-items:center;gap:8px">
+            <span style="font-size:13px;color:#b8a8ff;font-weight:700">?賡?</span>
+            <div style="flex:1;height:10px;background:rgba(0,0,0,.4);border-radius:999px;overflow:hidden"><div style="width:{{ friend }}%;height:100%;background:linear-gradient(90deg,#7de8ff,#8a6aff);border-radius:999px;box-shadow:0 0 8px rgba(125,232,255,.8);transition:width .6s"></div></div>
+          </div>
+          <div style="width:100%;display:flex;align-items:center;gap:8px">
+            <span style="font-size:13px;color:#ff9ac0;font-weight:700">敹?</span>
+            <div style="flex:1;height:10px;background:rgba(0,0,0,.4);border-radius:999px;overflow:hidden"><div style="width:{{ mood }}%;height:100%;background:linear-gradient(90deg,#ff9ac0,#d84a7a);border-radius:999px;transition:width .6s"></div></div>
+          </div>
+          <div style="font-size:12.5px;color:#9a8ad8;text-align:center">{{ petHint }}</div>
+          <button onClick="{{ goPet }}" style="background:rgba(125,232,255,.12);border:1px solid rgba(125,232,255,.45);color:#7de8ff;border-radius:999px;padding:8px 18px;font-size:13.5px;font-weight:900;cursor:pointer;white-space:nowrap" style-hover="background:rgba(125,232,255,.25)">? ?駁今憌?拚???/button>
+        </div>
+      </div>
+      <div style="background:rgba(255,212,94,.12);border:1px dashed rgba(255,212,94,.5);border-radius:18px;padding:14px 20px;display:flex;align-items:center;gap:14px">
+        <div style="font-size:34px;animation:bob 2.4s ease-in-out infinite">??</div>
+        <div><div style="font-weight:900;color:#ffd45e;font-size:15px">蝮賡 AI ??嚗葦撱?嚗?/div>
+        <div style="color:#e8d8a8;font-size:14px">?勗之摰嗉”?曉?璉????詨飛???Boss ?臭誑憭 50 ??撟??嚗?/div></div>
+      </div>
+      <div>
+        <div style="font-size:19px;font-weight:900;color:#b8a8ff;margin-bottom:12px">?? ?? 繚 蝚砌??頂嚗?????/div>
+        <div style="display:flex;align-items:center;background:rgba(0,0,0,.25);border:1px solid rgba(160,140,255,.3);border-radius:20px;padding:18px 24px">
+          <sc-for list="{{ stages }}" as="st" hint-placeholder-count="6">
+            <div style="display:flex;align-items:center;flex:{{ st.flex }}">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px"><div style="{{ st.dot }}">{{ st.icon }}</div><span style="{{ st.lbl }}">{{ st.name }}</span></div>
+              <sc-if value="{{ st.line }}" hint-placeholder-val="{{ true }}"><div style="flex:1;border-top:3px dashed rgba(160,140,255,.4);margin:0 8px 18px;min-width:30px"></div></sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px">
+        <button onClick="{{ goTasks }}" style="text-align:left;cursor:pointer;background:rgba(255,255,255,.07);border:1px solid rgba(125,232,255,.4);border-radius:22px;padding:20px 22px;display:flex;flex-direction:column;gap:8px;color:#fff" style-hover="transform:translateY(-4px);box-shadow:0 8px 24px rgba(125,232,255,.25)">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:40px">??</span><span style="background:rgba(125,232,255,.15);color:#7de8ff;font-size:12.5px;font-weight:900;border-radius:999px;padding:4px 12px;white-space:nowrap">? {{ remainMonsters }} ?餅芰</span></div>
+          <div style="font-size:21px;font-weight:900">閮?隞餃?</div>
+          <div style="font-size:14px;color:#a89ad8">?隞予??璆剜芰嚗竟 XP ??撟?/div>
+        </button>
+        <button onClick="{{ goBoss }}" style="text-align:left;cursor:pointer;background:rgba(255,255,255,.07);border:1px solid rgba(255,154,192,.4);border-radius:22px;padding:20px 22px;display:flex;flex-direction:column;gap:8px;color:#fff" style-hover="transform:translateY(-4px);box-shadow:0 8px 24px rgba(255,154,192,.25)">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:40px">?</span><span style="background:rgba(216,74,122,.2);color:#ff9ac0;font-size:12.5px;font-weight:900;border-radius:999px;padding:4px 12px;animation:twinkle 1.4s infinite;white-space:nowrap">? {{ remainBosses }} ??Boss嚗?/span></div>
+          <div style="font-size:21px;font-weight:900">Boss ?</div>
+          <div style="font-size:14px;color:#a89ad8">蝑?撠梁撠撠?皛踹? 100 ??Boss嚗?/div>
+        </button>
+        <button onClick="{{ goStore }}" style="text-align:left;cursor:pointer;background:rgba(255,255,255,.07);border:1px solid rgba(255,212,94,.4);border-radius:22px;padding:20px 22px;display:flex;flex-direction:column;gap:8px;color:#fff" style-hover="transform:translateY(-4px);box-shadow:0 8px 24px rgba(255,212,94,.25)">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:40px">?</span><span style="background:rgba(255,212,94,.15);color:#ffd45e;font-size:12.5px;font-weight:900;border-radius:999px;padding:4px 12px;white-space:nowrap">{{ storeCount }} 璅?窄??/span></div>
+          <div style="font-size:21px;font-weight:900">憭芰征鋆策蝡?/div>
+          <div style="font-size:14px;color:#a89ad8">?券?撟???嚗??賢鼠憭乩撈?</div>
+        </button>
+      </div>
+      <div style="background:rgba(0,0,0,.2);border:1px solid rgba(160,140,255,.25);border-radius:18px;padding:14px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <span style="font-size:14px;font-weight:900;color:#b8a8ff;white-space:nowrap">??儭????喟???/span>
+        <span style="background:rgba(125,232,255,.12);border:1px solid rgba(125,232,255,.4);border-radius:999px;padding:5px 14px;font-size:13px;font-weight:700;white-space:nowrap">?? 擐活閮?</span>
+        <span style="background:rgba(255,180,71,.12);border:1px solid rgba(255,180,71,.4);border-radius:999px;padding:5px 14px;font-size:13px;font-weight:700;white-space:nowrap">? ??? 5 憭拍??/span>
+        <span style="background:rgba(255,154,192,.12);border:1px solid rgba(255,154,192,.4);border-radius:999px;padding:5px 14px;font-size:13px;font-weight:700;white-space:nowrap">?? ??銋?</span>
+        <span style="background:rgba(255,255,255,.05);border:1px dashed rgba(255,255,255,.25);border-radius:999px;padding:5px 14px;font-size:13px;color:#8a80b8;white-space:nowrap">?? Boss 蝯???/span>
+        <span style="background:rgba(255,255,255,.05);border:1px dashed rgba(255,255,255,.25);border-radius:999px;padding:5px 14px;font-size:13px;color:#8a80b8;white-space:nowrap">?? 皛踹?蟡???/span>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabTasks }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="閮?隞餃?" style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between">
+        <div style="font-size:24px;font-weight:900">?? 隞閮?隞餃?</div>
+        <div style="font-size:14px;color:#b8a8ff">?芰 = 摰?雿平嚗??扳???/div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px">
+        <sc-for list="{{ taskCards }}" as="t" hint-placeholder-count="3">
+          <div style="{{ t.card }}">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="background:rgba(125,232,255,.15);color:#7de8ff;font-size:12px;font-weight:900;border-radius:999px;padding:3px 12px;white-space:nowrap">{{ t.subject }}</span>
+              <span style="display:flex;gap:6px;font-size:12.5px;font-weight:900"><span style="background:rgba(255,212,94,.15);color:#ffd45e;border-radius:999px;padding:3px 10px;white-space:nowrap">?? +{{ t.coins }}</span><span style="background:rgba(140,106,255,.2);color:#c8baff;border-radius:999px;padding:3px 10px;white-space:nowrap">??+{{ t.xp }} XP</span></span>
+            </div>
+            <div style="text-align:center;padding:6px 0 2px">
+              <div style="{{ t.iconStyle }}">{{ t.icon }}</div>
+              <div style="font-size:14px;font-weight:900;color:#ff9ac0;margin-top:4px">{{ t.monster }}</div>
+            </div>
+            <div style="font-size:18px;font-weight:900">{{ t.title }}</div>
+            <div style="font-size:13.5px;color:#a89ad8;flex:1">{{ t.desc }}</div>
+            <sc-if value="{{ t.done }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <sc-if value="{{ t.hasPhoto }}" hint-placeholder-val="{{ false }}"><div style="{{ t.photoStyle }}"></div></sc-if>
+                <div style="background:rgba(90,200,120,.15);border:1px solid rgba(90,200,120,.5);color:#7de8a0;font-weight:900;border-radius:14px;padding:11px;text-align:center;animation:popIn .4s ease-out">? 撌脫?????? 潃?/div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ t.notDone }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ t.openUpload }}" style="background:linear-gradient(90deg,#7de8ff,#8a6aff);border:none;border-radius:14px;padding:12px;font-size:16px;font-weight:900;color:#1a1440;cursor:pointer;white-space:nowrap" style-hover="box-shadow:0 0 18px rgba(125,232,255,.5);transform:scale(1.02)">? ???餃??</button>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+      <sc-if value="{{ allDefeated }}" hint-placeholder-val="{{ false }}">
+        <div style="background:rgba(90,200,120,.12);border:1px solid rgba(90,200,120,.4);border-radius:20px;padding:20px;text-align:center;animation:popIn .5s ease-out">
+          <div style="font-size:44px">??</div>
+          <div style="font-size:20px;font-weight:900;color:#7de8a0">隞?芰?券?摰嚗?蝟餅敺拙?撟???/div>
+          <div style="font-size:14px;color:#a89ad8;margin-top:4px">?餅???Boss ?嚗??啗?蝯衣??嚗?/div>
+        </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabBoss }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Boss?">
+      <sc-if value="{{ qIdle }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+          <div style="font-size:24px;font-weight:900">?儭?Boss ?捏?啣?</div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="background:rgba(255,212,94,.12);border:1px solid rgba(255,212,94,.45);color:#ffd45e;border-radius:999px;padding:6px 16px;font-size:13.5px;font-weight:900;white-space:nowrap">撌脫?畾?{{ killCount }} / {{ bossTotal }}</span>
+            <button onClick="{{ toggleSound }}" style="background:none;border:1px solid rgba(160,140,255,.4);color:#b8a8ff;border-radius:999px;padding:6px 16px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap" style-hover="background:rgba(160,140,255,.15)">{{ soundLabel }}</button>
+          </div>
+        </div>
+        <div style="font-size:14px;color:#b8a8ff">瘥 Boss 摰?銝???殷??蜀隞?100 ??蝞??典?嚗???畾綽?蝑?交?敹?AI ??蝪∪???內??憿霈??嚗?憭?5 頛芥?/div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px">
+          <sc-for list="{{ bossMap }}" as="bm" hint-placeholder-count="3">
+            <div style="{{ bm.card }}">
+              <div style="display:flex;justify-content:space-between;align-items:center"><span style="{{ bm.subjChip }}">{{ bm.subject }}</span><span style="{{ bm.stateChip }}">{{ bm.state }}</span></div>
+              <div style="text-align:center;padding:6px 0"><div style="{{ bm.iconStyle }}">{{ bm.icon }}</div></div>
+              <div style="font-size:19px;font-weight:900;text-align:center">{{ bm.name }}</div>
+              <div style="display:flex;align-items:center;gap:8px"><span style="font-size:12px;font-weight:900;color:#ff9ac0">HP</span>
+                <div style="flex:1;height:12px;background:rgba(0,0,0,.4);border-radius:999px;overflow:hidden;border:1px solid rgba(255,154,192,.35)"><div style="width:{{ bm.hpPct }}%;height:100%;background:linear-gradient(90deg,#ff9ac0,#d84a7a);transition:width .5s"></div></div>
+                <span style="font-size:12px;color:#9a8ad8;white-space:nowrap">{{ bm.qCount }} 憿?/span></div>
+              <sc-if value="{{ bm.canFight }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ bm.fight }}" style="background:linear-gradient(90deg,#ff9ac0,#d84a7a);border:none;border-radius:14px;padding:12px;font-size:16px;font-weight:900;color:#fff;cursor:pointer;white-space:nowrap;box-shadow:0 0 14px rgba(216,74,122,.35)" style-hover="transform:scale(1.04)">???箸嚗?/button>
+              </sc-if>
+              <sc-if value="{{ bm.dead }}" hint-placeholder-val="{{ false }}">
+                <div style="background:rgba(90,200,120,.15);border:1px solid rgba(90,200,120,.5);color:#7de8a0;font-weight:900;border-radius:14px;padding:11px;text-align:center">?? 撌脫?畾?繚 {{ bm.record }}</div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ qBattle }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap">
+        <div style="width:300px;background:rgba(0,0,0,.25);border:1px solid rgba(255,154,192,.4);border-radius:24px;padding:24px;display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;overflow:hidden">
+          <sc-if value="{{ showHit }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;left:-10%;top:46%;width:120%;height:6px;background:linear-gradient(90deg,transparent,#7de8ff 40%,#fff);border-radius:999px;box-shadow:0 0 18px #7de8ff;transform-origin:left;animation:laserShot .5s ease-out forwards;pointer-events:none;z-index:2"></div>
+          </sc-if>
+          <div style="font-size:16px;font-weight:900;color:#ff9ac0">{{ activeBossName }}</div>
+          <div style="font-size:96px;line-height:1;animation:{{ bossAnim }};filter:drop-shadow(0 0 20px rgba(216,74,122,.7))">{{ activeBossIcon }}</div>
+          <div style="width:100%;display:flex;align-items:center;gap:8px"><span style="font-size:13px;font-weight:900;color:#ff9ac0">HP</span>
+            <div style="flex:1;height:16px;background:rgba(0,0,0,.5);border-radius:999px;overflow:hidden;border:1px solid rgba(255,154,192,.4)"><div style="width:{{ bossHpPct }}%;height:100%;background:linear-gradient(90deg,#ff9ac0,#d84a7a);transition:width .5s ease"></div></div>
+            <span style="font-size:13px;font-weight:900">{{ bossHp }}</span></div>
+          <sc-if value="{{ showHit }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:30px;font-weight:900;color:#7de8ff;text-shadow:0 0 16px rgba(125,232,255,.9);animation:rise 1.4s ease-out">? -{{ dmgPerQ }}</div>
+          </sc-if>
+          <sc-if value="{{ showBlock }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:22px;font-weight:900;color:#ffb347;animation:popIn .4s ease-out">?儭???鈭?</div>
+          </sc-if>
+        </div>
+        <div style="flex:1;min-width:420px;background:rgba(255,255,255,.07);border:1px solid rgba(160,140,255,.4);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <span style="font-size:14px;font-weight:900;color:#b8a8ff;white-space:nowrap">{{ qProgress }}</span>
+            <span style="display:flex;align-items:center;gap:8px"><span style="{{ roundBadgeStyle }}">{{ roundBadge }}</span><button onClick="{{ toggleSound }}" style="background:none;border:1px solid rgba(160,140,255,.35);color:#b8a8ff;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">{{ soundLabel }}</button></span>
+          </div>
+          <div style="font-size:21px;font-weight:900;line-height:1.5">{{ qText }}</div>
+          <sc-if value="{{ hasHint }}" hint-placeholder-val="{{ false }}">
+            <div style="background:rgba(255,212,94,.1);border:1px dashed rgba(255,212,94,.5);border-radius:14px;padding:11px 16px;font-size:14.5px;color:#ffd45e;font-weight:700">? {{ qHint }}</div>
+          </sc-if>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <sc-for list="{{ opts }}" as="o" hint-placeholder-count="4">
+              <button onClick="{{ o.pick }}" style="{{ o.style }}" style-hover="transform:translateY(-2px)">{{ o.text }}</button>
+            </sc-for>
+          </div>
+          <sc-if value="{{ hasFb }}" hint-placeholder-val="{{ false }}">
+            <div style="{{ fbStyle }}">{{ fbMsg }}</div>
+          </sc-if>
+        </div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ qRoundResult }}" hint-placeholder-val="{{ false }}">
+      <div style="text-align:center;padding:36px 20px;display:flex;flex-direction:column;align-items:center;gap:14px">
+        <div style="font-size:80px">?</div>
+        <div style="font-size:30px;font-weight:900;color:#ffb347">蝚?{{ round }} 頛芣?蝮橘?{{ lastScore }} ??/div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+          <sc-for list="{{ roundChips }}" as="rc" hint-placeholder-count="1"><span style="{{ rc.style }}">{{ rc.text }}</span></sc-for>
+        </div>
+        <div style="font-size:16px;color:#b8a8ff;max-width:500px">??{{ wrongCount }} 憿?銝云?? AI 撟思??箝蝪∪???內??憿撮憿??末?箇?? Boss嚗?/div>
+        <button onClick="{{ nextRound }}" style="background:linear-gradient(90deg,#7de8a0,#3aa860);border:none;border-radius:999px;padding:16px 44px;font-size:19px;font-weight:900;color:#0a2a14;cursor:pointer;box-shadow:0 0 24px rgba(90,200,120,.4);white-space:nowrap" style-hover="transform:scale(1.06)">?? AI ???渡陛?桃?憿嚗洵 {{ nextRoundNum }} 頛迎?</button>
+        <div style="font-size:13px;color:#8a80b8">?憭?5 頛迎?瘥?頛芷?蝪∪??蝷箸憭?/div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ qGenerating }}" hint-placeholder-val="{{ false }}">
+      <div style="text-align:center;padding:60px 20px;display:flex;flex-direction:column;align-items:center;gap:16px">
+        <div style="font-size:90px;display:inline-block;animation:spinSlow 2.4s linear infinite">?</div>
+        <div style="font-size:26px;font-weight:900;color:#7de8ff">AI ?粹?銝凌?/div>
+        <div style="font-size:15px;color:#b8a8ff">甇??寞?雿??舐?憿嚗??洵 {{ nextRoundNum }} 頛芥蝪∪嚗??內??憿</div>
+        <div style="width:220px;height:10px;background:rgba(0,0,0,.4);border-radius:999px;overflow:hidden"><div style="width:60%;height:100%;background:linear-gradient(90deg,#7de8ff,#8a6aff);border-radius:999px;position:relative;overflow:hidden"><div style="position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);animation:shimmer 1.2s infinite"></div></div></div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ qVictory }}" hint-placeholder-val="{{ false }}">
+      <div style="text-align:center;padding:36px 20px;display:flex;flex-direction:column;align-items:center;gap:14px;position:relative">
+        <span style="position:absolute;top:30px;left:22%;font-size:28px;animation:rise 1.8s .1s infinite">??</span>
+        <span style="position:absolute;top:60px;right:24%;font-size:24px;animation:rise 1.8s .6s infinite">??/span>
+        <span style="position:absolute;top:120px;left:32%;font-size:22px;animation:rise 1.8s .9s infinite">??</span>
+        <div style="font-size:110px;animation:popIn .6s ease-out">??</div>
+        <div style="font-size:32px;font-weight:900;color:#ffd45e;text-shadow:0 0 24px rgba(255,212,94,.8)">{{ victoryTitle }}</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+          <sc-for list="{{ roundChips }}" as="rc2" hint-placeholder-count="1"><span style="{{ rc2.style }}">{{ rc2.text }}</span></sc-for>
+        </div>
+        <div style="display:flex;gap:12px;font-size:17px;font-weight:900">
+          <span style="background:rgba(255,212,94,.15);border:1px solid rgba(255,212,94,.5);color:#ffd45e;border-radius:999px;padding:8px 20px;white-space:nowrap">?? +{{ vCoins }}</span>
+          <span style="background:rgba(140,106,255,.2);border:1px solid rgba(160,140,255,.5);color:#c8baff;border-radius:999px;padding:8px 20px;white-space:nowrap">??+{{ vXp }} XP</span>
+        </div>
+        <div style="display:flex;gap:12px">
+          <button onClick="{{ resetBoss }}" style="background:none;border:1px solid rgba(255,154,192,.5);color:#ff9ac0;border-radius:999px;padding:13px 30px;font-size:16px;font-weight:900;cursor:pointer;white-space:nowrap" style-hover="background:rgba(255,154,192,.12)">?儭???Boss ?啣?</button>
+          <button onClick="{{ goLobby }}" style="background:linear-gradient(90deg,#7de8ff,#8a6aff);border:none;border-radius:999px;padding:13px 30px;font-size:16px;font-weight:900;color:#1a1440;cursor:pointer;white-space:nowrap" style-hover="transform:scale(1.05)">?? ?望??之撱?/button>
+        </div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ qFail5 }}" hint-placeholder-val="{{ false }}">
+      <div style="text-align:center;padding:36px 20px;display:flex;flex-direction:column;align-items:center;gap:14px">
+        <div style="font-size:96px;animation:popIn .5s ease-out">?</div>
+        <div style="font-size:26px;font-weight:900;color:#7de8a0">雿歇蝬??芸??啣???5 頛芯?嚗?/div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+          <sc-for list="{{ roundChips }}" as="rc3" hint-placeholder-count="1"><span style="{{ rc3.style }}">{{ rc3.text }}</span></sc-for>
+        </div>
+        <div style="font-size:16px;color:#b8a8ff;max-width:480px">?葦撌脩??嗅?嚗?憭拇?閬芾撟思?銝韏瑁?蝧?憿??憭拍??芸? +30 XP嚗??臭?銝嚗?/div>
+        <button onClick="{{ goLobby }}" style="background:linear-gradient(90deg,#7de8ff,#8a6aff);border:none;border-radius:999px;padding:13px 30px;font-size:16px;font-weight:900;color:#1a1440;cursor:pointer;white-space:nowrap" style-hover="transform:scale(1.05)">?? ?之撱?/button>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabStore }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="憭芰征鋆策蝡? style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <div style="font-size:24px;font-weight:900">? 憭芰征鋆策蝡?/div>
+        <div style="font-size:14px;color:#b8a8ff">?桀??? <span style="color:#ffd45e;font-weight:900;font-size:18px">{{ coins }}</span> ??</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+        <sc-for list="{{ storeCards }}" as="it" hint-placeholder-count="4">
+          <div style="background:rgba(255,255,255,.07);border:1px solid rgba(160,140,255,.35);border-radius:20px;padding:20px 16px;text-align:center;display:flex;flex-direction:column;gap:8px">
+            <div style="font-size:48px">{{ it.icon }}</div>
+            <div style="font-size:16px;font-weight:900">{{ it.name }}</div>
+            <div style="font-size:15px;font-weight:900;color:#ffd45e">?? {{ it.price }}</div>
+            <button onClick="{{ it.buy }}" style="{{ it.btnStyle }}" style-hover="transform:scale(1.04)">{{ it.btnLabel }}</button>
+          </div>
+        </sc-for>
+      </div>
+      <sc-if value="{{ hasInv }}" hint-placeholder-val="{{ false }}">
+        <div style="background:rgba(0,0,0,.25);border:1px solid rgba(160,140,255,.3);border-radius:18px;padding:16px 20px">
+          <div style="font-size:15px;font-weight:900;color:#b8a8ff;margin-bottom:10px">?? ??鋆???/div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <sc-for list="{{ inv }}" as="v" hint-placeholder-count="1">
+              <span style="background:rgba(255,255,255,.08);border:1px solid rgba(160,140,255,.4);border-radius:999px;padding:6px 14px;font-size:13.5px;font-weight:700;animation:popIn .4s ease-out;white-space:nowrap">{{ v.icon }} {{ v.name }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabPet }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="??憭乩撈" style="display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between">
+        <div style="font-size:24px;font-weight:900">? ????憭乩撈</div>
+        <div style="font-size:14px;color:#b8a8ff">擗菟????隞亥??嗅???脣?嚗?/div>
+      </div>
+      <div style="display:flex;gap:22px;flex-wrap:wrap">
+        <div style="flex:1;min-width:340px;background:rgba(255,255,255,.07);border:1px solid rgba(125,232,255,.4);border-radius:24px;padding:26px;display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;overflow:hidden">
+          <sc-if value="{{ hasPetFx }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:34%;font-size:34px;animation:rise 1.4s ease-out;pointer-events:none;z-index:2">{{ petFx }}</div>
+          </sc-if>
+          <div style="font-size:110px;line-height:1;animation:{{ petAnim }};filter:drop-shadow(0 0 22px rgba(120,230,255,.7))">{{ petIcon }}</div>
+          <div style="font-size:24px;font-weight:900">?嗅 繚 Lv.{{ petLv }}</div>
+          <div style="background:rgba(125,232,255,.15);color:#7de8ff;font-size:13px;font-weight:900;border-radius:999px;padding:4px 14px;white-space:nowrap">{{ petStageName }}</div>
+          <div style="width:100%;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:8px"><span style="width:38px;font-size:13px;color:#b8a8ff;font-weight:700">?賡?</span>
+              <div style="flex:1;height:12px;background:rgba(0,0,0,.4);border-radius:999px;overflow:hidden"><div style="width:{{ friend }}%;height:100%;background:linear-gradient(90deg,#7de8ff,#8a6aff);border-radius:999px;transition:width .5s"></div></div>
+              <span style="font-size:12px;color:#b8a8ff;width:38px;text-align:right">{{ friend }}%</span></div>
+            <div style="display:flex;align-items:center;gap:8px"><span style="width:38px;font-size:13px;color:#ff9ac0;font-weight:700">敹?</span>
+              <div style="flex:1;height:12px;background:rgba(0,0,0,.4);border-radius:999px;overflow:hidden"><div style="width:{{ mood }}%;height:100%;background:linear-gradient(90deg,#ff9ac0,#d84a7a);border-radius:999px;transition:width .5s"></div></div>
+              <span style="font-size:12px;color:#ff9ac0;width:38px;text-align:right">{{ mood }}%</span></div>
+          </div>
+          <div style="font-size:13px;color:#9a8ad8;text-align:center">{{ petEvoHint }}</div>
+          <div style="display:flex;gap:12px">
+            <button onClick="{{ feedPet }}" style="background:linear-gradient(90deg,#ffd45e,#ffb100);border:none;border-radius:14px;padding:12px 22px;font-size:15.5px;font-weight:900;color:#4a3200;cursor:pointer;white-space:nowrap" style-hover="transform:scale(1.05)">{{ feedLabel }}</button>
+            <button onClick="{{ patPet }}" style="background:rgba(255,154,192,.15);border:1px solid rgba(255,154,192,.5);border-radius:14px;padding:12px 22px;font-size:15.5px;font-weight:900;color:#ff9ac0;cursor:pointer;white-space:nowrap" style-hover="background:rgba(255,154,192,.28)">?? ?豢??/button>
+          </div>
+        </div>
+        <div style="width:320px;background:rgba(0,0,0,.25);border:1px solid rgba(160,140,255,.35);border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:16px;font-weight:900;color:#b8a8ff">?妞 ?脣?璅?/div>
+          <sc-for list="{{ evoChips }}" as="ev" hint-placeholder-count="4">
+            <div style="{{ ev.style }}">
+              <span style="font-size:30px">{{ ev.icon }}</span>
+              <div style="flex:1"><div style="font-size:15px;font-weight:900">{{ ev.name }}</div><div style="font-size:12px;opacity:.75">{{ ev.need }}</div></div>
+              <span style="font-size:14px;font-weight:900">{{ ev.mark }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,212,94,.35);border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px">
+          <div style="font-size:17px;font-weight:900">?????嚗??嗅?抬?</div>
+          <div style="font-size:13.5px;color:#ffd45e;font-weight:700">?? 撌脣? {{ rpsWins }} ??繚 韐? +5 ??</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+          <div style="display:flex;gap:10px">
+            <sc-for list="{{ rpsBtns }}" as="rb" hint-placeholder-count="3">
+              <button onClick="{{ rb.pick }}" style="font-size:32px;background:rgba(255,255,255,.08);border:2px solid rgba(160,140,255,.4);border-radius:18px;padding:12px 20px;cursor:pointer" style-hover="transform:translateY(-3px);border-color:#7de8ff">{{ rb.icon }}</button>
+            </sc-for>
+          </div>
+          <div style="font-size:15px;color:#b8a8ff;font-weight:700">?嗅?綽?<span style="font-size:30px">{{ rpsPetShow }}</span></div>
+          <sc-if value="{{ hasRps }}" hint-placeholder-val="{{ false }}">
+            <div style="flex:1;min-width:220px;background:rgba(0,0,0,.25);border-radius:14px;padding:12px 16px;font-size:14.5px;font-weight:700;color:#ffd45e;animation:popIn .3s ease-out">{{ rpsResult }}</div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabRank }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="??璁? style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between">
+        <div style="font-size:24px;font-weight:900">?? ????璁?/div>
+        <div style="font-size:14px;color:#b8a8ff">靘?撟????繚 瘥予?賣??湔</div>
+      </div>
+      <div style="display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start">
+        <div style="flex:1.3;min-width:420px;background:rgba(255,255,255,.06);border:1px solid rgba(255,212,94,.3);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:16px;font-weight:900;margin-bottom:4px">潃?{{ klass }} ?阡??梢?璁?/div>
+          <sc-for list="{{ rankRows }}" as="rr" hint-placeholder-count="4">
+            <div style="{{ rr.row }}">
+              <span style="width:40px;font-size:20px;font-weight:900;text-align:center">{{ rr.medal }}</span>
+              <span style="flex:1;font-size:15.5px;font-weight:900">{{ rr.name }} {{ rr.me }}</span>
+              <span style="width:120px;height:8px;background:rgba(0,0,0,.35);border-radius:999px;overflow:hidden"><span style="display:block;width:{{ rr.pct }}%;height:100%;background:linear-gradient(90deg,#7de8ff,#8a6aff)"></span></span>
+              <span style="width:80px;text-align:right;font-weight:900;color:#ffd45e;white-space:nowrap">?? {{ rr.coins }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="flex:1;min-width:340px;background:rgba(255,255,255,.06);border:1px solid rgba(125,232,255,.3);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:16px;font-weight:900">? ?剔??頂?剝嚗?隡???嚗?/div>
+          <sc-for list="{{ classBars }}" as="cb" hint-placeholder-count="3">
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:900"><span>{{ cb.medal }} {{ cb.name }} {{ cb.cur }}</span><span style="color:#7de8ff">{{ cb.pct }}%</span></div>
+              <div style="height:14px;background:rgba(0,0,0,.35);border-radius:999px;overflow:hidden"><div style="width:{{ cb.pct }}%;height:100%;background:{{ cb.color }};border-radius:999px;transition:width .6s"></div></div>
+            </div>
+          </sc-for>
+          <div style="font-size:13px;color:#9a8ad8">?函銝韏瑕???隡遙??撠梯撟怎蝝銝?蝟餃窄摨改?</div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabDash }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="?銝剖?" style="display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+        <div style="font-size:24px;font-weight:900;display:flex;align-items:center;gap:10px;white-space:nowrap">?儭??阡??銝剖? <span style="font-size:13px;font-weight:700;background:rgba(255,212,94,.15);color:#ffd45e;border-radius:999px;padding:4px 12px;border:1px solid rgba(255,212,94,.4);white-space:nowrap">??勗</span></div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:14px;color:#b8a8ff;font-weight:700;white-space:nowrap">???阡?</span>
+          <select value="{{ klass }}" onChange="{{ pickClass }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.4);border-radius:12px;padding:9px 14px;color:#fff;font-size:15px;outline:none">
+            <sc-for list="{{ classOpts }}" as="c3" hint-placeholder-count="3"><option value="{{ c3 }}">{{ c3 }}</option></sc-for>
+          </select>
+          <button onClick="{{ exportCsv }}" style="background:linear-gradient(90deg,#7de8a0,#3aa860);border:none;border-radius:12px;padding:9px 18px;font-size:14px;font-weight:900;color:#0a2a14;cursor:pointer;white-space:nowrap;box-shadow:0 0 14px rgba(90,200,120,.3)" style-hover="transform:scale(1.04)">?? ?臬 Excel嚗岫蝞”</button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+        <div style="background:rgba(125,232,255,.08);border:1px solid rgba(125,232,255,.35);border-radius:20px;padding:20px">
+          <div style="font-size:14px;font-weight:900;color:#7de8ff;margin-bottom:4px">?? 隞閮?摰???/div>
+          <div style="font-size:34px;font-weight:900">{{ statRate }}%</div>
+        </div>
+        <div style="background:rgba(255,154,192,.08);border:1px solid rgba(255,154,192,.35);border-radius:20px;padding:20px">
+          <div style="font-size:14px;font-weight:900;color:#ff9ac0;margin-bottom:4px">?? ?閬葦?</div>
+          <div style="font-size:34px;font-weight:900">{{ statHelp }} 鈭?/div>
+        </div>
+        <div style="background:rgba(255,212,94,.08);border:1px solid rgba(255,212,94,.35);border-radius:20px;padding:20px">
+          <div style="font-size:14px;font-weight:900;color:#ffd45e;margin-bottom:4px">?? 撌脩?粹?撟?/div>
+          <div style="font-size:34px;font-weight:900">{{ statCoins }}</div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(160,140,255,.3);border-radius:22px;padding:24px">
+        <div style="font-size:17px;font-weight:900;margin-bottom:6px">?? ?祇望??乩遙??????/div>
+        <div style="font-size:13px;color:#9a8ad8;margin-bottom:12px">瘥憿舐內?嗅予摰???隡遙?嚗???蝮賣嚗?span style="color:#7de8a0">蝬??券摰?</span>??span style="color:#ffb347">暺??典?摰?</span>??span style="color:#ff9ac0">蝝??芸???/span>嚗?憭拇?雿??典飛???∪??啜?/div>
+        <div style="display:grid;grid-template-columns:130px repeat(5,1fr) 90px;gap:0;font-size:14px">
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">摮貊?</div>
+          <sc-for list="{{ weekDays }}" as="wd" hint-placeholder-count="5"><div style="{{ wd.style }}">{{ wd.label }}</div></sc-for>
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3);text-align:center">?勗???</div>
+          <sc-for list="{{ weekRows }}" as="wr" hint-placeholder-count="3">
+            <div style="display:contents">
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);font-weight:700"><span style="color:#9a8ad8">{{ wr.sid }}</span> {{ wr.name }}</div>
+              <sc-for list="{{ wr.cells }}" as="wc" hint-placeholder-count="5"><div style="{{ wc.style }}">{{ wc.text }}</div></sc-for>
+              <div style="{{ wr.rateStyle }}">{{ wr.rate }}%</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(160,140,255,.3);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:16px">
+        <div style="font-size:17px;font-weight:900">? ?剔?蝞∠?</div>
+        <div style="display:flex;gap:22px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label style="font-size:13px;color:#b8a8ff;font-weight:700">?啣??剔?</label>
+            <div style="display:flex;gap:8px">
+              <input value="{{ newKlass }}" onChange="{{ onNewKlass }}" placeholder="靘?嚗?撟渡?? style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:9px 12px;color:#fff;font-size:14px;outline:none;width:160px"></input>
+              <button onClick="{{ addKlass }}" style="background:linear-gradient(90deg,#7de8ff,#8a6aff);border:none;border-radius:10px;padding:9px 16px;font-size:14px;font-weight:900;color:#1a1440;cursor:pointer;white-space:nowrap" style-hover="transform:scale(1.04)">嚗??啣?</button>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label style="font-size:13px;color:#b8a8ff;font-weight:700">靽格?桀??剔??迂</label>
+            <div style="display:flex;gap:8px">
+              <input value="{{ klassRename }}" onChange="{{ onKlassRename }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:9px 12px;color:#fff;font-size:14px;outline:none;width:160px"></input>
+              <button onClick="{{ renameKlass }}" style="background:rgba(255,212,94,.15);border:1px solid rgba(255,212,94,.5);border-radius:10px;padding:9px 16px;font-size:14px;font-weight:900;color:#ffd45e;cursor:pointer;white-space:nowrap" style-hover="background:rgba(255,212,94,.25)">?? ?孵?</button>
+              <button onClick="{{ delKlass }}" style="background:rgba(216,74,122,.12);border:1px solid rgba(216,74,122,.5);border-radius:10px;padding:9px 16px;font-size:14px;font-weight:900;color:#ff9ac0;cursor:pointer;white-space:nowrap" style-hover="background:rgba(216,74,122,.25)">??儭??芷?剔?</button>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label style="font-size:13px;color:#b8a8ff;font-weight:700">?摮貊?嚗漣??摮貉?嚗???</label>
+            <div style="display:flex;gap:8px">
+              <input value="{{ stuSid }}" onChange="{{ onStuSid }}" placeholder="摨扯?" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:9px 12px;color:#fff;font-size:14px;outline:none;width:60px"></input>
+              <input value="{{ stuSno }}" onChange="{{ onStuSno }}" placeholder="摮貉?" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:9px 12px;color:#fff;font-size:14px;outline:none;width:80px"></input>
+              <input value="{{ stuName }}" onChange="{{ onStuName }}" placeholder="憪?" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:9px 12px;color:#fff;font-size:14px;outline:none;width:100px"></input>
+              <button onClick="{{ addStu }}" style="background:rgba(90,200,120,.15);border:1px solid rgba(90,200,120,.5);border-radius:10px;padding:9px 16px;font-size:14px;font-weight:900;color:#7de8a0;cursor:pointer;white-space:nowrap" style-hover="background:rgba(90,200,120,.25)">嚗??</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(160,140,255,.3);border-radius:22px;padding:24px">
+        <div style="font-size:17px;font-weight:900;margin-bottom:6px">??? {{ klass }} ?阡???瘜?/div>
+        <div style="font-size:13px;color:#9a8ad8;margin-bottom:12px">Boss ?唬誑 100 ??蝞?蝑? AI ?粹???蝷粹??葫嚗?憭?5 頛芥憚?詻摮貊??祆活皜祇??其?撟曇憚??/div>
+        <div style="display:grid;grid-template-columns:60px 84px 1fr 1fr 70px 90px 100px 1.2fr 118px;gap:0;font-size:14px">
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">摨扯?</div>
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">摮貉?</div>
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">憪?</div>
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">閮??脣漲</div>
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">頛芣</div>
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">??唳?蝮?/div>
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">蝑憿?</div>
+          <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">???/div>
+          <div style="padding:10px 8px;border-bottom:1px solid rgba(160,140,255,.3)"></div>
+          <sc-for list="{{ roster }}" as="r" hint-placeholder-count="3">
+            <div style="display:contents">
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);color:#9a8ad8;font-weight:700">{{ r.sid }}</div>
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);color:#9a8ad8;font-weight:700">{{ r.snoText }}</div>
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);font-weight:700">{{ r.name }}</div>
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:8px">
+                <div style="width:70px;height:9px;background:rgba(0,0,0,.4);border-radius:999px;overflow:hidden"><div style="width:{{ r.pct }}%;height:100%;background:linear-gradient(90deg,#7de8ff,#8a6aff);border-radius:999px"></div></div>
+                <span style="color:#b8a8ff;white-space:nowrap">{{ r.progress }}</span>
+              </div>
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);font-weight:900;color:#c8baff">{{ r.roundsText }}</div>
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08)"><span style="{{ r.scoreStyle }}">{{ r.scoreText }}</span></div>
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);color:#ffb347;font-weight:700">{{ r.wrongText }}</div>
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08)"><span style="{{ r.tagStyle }}">{{ r.status }}</span></div>
+              <div style="padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;gap:6px">
+                <button onClick="{{ r.showDetail }}" style="background:rgba(125,232,255,.1);border:1px solid rgba(125,232,255,.45);color:#7de8ff;border-radius:8px;padding:4px 10px;font-size:12px;cursor:pointer;white-space:nowrap" style-hover="background:rgba(125,232,255,.22)">?? 閰單?</button>
+                <button onClick="{{ r.del }}" style="background:none;border:1px solid rgba(216,74,122,.4);color:#ff9ac0;border-radius:8px;padding:4px 10px;font-size:12px;cursor:pointer" style-hover="background:rgba(216,74,122,.2)">??/button>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{ detailOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:16px;background:rgba(0,0,0,.3);border:1px solid rgba(125,232,255,.4);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:12px;animation:popIn .3s ease-out">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-size:16px;font-weight:900;color:#7de8ff">?? {{ detailName }} ????摮貊???/div>
+            <button onClick="{{ closeDetail }}" style="background:none;border:1px solid rgba(160,140,255,.4);color:#b8a8ff;border-radius:8px;padding:4px 12px;font-size:12.5px;cursor:pointer" style-hover="background:rgba(160,140,255,.15)">???嗉絲</button>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <span style="font-size:13px;color:#b8a8ff;font-weight:900">?憚?蜀嚗?/span>
+            <sc-for list="{{ detailHist }}" as="dh" hint-placeholder-count="2"><span style="{{ dh.style }}">{{ dh.text }}</span></sc-for>
+            <sc-if value="{{ detailNoHist }}" hint-placeholder-val="{{ false }}"><span style="font-size:13.5px;color:#8a80b8">撠?脰? Boss ?</span></sc-if>
+          </div>
+          <sc-if value="{{ hasDetailWrong }}" hint-placeholder-val="{{ false }}">
+          <div style="background:rgba(255,180,71,.08);border:1px solid rgba(255,180,71,.35);border-radius:14px;padding:12px 16px;display:flex;flex-direction:column;gap:5px">
+            <div style="font-size:13px;font-weight:900;color:#ffb347">?? ??蝑憿</div>
+            <sc-for list="{{ detailWrongQs }}" as="dw" hint-placeholder-count="1"><div style="font-size:14px;color:#e8e2ff;line-height:1.5">{{ dw }}</div></sc-for>
+          </div>
+          </sc-if>
+          <div style="background:rgba(125,232,255,.07);border:1px dashed rgba(125,232,255,.4);border-radius:14px;padding:12px 16px;font-size:14px;color:#9fe4f5;line-height:1.6">? {{ detailSuggest }}</div>
+          <div style="display:flex;gap:10px">
+            <button onClick="{{ markCoached }}" style="background:rgba(90,200,120,.15);border:1px solid rgba(90,200,120,.5);color:#7de8a0;border-radius:12px;padding:10px 18px;font-size:14px;font-weight:900;cursor:pointer;white-space:nowrap" style-hover="background:rgba(90,200,120,.28)">??撌脩?Ｚ?撠???/button>
+            <button onClick="{{ reassign }}" style="background:rgba(255,180,71,.12);border:1px solid rgba(255,180,71,.5);color:#ffb347;border-radius:12px;padding:10px 18px;font-size:14px;font-weight:900;cursor:pointer;white-space:nowrap" style-hover="background:rgba(255,180,71,.25)">?? ?晷?葫銝頛?/button>
+          </div>
+        </div>
+        </sc-if>
+        <sc-if value="{{ rosterEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:20px;text-align:center;color:#8a80b8;font-size:14px">?蝝?瘝?摮貊?嚗銝???亙飛?憓嚗?/div>
+        </sc-if>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabSetTasks }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="隞餃?閮剖?" style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:24px;font-weight:900">?? 閮?隞餃?閮剖?</div>
+        <button onClick="{{ addTask }}" style="background:linear-gradient(90deg,#7de8ff,#8a6aff);border:none;border-radius:12px;padding:11px 20px;font-size:15px;font-weight:900;color:#1a1440;cursor:pointer;white-space:nowrap" style-hover="transform:scale(1.04)">嚗??啣?隞餃?</button>
+      </div>
+      <div style="font-size:14px;color:#9a8ad8">摮貊?蝡舐???隡遙???單?憿舐內?ㄐ?身摰芰?內?航票銝遙雿?emoji??/div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <sc-for list="{{ taskEdits }}" as="te" hint-placeholder-count="3">
+          <div style="background:rgba(255,255,255,.06);border:1px solid rgba(125,232,255,.3);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:15px;font-weight:900;color:#7de8ff">{{ te.label }}</span>
+              <button onClick="{{ te.del }}" style="background:none;border:1px solid rgba(216,74,122,.4);color:#ff9ac0;border-radius:8px;padding:4px 12px;font-size:12.5px;cursor:pointer;white-space:nowrap" style-hover="background:rgba(216,74,122,.2)">??儭??芷</button>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 84px;gap:10px">
+              <div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">蝘</label>
+                <input value="{{ te.subject }}" onChange="{{ te.setSubject }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none"></input></div>
+              <div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">?芰??</label>
+                <input value="{{ te.monster }}" onChange="{{ te.setMonster }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none"></input></div>
+              <div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">?內</label>
+                <input value="{{ te.icon }}" onChange="{{ te.setIcon }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:18px;outline:none;text-align:center"></input></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">隞餃?璅?</label>
+              <input value="{{ te.title }}" onChange="{{ te.setTitle }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none"></input></div>
+            <div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">隞餃?隤芣?</label>
+              <input value="{{ te.desc }}" onChange="{{ te.setDesc }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none"></input></div>
+            <div style="display:flex;gap:10px">
+              <div style="display:flex;flex-direction:column;gap:4px;flex:1"><label style="font-size:12px;color:#ffd45e;font-weight:700">?? ?馳</label>
+                <input type="number" value="{{ te.coins }}" onChange="{{ te.setCoins }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(255,212,94,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none"></input></div>
+              <div style="display:flex;flex-direction:column;gap:4px;flex:1"><label style="font-size:12px;color:#c8baff;font-weight:700">??XP</label>
+                <input type="number" value="{{ te.xp }}" onChange="{{ te.setXp }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none"></input></div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabSetBoss }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Boss憿閮剖?" style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:24px;font-weight:900">? Boss ?憿閮剖?</div>
+        <button onClick="{{ addQ }}" style="background:linear-gradient(90deg,#ff9ac0,#d84a7a);border:none;border-radius:12px;padding:11px 20px;font-size:15px;font-weight:900;color:#fff;cursor:pointer;white-space:nowrap" style-hover="transform:scale(1.04)">嚗????啣?憿</button>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,154,192,.3);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+          <div style="font-size:15px;font-weight:900;color:#ff9ac0">? Boss 皜嚗??詨???蝺刻摩??Boss嚗??駁?撌梁?憿澈嚗?/div>
+          <button onClick="{{ addBoss }}" style="background:linear-gradient(90deg,#7de8ff,#8a6aff);border:none;border-radius:10px;padding:9px 16px;font-size:14px;font-weight:900;color:#1a1440;cursor:pointer;white-space:nowrap" style-hover="transform:scale(1.04)">嚗??啣? Boss</button>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <sc-for list="{{ bossChips }}" as="bc" hint-placeholder-count="3"><button onClick="{{ bc.sel }}" style="{{ bc.style }}" style-hover="transform:translateY(-2px)">{{ bc.icon }} {{ bc.name }}嚗{ bc.qCount }} 憿?</button></sc-for>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:160px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">Boss ?迂</label>
+            <input value="{{ ebName }}" onChange="{{ setEbName }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none"></input></div>
+          <div style="display:flex;flex-direction:column;gap:4px;width:110px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">蝘</label>
+            <input value="{{ ebSubject }}" onChange="{{ setEbSubject }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none;width:100%;box-sizing:border-box"></input></div>
+          <div style="display:flex;flex-direction:column;gap:4px;width:70px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">?內</label>
+            <input value="{{ ebIcon }}" onChange="{{ setEbIcon }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px;color:#fff;font-size:18px;outline:none;text-align:center;width:100%;box-sizing:border-box"></input></div>
+          <button onClick="{{ delBoss }}" style="background:rgba(216,74,122,.12);border:1px solid rgba(216,74,122,.5);border-radius:10px;padding:9px 16px;font-size:14px;font-weight:900;color:#ff9ac0;cursor:pointer;white-space:nowrap" style-hover="background:rgba(216,74,122,.25)">??儭??芷甇?Boss</button>
+        </div>
+      </div>
+      <div style="background:rgba(125,232,255,.06);border:1px solid rgba(125,232,255,.35);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:17px;font-weight:900;color:#7de8ff">? ?臬憿?啜{ ebIcon }} {{ ebName }}??Excel / Google 閰衣?銵?+ AI ?芸???嚗?/div>
+        <div style="font-size:13.5px;color:#9a8ad8;line-height:1.6">敺?Excel ??Google 閰衣?銵?b style="color:#b8a8ff">?臬??CSV 銝</b>嚗??湔<b style="color:#b8a8ff">銴ˊ?脣??澆摰寡票?其???/b>?I ??????豢?憿蒂?憿澈?遣霅唳?雿?憿?????????迤蝣箇?獢?/div>
+        <input type="file" accept=".csv,.tsv,.txt" onChange="{{ onImportFile }}" style="color:#b8a8ff;font-size:13.5px"></input>
+        <textarea value="{{ importText }}" onChange="{{ onImportText }}" rows="5" placeholder="靘?&#10;24繩4=?, 4, 6, 8, 12, 6&#10;12?3=?, 24, 36, 48, 15, 36&#10;嚗??湔敺岫蝞”銴ˊ鞎潔?嚗? style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:12px;padding:12px;color:#fff;font-size:14px;outline:none;resize:vertical;line-height:1.6"></textarea>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <button onClick="{{ analyzeImport }}" style="{{ analyzeBtnStyle }}" style-hover="transform:scale(1.03)">{{ analyzeBtnLabel }}</button>
+          <span style="font-size:13.5px;color:#7de8a0;font-weight:700">{{ importStatus }}</span>
+        </div>
+      </div>
+      <div style="font-size:14px;color:#9a8ad8">摮貊??蜀隞?100 ??蝞?蝑?憿 繩 蝮賡???? 100嚗??舐?憿? AI ?芸????蝪∪嚗??內??憿撮憿??憭?皜?5 頛芥?/div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <sc-for list="{{ quizEdits }}" as="qe" hint-placeholder-count="2">
+          <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,154,192,.3);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:15px;font-weight:900;color:#ff9ac0">{{ qe.label }}</span>
+              <button onClick="{{ qe.del }}" style="background:none;border:1px solid rgba(216,74,122,.4);color:#ff9ac0;border-radius:8px;padding:4px 12px;font-size:12.5px;cursor:pointer;white-space:nowrap" style-hover="background:rgba(216,74,122,.2)">??儭??芷</button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">憿</label>
+              <input value="{{ qe.question }}" onChange="{{ qe.setQuestion }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none"></input></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <sc-for list="{{ qe.opts }}" as="ao" hint-placeholder-count="4">
+                <div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">{{ ao.label }}</label>
+                  <input value="{{ ao.text }}" onChange="{{ ao.set }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none"></input></div>
+              </sc-for>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <label style="font-size:13px;color:#7de8a0;font-weight:900;white-space:nowrap">??甇?Ⅱ蝑?</label>
+              <select value="{{ qe.answer }}" onChange="{{ qe.setAnswer }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(90,200,120,.5);border-radius:10px;padding:8px 12px;color:#7de8a0;font-size:14px;font-weight:700;outline:none">
+                <sc-for list="{{ qe.opts }}" as="ao2" hint-placeholder-count="4"><option value="{{ ao2.text }}">{{ ao2.text }}</option></sc-for>
+              </select>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ tabSetStore }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="鋆策蝡身摰? style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:24px;font-weight:900">? 鋆策蝡??菔身摰?/div>
+        <button onClick="{{ addItem }}" style="background:linear-gradient(90deg,#ffd45e,#ffb100);border:none;border-radius:12px;padding:11px 20px;font-size:15px;font-weight:900;color:#4a3200;cursor:pointer;white-space:nowrap" style-hover="transform:scale(1.04)">嚗??啣??</button>
+      </div>
+      <div style="font-size:14px;color:#9a8ad8">摮貊???馳???????蝷箏鞎潔?隞颱? emoji??/div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <sc-for list="{{ itemEdits }}" as="ie" hint-placeholder-count="4">
+          <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,212,94,.3);border-radius:18px;padding:16px;display:flex;align-items:flex-end;gap:10px">
+            <div style="display:flex;flex-direction:column;gap:4px;width:70px"><label style="font-size:12px;color:#b8a8ff;font-weight:700">?內</label>
+              <input value="{{ ie.icon }}" onChange="{{ ie.setIcon }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px;color:#fff;font-size:20px;outline:none;text-align:center;width:100%;box-sizing:border-box"></input></div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex:1"><label style="font-size:12px;color:#b8a8ff;font-weight:700">??迂</label>
+              <input value="{{ ie.name }}" onChange="{{ ie.setName }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(160,140,255,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none;width:100%;box-sizing:border-box"></input></div>
+            <div style="display:flex;flex-direction:column;gap:4px;width:90px"><label style="font-size:12px;color:#ffd45e;font-weight:700">?? ?寞</label>
+              <input type="number" value="{{ ie.price }}" onChange="{{ ie.setPrice }}" style="background:rgba(0,0,0,.35);border:1px solid rgba(255,212,94,.35);border-radius:10px;padding:8px 10px;color:#fff;font-size:14px;outline:none;width:100%;box-sizing:border-box"></input></div>
+            <button onClick="{{ ie.del }}" style="background:none;border:1px solid rgba(216,74,122,.4);color:#ff9ac0;border-radius:10px;padding:8px 12px;font-size:13px;cursor:pointer;white-space:nowrap" style-hover="background:rgba(216,74,122,.2)">??儭?/button>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+  </div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;bossMaxHp&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:100,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:50,&quot;max&quot;:300,&quot;step&quot;:10,&quot;section&quot;:&quot;?撟唾﹛&quot;},&quot;xpPerLevel&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:500,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:100,&quot;max&quot;:1000,&quot;step&quot;:50,&quot;section&quot;:&quot;?撟唾﹛&quot;},&quot;perfectBonus&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:50,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:10,&quot;max&quot;:200,&quot;step&quot;:10,&quot;section&quot;:&quot;?撟唾﹛&quot;},&quot;maxRounds&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:5,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:2,&quot;max&quot;:10,&quot;step&quot;:1,&quot;section&quot;:&quot;?撟唾﹛&quot;}}">
+class Component extends DCLogic {
+  static TITLES = [
+    { icon:'?儭?, name:'閬?憌???, lv:1 },
+    { icon:'??', name:'???', lv:5 },
+    { icon:'??', name:'?瘝單??桀?', lv:10 },
+    { icon:'??', name:'?唾牧?阡', lv:15 }
+  ];
+  static AVATARS = ['????','???','??','?','?','??'];
+  static PET_STAGES = [
+    { lv:1, icon:'??', name:'???? },
+    { lv:2, icon:'?', name:'撟潛??嗅' },
+    { lv:5, icon:'??', name:'頞??嗅' },
+    { lv:8, icon:'?', name:'?唾牧?嗅' }
+  ];
+  static CHECKIN = [
+    { coins:10, xp:20 },{ coins:12, xp:25 },{ coins:15, xp:30 },{ coins:18, xp:35 },{ coins:20, xp:40 },{ coins:25, xp:50 },{ coins:40, xp:80 }
+  ];
+  state = {
+    screen:'login', role:'student', name:'????, sid:'12', klass:'銝僑?脩', tab:'lobby',
+    showTeacherLogin:false, showParent:false, loginSid:'', loginName:'', loginSno:'', sno:'', avatar:'????', remember:false,
+    tEmail:'', tPwd:'', gPickerOpen:false, teacherName:'', teacherEmail:'',
+    coins:85, xp:320, level:7, streak:5, petLv:3, friend:70, feeds:0,
+    mood:72, snacks:1, petFx:'', rpsPet:'', rpsResult:'', rpsWins:0, sound:true,
+    checkinOpen:false, noticeOpen:false, parentSid:'', parentKlass:'銝僑?脩', detailIdx:-1, uploadTask:null, uploadPhoto:'',
+    tasks:[
+      { id:1, subject:'??', monster:'蝣??詨??', icon:'?', title:'憭扯??蝚砌?隤脰玨??, desc:'隢振?瑞偷???銝嚗停?賣???嚗?, coins:15, xp:30, done:false },
+      { id:2, subject:'?詨飛', monster:'蝞??脰', icon:'?玨', title:'摰??詨飛蝧? P.12', desc:'??摰????ｇ??脰撠望???嚗?, coins:20, xp:40, done:false },
+      { id:3, subject:'?暑', monster:'?啣△蝯冽???, icon:'?儭?, title:'撟怠???隞嗅振鈭?, desc:'瘣??銵?????圈?臭誑嚗?, coins:10, xp:20, done:false }
+    ],
+    bosses:[
+      { id:'b1', name:'?詨飛???, subject:'?詨飛', icon:'?', questions:[
+        { id:'q1', question:'撠???24 憿???撟喳?蝯?4 ?末??嚗??犖?臭誑敺撟暸?嚗?, options:['4 憿?,'6 憿?,'8 憿?,'12 憿?], answer:'6 憿? },
+        { id:'q2', question:'銝??蝑? 12 ?荔??葦鞎瑚? 3 ??銝?梯眺鈭嗾?舫?蝑?', options:['24 ??,'36 ??,'48 ??,'15 ??], answer:'36 ?? } ] },
+      { id:'b2', name:'??撟賡???, subject:'??', icon:'?', questions:[
+        { id:'q3', question:'??擃除?賬敶Ｗ捆?芸迤蝭??隤?', options:['?亙予','憭予','蝘予','?砍予'], answer:'蝘予' },
+        { id:'q4', question:'銝??芯???閰瘜迤蝣綽?', options:['銝?餅','銝?祉?','銝?菔','銝璇?'], answer:'銝?菔' } ] },
+      { id:'b3', name:'?梯??琿樴?, subject:'?梯?', icon:'??', questions:[
+        { id:'q5', question:'apple ?葉???嚗?, options:['??','擐?','璈?','?∟?'], answer:'??' },
+        { id:'q6', question:'?ood morning!?隞暻潭???', options:['??','?拙?','??','雓?'], answer:'?拙?' } ] }
+    ],
+    defeated:{}, activeBoss:null, editBoss:'b1',
+    items:[
+      { id:'item1', name:'?神??銝甈∪', price:100, icon:'?' },
+      { id:'item2', name:'璁株亳撠??瑚?憭?, price:50, icon:'??' },
+      { id:'item3', name:'?芷摨找?銝??, price:200, icon:'??' },
+      { id:'item4', name:'憭乩撈?賡?暺?', price:80, icon:'??' }
+    ],
+    classes:{
+      '銝僑?脩':[
+        {sid:'01',sno:'30101',name:'????,done:2,score:100,coins:120,bossId:'b1',rounds:1,status:'? 銝頛芷?',wrongNums:[],week:[3,3,2,3,0]},
+        {sid:'02',sno:'30102',name:'?喳???,done:1,score:50,coins:45,bossId:'b1',rounds:3,status:'??鋆?銝?,wrongNums:[1],hist:[30,40,50],week:[2,1,1,1,0]},
+        {sid:'03',sno:'30103',name:'??蝢?,done:3,score:100,coins:300,bossId:'b2',rounds:1,status:'? 銝頛芷?',wrongNums:[],week:[3,3,3,3,0]},
+        {sid:'04',sno:'30104',name:'撘萄之??,done:2,score:100,coins:95,bossId:'b1',rounds:2,status:'? 鋆???',wrongNums:[2],hist:[50,100],week:[3,2,3,2,0]} ],
+      '銝僑銋':[
+        {sid:'01',sno:'30201',name:'??樴?,done:3,score:100,coins:210,bossId:'b2',rounds:1,status:'? 銝頛芷?',wrongNums:[],week:[3,3,3,3,0]},
+        {sid:'02',sno:'30202',name:'?喳???,done:2,score:40,coins:60,bossId:'b1',rounds:5,status:'?? ??葦?',wrongNums:[1,2],hist:[20,20,30,35,40],week:[1,0,2,2,0]},
+        {sid:'03',sno:'30203',name:'?典???,done:1,score:0,coins:80,rounds:0,status:'???芣葫撽?,wrongNums:[],week:[2,1,0,1,0]} ],
+      '銝僑銝':[
+        {sid:'01',sno:'30301',name:'暺???,done:3,score:100,coins:260,bossId:'b3',rounds:1,status:'? 銝頛芷?',wrongNums:[],week:[3,3,3,3,0]},
+        {sid:'02',sno:'30302',name:'?∪???,done:3,score:100,coins:180,bossId:'b2',rounds:3,status:'? 鋆???',wrongNums:[2],hist:[66,83,100],week:[3,3,2,3,0]},
+        {sid:'03',sno:'30303',name:'閮勗?蝬?,done:0,score:55,coins:20,bossId:'b1',rounds:5,status:'?? ??葦?',wrongNums:[1,2],hist:[25,40,45,50,55],week:[0,1,0,0,0]},
+        {sid:'04',sno:'30304',name:'?剖?瞏?,done:2,score:0,coins:140,rounds:0,status:'???芣葫撽?,wrongNums:[],week:[2,3,1,2,0]} ]
+    },
+    newKlass:'', klassRename:'銝僑?脩', stuSid:'', stuName:'', stuSno:'',
+    importText:'', importStatus:'', importing:false,
+    inv:[], toast:'', lvlUp:false,
+    qPhase:'idle', round:1, roundQs:[], roundScores:[], qIndex:0, bossHp:100, wrong:[], fb:null, r1Wrong:[]
+  };
+  exportCsv(){
+    const s = this.state, nTasks = s.tasks.length;
+    const esc = v => { const t = String(v ?? ''); return /[",\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; };
+    const todayIdx = Math.min(4, Math.max(0, (new Date().getDay() + 6) % 7));
+    const dayCols = ['?曹?','?曹?','?曹?','?勗?','?曹?'].map(d => `${d}摰??節);
+    const rows = [['?剔?','摨扯?','摮貉?','憪?','閮??脣漲', ...dayCols, '?勗???','?瑁?頛芣','??唳?蝮?,'蝑憿?','???]];
+    (s.classes[s.klass] || []).forEach(r => {
+      const wk = r.week || [0,0,0,0,0];
+      const dayVal = i => i === todayIdx ? r.done : wk[i];
+      const dayCells = [0,1,2,3,4].map(i => i > todayIdx ? '?? : `${dayVal(i)}/${nTasks}`);
+      const tot = [0,1,2,3,4].slice(0, todayIdx + 1).reduce((a, i) => a + dayVal(i), 0);
+      const rate = nTasks ? Math.round(tot / ((todayIdx + 1) * nTasks) * 100) + '%' : '0%';
+      rows.push([
+      s.klass, r.sid, r.sno || '??, r.name, `${r.done}/${nTasks}`, ...dayCells, rate,
+      r.rounds ? r.rounds : '?芣葫撽?,
+      r.rounds ? r.score : '?芣葫撽?,
+      (r.wrongNums && r.wrongNums.length) ? r.wrongNums.map(n => '蝚? + n + '憿?).join('??) : (r.rounds ? '?典?' : '??),
+      r.status
+    ]);});
+    const csv = '\ufeff' + rows.map(row => row.map(esc).join(',')).join('\r\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type:'text/csv;charset=utf-8' }));
+    a.download = `${s.klass}_??瘜${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    this.showToast(`撌脣?箝?{s.klass}???∠?瘜??舐?亦 Excel嚗oogle 閰衣?銵券?????`);
+  }
+  get xpPer(){ return this.props.xpPerLevel ?? 500; }
+  get bossMax(){ return this.props.bossMaxHp ?? 100; }
+  get bonus(){ return this.props.perfectBonus ?? 50; }
+  get maxRounds(){ return this.props.maxRounds ?? 5; }
+  showToast(msg){
+    clearTimeout(this._tt);
+    this.setState({ toast: msg });
+    this._tt = setTimeout(() => this.setState({ toast:'' }), 3200);
+  }
+  componentDidMount(){
+    try{
+      const saved = JSON.parse(localStorage.getItem('starAcademy_login') || 'null');
+      if (saved && saved.remember) this.setState(s => ({ loginSid: saved.sid || '', loginName: saved.name || '', loginSno: saved.sno || '', klass: saved.klass && s.classes[saved.klass] ? saved.klass : s.klass, avatar: saved.avatar || s.avatar, remember: true }));
+    }catch(e){}
+  }
+  beep(freq, dur, type){
+    if (!this.state.sound) return;
+    try{
+      const C = this._ac || (this._ac = new (window.AudioContext || window.webkitAudioContext)());
+      const o = C.createOscillator(), g = C.createGain();
+      o.type = type || 'square'; o.frequency.value = freq;
+      g.gain.setValueAtTime(.07, C.currentTime);
+      g.gain.exponentialRampToValueAtTime(.001, C.currentTime + dur);
+      o.connect(g); g.connect(C.destination);
+      o.start(); o.stop(C.currentTime + dur);
+    }catch(e){}
+  }
+  sfx(kind){
+    if (kind === 'hit'){ this.beep(660,.12); setTimeout(() => this.beep(880,.12), 90); setTimeout(() => this.beep(1320,.18), 180); }
+    else if (kind === 'miss'){ this.beep(196,.28,'sawtooth'); }
+    else if (kind === 'win'){ [523,659,784,1047].forEach((f,i) => setTimeout(() => this.beep(f,.22,'triangle'), i*140)); }
+    else if (kind === 'coin'){ this.beep(988,.09,'triangle'); setTimeout(() => this.beep(1319,.15,'triangle'), 80); }
+  }
+  petFxShow(fx){
+    this.setState({ petFx: fx });
+    clearTimeout(this._fx);
+    this._fx = setTimeout(() => this.setState({ petFx:'' }), 1400);
+  }
+  feedPet(){
+    const s = this.state, PS = Component.PET_STAGES;
+    if (s.snacks <= 0 && s.coins < 10){ this.showToast('暺???撟?銝?嚗??餉?隡芰鞎粹?撟? ??'); return; }
+    const useSnack = s.snacks > 0, feeds = s.feeds + 1, lvUp = feeds % 3 === 0, newLv = lvUp ? s.petLv + 1 : s.petLv;
+    const stage = lv => Math.max(0, PS.map(p => p.lv <= lv).lastIndexOf(true));
+    this.setState({ snacks: useSnack ? s.snacks - 1 : s.snacks, coins: useSnack ? s.coins : s.coins - 10, friend: Math.min(100, s.friend + 20), mood: Math.min(100, s.mood + 10), feeds, petLv: newLv });
+    this.petFxShow('??');
+    this.sfx('coin');
+    if (lvUp) this.showToast(stage(newLv) > stage(s.petLv) ? `?? ?嗅?脣???{PS[stage(newLv)].name}??嚗 : `?嗅? Lv.${newLv} 鈭??︶);
+  }
+  patPet(){
+    this.setState(s => ({ mood: Math.min(100, s.mood + 5) }));
+    this.petFxShow('?歹?');
+    this.beep(880,.1,'sine');
+  }
+  rps(mine){
+    const opts = ['??,'??','??儭?], pet = opts[Math.floor(Math.random()*3)];
+    const beats = { '??:'??', '??':'??儭?, '??儭?:'?? };
+    const win = beats[mine] === pet, tie = mine === pet;
+    const msg = tie ? '撟單?嚗?嗆酊??? ?? ??銝甈∴?' : win ? '雿?鈭??嗅雿拇??唳??? ?? ?脣? 5 ??' : '?嗅韐?嚗????啗??? ?? 敹? +5';
+    this.setState(s => ({ rpsPet: pet, rpsResult: msg, rpsWins: s.rpsWins + (win ? 1 : 0), mood: Math.min(100, s.mood + (win ? 10 : 5)), coins: s.coins + (win ? 5 : 0) }));
+    if (win) this.sfx('coin'); else this.beep(392,.14,'triangle');
+  }
+  claimCheckin(){
+    const day = this.state.streak % 7, r = Component.CHECKIN[day];
+    try{ localStorage.setItem('starAcademy_checkin', new Date().toDateString()); }catch(e){}
+    this.setState(s => ({ checkinOpen:false, noticeOpen:true, streak: s.streak + 1 }));
+    this.sfx('coin');
+    this.reward(r.coins, r.xp, `蝚?${day + 1} 憭拙?唳???+${r.coins} ?? +${r.xp} XP ??`);
+  }
+  gainXp(n){
+    this.setState(s => {
+      let xp = s.xp + n, lv = s.level, up = false;
+      while (xp >= this.xpPer) { xp -= this.xpPer; lv++; up = true; }
+      if (up) { clearTimeout(this._lt); this._lt = setTimeout(() => this.setState({ lvlUp:false }), 3000); }
+      return { xp, level: lv, lvlUp: up || s.lvlUp };
+    });
+  }
+  reward(coins, xp, msg){
+    this.setState(s => ({ coins: s.coins + coins }));
+    this.gainXp(xp);
+    if (msg) this.showToast(msg);
+  }
+  attack(id, photo){
+    const t = this.state.tasks.find(t => t.id === id);
+    if (!t || t.done) return;
+    this.setState(s => ({
+      tasks: s.tasks.map(x => x.id === id ? { ...x, done:true, photo: photo || '' } : x),
+      friend: Math.min(100, s.friend + 10), mood: Math.min(100, s.mood + 5)
+    }));
+    this.reward(t.coins, t.xp, `??{t.monster}???脣? ${t.coins} ?馳嚗?{t.xp} XP ??`);
+  }
+  updateRecord(status, score, rounds, wrongNums){
+    this.setState(s => {
+      const list = s.classes[s.klass] || [];
+      const i = list.findIndex(r => r.sid === s.sid);
+      const wn = wrongNums !== undefined ? wrongNums : (i >= 0 ? list[i].wrongNums : []);
+      const prevHist = (i >= 0 && list[i].hist) || [];
+      const hist = rounds === 1 ? [score] : [...prevHist, score];
+      const rec = i >= 0 ? { ...list[i], name: s.name, sno: s.sno || list[i].sno, bossId: s.activeBoss, score, rounds, status, wrongNums: wn, hist }
+        : { sid: s.sid, name: s.name, sno: s.sno, bossId: s.activeBoss, done: s.tasks.filter(t => t.done).length, coins: s.coins, score, rounds, status, wrongNums: wn, hist };
+      const next = i >= 0 ? list.map((r, j) => j === i ? rec : r) : [...list, rec];
+      return { classes: { ...s.classes, [s.klass]: next } };
+    });
+  }
+  get dmg(){ return Math.max(1, Math.round(this.bossMax / Math.max(1, this.state.roundQs.length))); }
+  startBoss(bossId){
+    const b = this.state.bosses.find(x => x.id === bossId);
+    if (!b || !b.questions.length) { this.showToast('? Boss ?????殷?隢葦?????'); return; }
+    this.setState({ activeBoss: bossId, qPhase:'battle', round:1, roundQs: b.questions.map(q => ({ ...q })), roundScores:[], qIndex:0, bossHp:this.bossMax, wrong:[], fb:null, r1Wrong:[] });
+  }
+  pick(opt){
+    if (this.state.fb) return;
+    const q = this.state.roundQs[this.state.qIndex];
+    const ok = opt === q.answer, dmg = this.dmg;
+    this.sfx(ok ? 'hit' : 'miss');
+    this.setState(s => ({
+      fb: { ok, pick: opt, msg: ok ? `???瑕??湔?賭葉嚗oss -${dmg} HP` : '?儭?鋡?Boss ??鈭?蝑? AI ?蝪∪銝暺?憿' },
+      bossHp: ok ? Math.max(0, s.bossHp - dmg) : s.bossHp,
+      wrong: ok ? s.wrong : [...s.wrong, q]
+    }));
+    setTimeout(() => {
+      const s = this.state, next = s.qIndex + 1;
+      if (next < s.roundQs.length) { this.setState({ fb:null, qIndex:next }); return; }
+      const total = s.roundQs.length, score = Math.round((total - s.wrong.length) / total * 100);
+      const roundScores = [...s.roundScores, { round: s.round, score }];
+      const bq = (s.bosses.find(b => b.id === s.activeBoss) || { questions:[] }).questions;
+      const wrongNums = s.round === 1
+        ? s.wrong.map(w => bq.findIndex(q => q.id === w.id) + 1).filter(n => n > 0)
+        : s.r1Wrong;
+      if (s.round === 1) this.setState({ r1Wrong: wrongNums });
+      if (s.wrong.length === 0) {
+        this.setState(x => ({ fb:null, qPhase:'victory', roundScores, defeated: { ...x.defeated, [x.activeBoss]: { round: s.round, score: 100 } } }));
+        this.sfx('win');
+        const first = s.round === 1;
+        this.updateRecord(first ? '? 銝頛芷?' : '? 鋆???', 100, s.round, wrongNums);
+        this.reward(first ? this.bonus : 20, first ? 100 : 40, first ? `銝??畾綽??脣? ${this.bonus} ?馳嚗?00 XP ??` : '鋆???嚗敺?20 ?馳嚗?0 XP ?');
+      } else if (s.round >= this.maxRounds) {
+        this.setState({ fb:null, qPhase:'fail5', roundScores });
+        this.updateRecord('?? ??葦?', score, s.round, wrongNums);
+        this.gainXp(30);
+      } else {
+        this.setState({ fb:null, qPhase:'roundResult', roundScores });
+        this.updateRecord('??鋆?銝?, score, s.round, wrongNums);
+      }
+    }, 1600);
+  }
+  parseJsonArr(text){
+    const a = text.indexOf('['), b = text.lastIndexOf(']');
+    if (a < 0 || b < a) throw new Error('no json');
+    return JSON.parse(text.slice(a, b + 1));
+  }
+  async nextRound(){
+    const wrongQs = this.state.wrong, nextN = this.state.round + 1;
+    this.setState({ qPhase:'generating' });
+    let newQs;
+    try {
+      const prompt = `雿皞急???撠葦?飛???臭????豢?憿?\n${JSON.stringify(wrongQs.map(q => ({ question: q.question, options: q.options, answer: q.answer })))}\n?歇?舐洵 ${nextN} 頛芾???頛芣頞?閬?蝪∪嚗??箸?銝憿銝憿?隡潔??＊?渡陛?柴??豢?憿??詨??游??郊撽撠?銝阡?銝?亦策??摮貊??擃圾憿?蝷綽??內閬??寞?嚗??賜?亥牧蝑?嚗?其蝙?函?擃葉?頛詨 JSON ???嚗?閬隞?摮??澆?嚗{"question":"...","options":["..","..","..",".."],"answer":"敹?摰蝑 options ?嗡葉銝??,"hint":"..."}]`;
+      const text = await window.claude.complete({ messages:[{ role:'user', content: prompt }], max_tokens: 3000 });
+      const arr = this.parseJsonArr(text);
+      newQs = arr.filter(q => q && q.question && Array.isArray(q.options) && q.options.length >= 2 && q.options.includes(q.answer))
+        .map((q, i) => ({ id:'r' + nextN + '_' + i, question: q.question, options: q.options, answer: q.answer, hint: q.hint || '?內嚗???撘神銝?嚗?甇乩?甇亦?嚗? }));
+      if (!newQs.length) throw new Error('empty');
+    } catch (e) {
+      newQs = wrongQs.map((q, i) => ({ id:'f' + nextN + '_' + i, question: q.question, options: q.options, answer: q.answer, hint:'?內嚗?蝝啗?憿嚗?撖思?蝞?嚗?撠?賊?蝞?甈∴?' }));
+      this.showToast('AI ?急?敹?嚗??典?憿??內蝺渡?');
+    }
+    this.setState({ round: nextN, roundQs: newQs, qIndex:0, bossHp: this.bossMax, wrong:[], fb:null, qPhase:'battle' });
+    this.showToast(`蝚?${nextN} 頛芷?憪?憿霈陛?桐?嚗?瘝??`);
+  }
+  parseCsv(txt){
+    const out = [];
+    txt.split(/\r?\n/).map(l => l.trim()).filter(Boolean).forEach(line => {
+      const cells = (line.includes('\t') ? line.split('\t') : line.split(/[,嚗/)).map(c => c.trim()).filter(c => c !== '');
+      if (cells.length < 6 || /憿/.test(cells[0])) return;
+      const [question, a, b, c, d, ans] = cells;
+      const options = [a, b, c, d];
+      let answer = ans;
+      const letter = { A:0, B:1, C:2, D:3 }[ans.toUpperCase()];
+      if (letter !== undefined) answer = options[letter];
+      if (options.includes(answer)) out.push({ id:'csv' + Date.now() + Math.random(), question, options, answer });
+    });
+    return out;
+  }
+  async analyzeImport(){
+    if (this.state.importing) return;
+    const txt = (this.state.importText || '').trim();
+    if (!txt) { this.setState({ importStatus:'?? 隢?銝瑼??票銝摰? }); return; }
+    this.setState({ importing:true, importStatus:'?? AI ??銝凌? });
+    let qs = [];
+    try {
+      const prompt = `隞乩??航葦敺?Excel ??Google 閰衣?銵刻票銝??粹??批捆嚗撘??箏?嚗?\n"""\n${txt.slice(0, 6000)}\n"""\n隢?摰?????豢?憿?摨怒?憿??? 4 ???其蝙?函?擃葉?頛詨 JSON ???嚗?閬隞?摮??澆?嚗{"question":"...","options":["..","..","..",".."],"answer":"敹?摰蝑 options ?嗡葉銝??}]`;
+      const text = await window.claude.complete({ messages:[{ role:'user', content: prompt }], max_tokens: 4000 });
+      qs = this.parseJsonArr(text).filter(q => q && q.question && Array.isArray(q.options) && q.options.length >= 2 && q.options.includes(q.answer))
+        .map((q, i) => ({ id:'ai' + Date.now() + '_' + i, question: q.question, options: q.options, answer: q.answer }));
+    } catch (e) { qs = []; }
+    if (!qs.length) qs = this.parseCsv(txt);
+    if (qs.length) {
+      this.setState(s => ({ bosses: s.bosses.map(b => b.id === s.editBoss ? { ...b, questions:[...b.questions, ...qs] } : b), importText:'', importStatus:`??撌脣??蒂?啣? ${qs.length} 憿, importing:false }));
+    } else {
+      this.setState({ importStatus:'???⊥?閫??嚗?蝣箄?瘥??綽?憿, ?賊?A, ?賊?B, ?賊?C, ?賊?D, 蝑?', importing:false });
+    }
+  }
+  resetBoss(){ this.setState({ qPhase:'idle', activeBoss:null, round:1, roundQs:[], roundScores:[], qIndex:0, bossHp:this.bossMax, wrong:[], fb:null }); }
+  updList(key, i, k, v){ this.setState(s => ({ [key]: s[key].map((x, j) => j === i ? { ...x, [k]: v } : x) })); }
+  updBoss(k, v){ this.setState(s => ({ bosses: s.bosses.map(b => b.id === s.editBoss ? { ...b, [k]: v } : b) })); }
+  updBossQ(qi, k, v){ this.setState(s => ({ bosses: s.bosses.map(b => b.id === s.editBoss ? { ...b, questions: b.questions.map((q, j) => j === qi ? { ...q, [k]: v } : q) } : b) })); }
+  updBossQOpt(qi, oj, v){ this.setState(s => ({ bosses: s.bosses.map(b => b.id === s.editBoss ? { ...b, questions: b.questions.map((q, x) => x === qi ? { ...q, options: q.options.map((o, y) => y === oj ? v : o), answer: q.answer === q.options[oj] ? v : q.answer } : q) } : b) })); }
+  renderVals(){
+    const s = this.state, T = Component.TITLES;
+    const tIdx = Math.max(0, T.map(t => t.lv <= s.level).lastIndexOf(true));
+    const chip = { done:'white-space:nowrap;background:#ffd45e;color:#5a3a00;border-radius:999px;padding:6px 14px',
+      cur:'white-space:nowrap;background:#fff;color:#4a2ab8;border-radius:999px;padding:6px 14px;animation:pulseRing 1.6s infinite',
+      lock:'white-space:nowrap;background:rgba(255,255,255,.18);border-radius:999px;padding:6px 14px;color:#fff' };
+    const titleChips = [];
+    T.forEach((t, i) => {
+      titleChips.push({ text: `${t.icon} ${t.name}${i < tIdx ? ' ?? : i === tIdx ? '嚗?剁?' : ''}`, style: i < tIdx ? chip.done : i === tIdx ? chip.cur : chip.lock });
+      if (i < T.length - 1) titleChips.push({ text:'??, style:'opacity:.7;color:#fff' });
+    });
+    const nTasks = s.tasks.length, doneCount = s.tasks.filter(t => t.done).length;
+    const dotC = 'width:52px;height:52px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:22px;';
+    const stages = [
+      { name:'??蝡?, st:'clear' }, { name:'敶?撣?, st:'clear' }, { name:'蝝銵?', st:'cur' },
+      { name:'?啣?銵?', st:'lock' }, { name:'?啣耦??, st:'lock' }, { name:'?頂Boss', st:'boss' }
+    ].map((x, i, a) => ({
+      name: x.st === 'cur' ? x.name + '繚?曉' : x.name,
+      icon: x.st === 'clear' ? '潃? : x.st === 'cur' ? '??' : x.st === 'boss' ? '?' : '??',
+      dot: x.st === 'clear' ? dotC + 'background:#8a6aff;border:2px solid #c8baff;box-shadow:0 0 12px rgba(140,106,255,.8)'
+        : x.st === 'cur' ? 'width:60px;height:60px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:26px;background:#ffb100;border:2px solid #ffe0a0;animation:pulseRing 1.6s infinite'
+        : x.st === 'boss' ? 'width:56px;height:56px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:24px;background:#d84a7a;border:2px solid #ffb8d0;box-shadow:0 0 14px rgba(216,74,122,.8)'
+        : dotC + 'background:rgba(255,255,255,.12);color:#8a80b8;border:2px solid rgba(255,255,255,.25)',
+      lbl: x.st === 'cur' ? 'font-size:12px;font-weight:900;color:#ffd45e;white-space:nowrap' : x.st === 'boss' ? 'font-size:12px;font-weight:700;color:#ff9ac0;white-space:nowrap' : x.st === 'clear' ? 'font-size:12px;font-weight:700;color:#c8baff;white-space:nowrap' : 'font-size:12px;color:#8a80b8;white-space:nowrap',
+      line: i < a.length - 1, flex: i < a.length - 1 ? '1' : 'none'
+    }));
+    const tabOn = 'white-space:nowrap;cursor:pointer;border:none;background:linear-gradient(90deg,#7de8ff,#8a6aff);color:#1a1440;font-weight:900;font-size:15.5px;border-radius:999px;padding:11px 22px;box-shadow:0 0 16px rgba(125,232,255,.4)';
+    const tabOff = 'white-space:nowrap;cursor:pointer;background:rgba(255,255,255,.08);border:1px solid rgba(160,140,255,.35);color:#c8baff;font-weight:900;font-size:15.5px;border-radius:999px;padding:11px 22px';
+    const tabBtns = [ ['lobby','?? ?憭批輒'], ['tasks','?? 閮?隞餃?'], ['boss','? Boss ?'], ['pet','? ??憭乩撈'], ['rank','?? ??璁?], ['store','? 鋆策蝡?] ].map(([k, label]) => ({
+      label: k === 'tasks' && doneCount < nTasks ? `${label}嚗?{nTasks - doneCount}嚗 : label,
+      go: () => this.setState({ tab:k }), style: s.tab === k ? tabOn : tabOff
+    }));
+    const teacherTabs = [ ['dashboard','?儭??銝剖?'], ['setTasks','?? 隞餃?閮剖?'], ['setBoss','? Boss 憿'], ['setStore','? 鋆策蝡身摰?] ].map(([k, label]) => ({
+      label, go: () => this.setState({ tab:k }), style: s.tab === k ? tabOn : tabOff
+    }));
+    const taskCards = s.tasks.map(t => ({ ...t, notDone: !t.done, hasPhoto: !!t.photo,
+      photoStyle: t.photo ? `width:100%;height:110px;border-radius:12px;border:1px solid rgba(90,200,120,.4);background:rgba(0,0,0,.35) url(${JSON.stringify(t.photo)}) center/cover no-repeat` : '',
+      openUpload: () => this.setState({ uploadTask: t.id, uploadPhoto:'' }),
+      card: t.done ? 'background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.15);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:10px;opacity:.75'
+        : 'background:rgba(255,255,255,.07);border:1px solid rgba(125,232,255,.4);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:10px',
+      iconStyle: t.done ? 'font-size:58px;line-height:1;filter:grayscale(1);opacity:.5' : 'font-size:58px;line-height:1;display:inline-block;animation:bob 2.4s ease-in-out infinite;filter:drop-shadow(0 0 14px rgba(255,154,192,.5))',
+      attack: () => this.attack(t.id)
+    }));
+    const storeCards = s.items.map(it => {
+      const can = s.coins >= it.price;
+      return { ...it, buy: () => {
+          if (this.state.coins >= it.price) { this.setState(x => ({ coins: x.coins - it.price, inv:[...x.inv, it], snacks: it.id === 'item4' ? x.snacks + 1 : x.snacks })); this.showToast(it.id === 'item4' ? '暺?撌脫?脰????颯??丰隡氬?擗萄?嗅嚗?? : `??????{it.name}????`); }
+          else this.showToast('?馳銝????閮?撟暸?芰?改?');
+        },
+        btnStyle: can ? 'cursor:pointer;border:none;background:linear-gradient(90deg,#ffd45e,#ffb100);color:#4a3200;font-weight:900;font-size:14.5px;border-radius:12px;padding:10px;white-space:nowrap'
+          : 'cursor:pointer;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#8a80b8;font-weight:900;font-size:14.5px;border-radius:12px;padding:10px;white-space:nowrap',
+        btnLabel: can ? '??' : '?馳銝雲' };
+    });
+    const curQ = s.qPhase === 'battle' ? s.roundQs[s.qIndex] : null;
+    const eb = s.bosses.find(b => b.id === s.editBoss) || s.bosses[0] || { id:'', name:'', subject:'', icon:'?', questions:[] };
+    const aBoss = s.bosses.find(b => b.id === s.activeBoss);
+    const killCount = s.bosses.filter(b => s.defeated[b.id]).length;
+    const qsOfRec = rec => { const b = s.bosses.find(x => x.id === rec.bossId) || s.bosses[0] || { questions:[] }; return b.questions; };
+    const baseOpt = 'cursor:pointer;text-align:left;font-size:16.5px;font-weight:700;border-radius:16px;padding:15px 18px;color:#fff;transition:all .15s;';
+    const opts = curQ ? curQ.options.map(o => {
+      let st = baseOpt + 'background:rgba(255,255,255,.08);border:2px solid rgba(160,140,255,.4)';
+      if (s.fb) {
+        if (o === curQ.answer) st = baseOpt + 'background:rgba(90,200,120,.25);border:2px solid #5ac878';
+        else if (o === s.fb.pick) st = baseOpt + 'background:rgba(216,74,122,.25);border:2px solid #d84a7a';
+        else st = baseOpt + 'background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.15);opacity:.6';
+      }
+      return { text:o, style:st, pick: () => this.pick(o) };
+    }) : [];
+    const roundChips = s.roundScores.map(r => ({
+      text: `蝚?${r.round} 頛?${r.score} ?,
+      style: r.score >= 100 ? 'white-space:nowrap;background:rgba(90,200,120,.15);border:1px solid rgba(90,200,120,.5);color:#7de8a0;border-radius:999px;padding:6px 14px;font-size:13.5px;font-weight:900'
+        : 'white-space:nowrap;background:rgba(255,180,71,.12);border:1px solid rgba(255,180,71,.5);color:#ffb347;border-radius:999px;padding:6px 14px;font-size:13.5px;font-weight:900'
+    }));
+    const classOpts = Object.keys(s.classes);
+    const roster = (s.classes[s.klass] || []).map((r, i) => ({ ...r,
+      snoText: r.sno || '??,
+      progress: `${r.done} / ${nTasks}`, pct: Math.round(r.done / Math.max(1, nTasks) * 100),
+      roundsText: r.rounds ? `${r.rounds} 頛注 : '??,
+      scoreText: r.rounds ? `${r.score} ? : '??,
+      wrongText: (r.wrongNums && r.wrongNums.length) ? r.wrongNums.map(n => '#' + n).join('??) : (r.rounds ? '?典? ?? : '??),
+      scoreStyle: !r.rounds ? 'color:#8a80b8;font-weight:700' : r.score >= 100 ? 'color:#7de8a0;font-weight:900;white-space:nowrap' : r.score < 60 ? 'color:#ff9ac0;font-weight:900;white-space:nowrap' : 'color:#ffb347;font-weight:900;white-space:nowrap',
+      tagStyle: r.status.includes('??') ? 'background:rgba(216,74,122,.2);color:#ff9ac0;font-size:12.5px;font-weight:900;border-radius:999px;padding:4px 12px;white-space:nowrap'
+        : r.status.includes('??) ? 'background:rgba(255,180,71,.15);color:#ffb347;font-size:12.5px;font-weight:900;border-radius:999px;padding:4px 12px;white-space:nowrap'
+        : r.status.includes('??) ? 'background:rgba(255,255,255,.06);color:#8a80b8;font-size:12.5px;font-weight:700;border-radius:999px;padding:4px 12px;white-space:nowrap'
+        : 'background:rgba(90,200,120,.15);color:#7de8a0;font-size:12.5px;font-weight:900;border-radius:999px;padding:4px 12px;white-space:nowrap',
+      del: () => this.setState(x => ({ detailIdx:-1, classes: { ...x.classes, [x.klass]: x.classes[x.klass].filter((_, j) => j !== i) } })),
+      showDetail: () => this.setState({ detailIdx: i })
+    }));
+    const taskEdits = s.tasks.map((t, i) => ({ ...t, label: `隞餃? ${i + 1}`,
+      setSubject: e => this.updList('tasks', i, 'subject', e.target.value),
+      setMonster: e => this.updList('tasks', i, 'monster', e.target.value),
+      setIcon: e => this.updList('tasks', i, 'icon', e.target.value),
+      setTitle: e => this.updList('tasks', i, 'title', e.target.value),
+      setDesc: e => this.updList('tasks', i, 'desc', e.target.value),
+      setCoins: e => this.updList('tasks', i, 'coins', parseInt(e.target.value) || 0),
+      setXp: e => this.updList('tasks', i, 'xp', parseInt(e.target.value) || 0),
+      del: () => this.setState(x => ({ tasks: x.tasks.filter((_, j) => j !== i) }))
+    }));
+    const quizEdits = eb.questions.map((q, i) => ({ label: `蝚?${i + 1} 憿, question: q.question, answer: q.answer,
+      setQuestion: e => this.updBossQ(i, 'question', e.target.value),
+      setAnswer: e => this.updBossQ(i, 'answer', e.target.value),
+      opts: q.options.map((o, j) => ({ text: o, label: `?賊? ${['A','B','C','D'][j] || j + 1}`, set: e => this.updBossQOpt(i, j, e.target.value) })),
+      del: () => this.setState(x => ({ bosses: x.bosses.map(b => b.id === x.editBoss ? { ...b, questions: b.questions.filter((_, j) => j !== i) } : b) }))
+    }));
+    const itemEdits = s.items.map((it, i) => ({ ...it,
+      setIcon: e => this.updList('items', i, 'icon', e.target.value),
+      setName: e => this.updList('items', i, 'name', e.target.value),
+      setPrice: e => this.updList('items', i, 'price', parseInt(e.target.value) || 0),
+      del: () => this.setState(x => ({ items: x.items.filter((_, j) => j !== i) }))
+    }));
+    const upTask = s.uploadTask ? s.tasks.find(t => t.id === s.uploadTask) : null;
+    const bossMap = s.bosses.map(b => {
+      const kill = s.defeated[b.id];
+      return { name: b.name, subject: b.subject, icon: b.icon, qCount: b.questions.length,
+        hpPct: kill ? 0 : 100, canFight: !kill, dead: !!kill,
+        record: kill ? (kill.round === 1 ? '銝頛芣遛?? : `蝚?${kill.round} 頛芷?`) : '',
+        fight: () => this.startBoss(b.id),
+        card: kill ? 'background:rgba(255,255,255,.04);border:1px solid rgba(90,200,120,.35);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:10px;opacity:.85'
+          : 'background:rgba(255,255,255,.07);border:1px solid rgba(255,154,192,.4);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:10px',
+        iconStyle: kill ? 'font-size:64px;line-height:1;display:inline-block;filter:grayscale(1);opacity:.5' : 'font-size:64px;line-height:1;display:inline-block;animation:bob 2.4s ease-in-out infinite;filter:drop-shadow(0 0 16px rgba(216,74,122,.6))',
+        subjChip: 'background:rgba(125,232,255,.15);color:#7de8ff;font-size:12px;font-weight:900;border-radius:999px;padding:3px 12px;white-space:nowrap',
+        state: kill ? '?? 撌脫?畾? : '?? ?箸?銝?,
+        stateChip: kill ? 'background:rgba(90,200,120,.15);color:#7de8a0;font-size:12px;font-weight:900;border-radius:999px;padding:3px 12px;white-space:nowrap' : 'background:rgba(216,74,122,.2);color:#ff9ac0;font-size:12px;font-weight:900;border-radius:999px;padding:3px 12px;animation:twinkle 1.4s infinite;white-space:nowrap' };
+    });
+    const bossChips = s.bosses.map(b => ({ icon: b.icon, name: b.name, qCount: b.questions.length,
+      sel: () => this.setState({ editBoss: b.id }),
+      style: b.id === eb.id ? 'white-space:nowrap;cursor:pointer;border:none;background:linear-gradient(90deg,#ff9ac0,#d84a7a);color:#fff;font-weight:900;font-size:14px;border-radius:999px;padding:9px 18px;box-shadow:0 0 14px rgba(216,74,122,.35)' : 'white-space:nowrap;cursor:pointer;background:rgba(255,255,255,.08);border:1px solid rgba(255,154,192,.35);color:#ff9ac0;font-weight:900;font-size:14px;border-radius:999px;padding:9px 18px' }));
+    const lastScore = s.roundScores.length ? s.roundScores[s.roundScores.length - 1].score : 0;
+    const PS = Component.PET_STAGES;
+    const psIdx = Math.max(0, PS.map(p => p.lv <= s.petLv).lastIndexOf(true));
+    const nextStage = PS[psIdx + 1];
+    const evoBase = 'display:flex;align-items:center;gap:12px;border-radius:16px;padding:10px 14px;';
+    const evoChips = PS.map((p, i) => ({
+      icon: p.icon, name: p.name, need: `Lv.${p.lv} 閫??`,
+      mark: i < psIdx ? '?? : i === psIdx ? '?曉' : '??',
+      style: i < psIdx ? evoBase + 'background:rgba(140,106,255,.18);border:1px solid rgba(160,140,255,.5)'
+        : i === psIdx ? evoBase + 'background:rgba(125,232,255,.14);border:1px solid #7de8ff;box-shadow:0 0 14px rgba(125,232,255,.3)'
+        : evoBase + 'background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.15);color:#8a80b8'
+    }));
+    const remFeeds = 3 - (s.feeds % 3);
+    const dayIdx = s.streak % 7, CK = Component.CHECKIN;
+    const ckBase = 'width:64px;border-radius:14px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;';
+    const checkinDays = CK.map((c, i) => ({
+      label: `蝚?{i + 1}憭奈, icon: i < dayIdx ? '?? : i === 6 ? '??' : '??', reward: `+${c.coins}`,
+      style: i < dayIdx ? ckBase + 'background:rgba(90,200,120,.15);border:1px solid rgba(90,200,120,.5);color:#7de8a0'
+        : i === dayIdx ? ckBase + 'background:rgba(255,212,94,.18);border:2px solid #ffd45e;color:#ffd45e;animation:pulseRing 1.6s infinite'
+        : ckBase + 'background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.18);color:#8a80b8'
+    }));
+    let rlist = [...(s.classes[s.klass] || [])];
+    if (s.role === 'student') {
+      const me = rlist.findIndex(r => r.sid === s.sid);
+      const mine = { sid: s.sid, name: s.name, coins: s.coins, done: doneCount };
+      if (me >= 0) rlist[me] = { ...rlist[me], ...mine }; else rlist.push(mine);
+    }
+    const maxCoins = Math.max(1, ...rlist.map(r => r.coins || 0));
+    const rowBase = 'display:flex;align-items:center;gap:10px;border-radius:14px;padding:10px 14px;';
+    const rankRows = rlist.sort((a, b) => (b.coins || 0) - (a.coins || 0)).map((r, i) => ({
+      name: r.name, coins: r.coins || 0, medal: ['??','??','??'][i] || `${i + 1}`,
+      pct: Math.round((r.coins || 0) / maxCoins * 100),
+      me: s.role === 'student' && r.sid === s.sid ? '嚗?嚗? : '',
+      row: s.role === 'student' && r.sid === s.sid ? rowBase + 'background:rgba(255,212,94,.14);border:1px solid rgba(255,212,94,.55)' : rowBase + 'background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12)'
+    }));
+    const barColors = ['linear-gradient(90deg,#ffd45e,#ffb100)','linear-gradient(90deg,#7de8ff,#8a6aff)','linear-gradient(90deg,#ff9ac0,#d84a7a)','linear-gradient(90deg,#7de8a0,#3aa860)'];
+    const classBars = Object.keys(s.classes).map(k => {
+      const l = s.classes[k];
+      return { name: k, pct: l.length && nTasks ? Math.round(l.reduce((a, r) => a + r.done, 0) / (l.length * nTasks) * 100) : 0 };
+    }).sort((a, b) => b.pct - a.pct).map((c, i) => ({ ...c, medal: ['??','??','??'][i] || `${i + 1}`, cur: c.name === s.klass ? '嚗??嚗? : '', color: barColors[i % barColors.length] }));
+    const todayIdx = Math.min(4, Math.max(0, (new Date().getDay() + 6) % 7));
+    const hdrCell = 'padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3);text-align:center;';
+    const weekDays = ['?曹?','?曹?','?曹?','?勗?','?曹?'].map((d, i) => ({
+      label: i === todayIdx ? d + '嚗?憭抬?' : d,
+      style: i === todayIdx ? hdrCell + 'color:#ffd45e;white-space:nowrap' : hdrCell
+    }));
+    const wkCell = 'padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);text-align:center;font-weight:900;font-size:13.5px;';
+    const weekRows = (s.classes[s.klass] || []).map(r => {
+      const wk = r.week || [0,0,0,0,0];
+      const dayVal = i => i === todayIdx ? r.done : wk[i];
+      const days = todayIdx + 1;
+      const tot = [0,1,2,3,4].slice(0, days).reduce((a, i) => a + dayVal(i), 0);
+      const rate = nTasks ? Math.round(tot / (days * nTasks) * 100) : 0;
+      return {
+        sid: r.sid, name: r.name,
+        cells: [0,1,2,3,4].map(i => {
+          if (i > todayIdx) return { text:'??, style: wkCell + 'color:#5a5480' };
+          const d = dayVal(i);
+          return { text: `${d}/${nTasks}`, style: wkCell + (d >= nTasks ? 'color:#7de8a0' : d === 0 ? 'color:#ff9ac0' : 'color:#ffb347') };
+        }),
+        rate,
+        rateStyle: wkCell + (rate >= 80 ? 'color:#7de8a0' : rate >= 50 ? 'color:#ffb347' : 'color:#ff9ac0')
+      };
+    });
+    const pRec = (s.classes[s.parentKlass] || []).find(r => (r.sno || '') === (s.parentSid || '').trim());
+    const pMsgMap = st => st.includes('?') ? '摮拙?蝚砌?頛芸停?典?嚗?敹菟?撣貊帘?綽?隢策隞??之憭抒?霈?'
+      : st.includes('?') ? '??憿銝??銝?嚗?摮拙???鋆?蝺渡?????嚗飛蝧?摨血?璉?'
+      : st.includes('??) ? '摮拙?甇??脰? AI 鋆?蝺渡?嚗隞仿隞?韏瑞???閬?撘瑞?憿??
+      : st.includes('??') ? '???摮拙?瘥??圈嚗葦??撘瑁?撠?銋遣霅啣摰嗅??芯撈蝺渡???
+      : '摮拙????脰? Boss ?嚗??萎??餃???嚗?;
+    const dRec = s.detailIdx >= 0 ? (s.classes[s.klass] || [])[s.detailIdx] : null;
+    const histChip = sc => sc >= 100 ? 'white-space:nowrap;background:rgba(90,200,120,.15);border:1px solid rgba(90,200,120,.5);color:#7de8a0;border-radius:999px;padding:4px 12px;font-size:13px;font-weight:900'
+      : sc >= 60 ? 'white-space:nowrap;background:rgba(255,180,71,.12);border:1px solid rgba(255,180,71,.5);color:#ffb347;border-radius:999px;padding:4px 12px;font-size:13px;font-weight:900'
+      : 'white-space:nowrap;background:rgba(216,74,122,.15);border:1px solid rgba(216,74,122,.5);color:#ff9ac0;border-radius:999px;padding:4px 12px;font-size:13px;font-weight:900';
+    const dHist = dRec ? (dRec.hist || (dRec.rounds ? [dRec.score] : [])) : [];
+    const detailSuggest = !dRec ? '' : dRec.status.includes('??') ? `撌脣???${dRec.rounds} 頛芾????芷?嚗遣霅啁?Ｙ撖衣???閫?????曉??蝑???桅??
+      : dRec.status.includes('??) ? `鋆??脰?銝哨?蝚?${dRec.rounds} 頛迎?嚗?蝮暹??脫郊頞典嚗??撖?銝頛芰???隞?
+      : dRec.status.includes('?') ? '撌脤???憿鋆???嚗遣霅唬?甈∪憿?瘛瑕銝憿?憿?憿蝣箄?靽?摨艾?
+      : dRec.status.includes('?') ? '銝頛芣遛??嚗?晷?脤??憿???隞?隞餃??葦??飛??
+      : '撠?脰? Boss ?嚗??摮貊??祇勗??葫撽?;
+    const pTag = !pRec ? '' : pRec.status.includes('??') ? 'background:rgba(216,74,122,.2);color:#ff9ac0;font-size:13px;font-weight:900;border-radius:999px;padding:5px 14px;white-space:nowrap'
+      : pRec.status.includes('??) ? 'background:rgba(255,180,71,.15);color:#ffb347;font-size:13px;font-weight:900;border-radius:999px;padding:5px 14px;white-space:nowrap'
+      : pRec.status.includes('??) ? 'background:rgba(255,255,255,.06);color:#8a80b8;font-size:13px;font-weight:700;border-radius:999px;padding:5px 14px;white-space:nowrap'
+      : 'background:rgba(90,200,120,.15);color:#7de8a0;font-size:13px;font-weight:900;border-radius:999px;padding:5px 14px;white-space:nowrap';
+    const pBoss = pRec && pRec.bossId ? s.bosses.find(b => b.id === pRec.bossId) : null;
+    const pHist = pRec && pRec.rounds ? (pRec.hist || [pRec.score]) : [];
+    const pHistBars = pHist.map((sc, i) => {
+      const color = sc >= 100 ? '#7de8a0' : sc >= 60 ? '#ffd45e' : '#ff9ac0';
+      return { label: `蝚?${i + 1} 頛注, score: sc, color,
+        h: Math.max(6, Math.round(sc * 0.6)) + 'px',
+        bg: sc >= 100 ? 'linear-gradient(180deg,#7de8a0,#3da868)' : sc >= 60 ? 'linear-gradient(180deg,#ffd45e,#d89a2b)' : 'linear-gradient(180deg,#ff9ac0,#c04a7a)' };
+    });
+    const pWeek = pRec ? (pRec.week || [0,0,0,0,0]) : [0,0,0,0,0];
+    const pwBase = 'flex:1;border-radius:12px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;';
+    const pWeekCells = ['?曹?','?曹?','?曹?','?勗?','?曹?'].map((d, i) => {
+      const v = i === todayIdx ? (pRec ? pRec.done : 0) : pWeek[i];
+      const fut = i > todayIdx;
+      return { day: i === todayIdx ? d + '繚隞予' : d, val: fut ? '?? : `${v}/${nTasks}`,
+        style: pwBase + (fut ? 'background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);color:#5a5480'
+          : v >= nTasks ? 'background:rgba(90,200,120,.12);border:1px solid rgba(90,200,120,.5);color:#7de8a0'
+          : v === 0 ? 'background:rgba(216,74,122,.1);border:1px solid rgba(216,74,122,.45);color:#ff9ac0'
+          : 'background:rgba(255,180,71,.1);border:1px solid rgba(255,180,71,.5);color:#ffb347') };
+    });
+    return {
+      isLogin: s.screen === 'login', isApp: s.screen === 'app', isParent: s.screen === 'parent',
+      showTeacherLogin: s.showTeacherLogin,
+      teacherLinkLabel: s.showTeacherLogin ? '?嗉絲?葦?亙' : '?? ?葦?亙',
+      toggleTeacher: () => this.setState(x => ({ showTeacherLogin: !x.showTeacherLogin })),
+      isStudent: s.role === 'student' && s.screen === 'app', isTeacher: s.role === 'teacher' && s.screen === 'app',
+      tabLobby: s.role === 'student' && s.tab === 'lobby', tabTasks: s.role === 'student' && s.tab === 'tasks',
+      tabBoss: s.role === 'student' && s.tab === 'boss', tabStore: s.role === 'student' && s.tab === 'store',
+      tabPet: s.role === 'student' && s.tab === 'pet', tabRank: s.role === 'student' && s.tab === 'rank',
+      tabDash: s.role === 'teacher' && s.tab === 'dashboard', tabSetTasks: s.role === 'teacher' && s.tab === 'setTasks',
+      tabSetBoss: s.role === 'teacher' && s.tab === 'setBoss', tabSetStore: s.role === 'teacher' && s.tab === 'setStore',
+      name: s.name, klass: s.klass, classOpts,
+      avatarChar: s.role === 'teacher' ? '???? : s.avatar,
+      userLabel: s.role === 'teacher' ? (s.teacherName ? `${s.teacherName} 繚 ${s.teacherEmail}` : `${s.klass} 撠葦`) : `${s.klass} ${s.sid} ??繚 ${s.name}`,
+      coins: s.coins, xp: s.xp, xpPer: this.xpPer, xpPct: Math.round(s.xp / this.xpPer * 100), level: s.level, streak: s.streak,
+      petLv: s.petLv, friend: s.friend, mood: s.mood,
+      petIcon: PS[psIdx].icon, petStageName: PS[psIdx].name,
+      petAnim: s.petFx ? 'petJump .7s ease-out' : 'float 3s ease-in-out infinite',
+      petFx: s.petFx, hasPetFx: !!s.petFx,
+      petEvoHint: nextStage ? `?今憌?鈭? ${remFeeds} 甈∪? 1 蝝???Lv.${nextStage.lv} 撠梢脣???{nextStage.name}??` : '?嗅撌脩??舀?蝯???頞??脣拿嚗??,
+      petHint: s.mood >= 70 ? '?嗅隞予頞?敹?靘????? : '?嗅?喃?鈭?擗萄???敹??豢?剖嚗?,
+      feedLabel: s.snacks > 0 ? `?? 擗菟?敹??? ${s.snacks} 隞踝?` : '?? 擗菟?敹???10 ??嚗?,
+      feedPet: () => this.feedPet(), patPet: () => this.patPet(), goPet: () => this.setState({ tab:'pet' }),
+      evoChips, rpsWins: s.rpsWins, rpsPetShow: s.rpsPet || '??, rpsResult: s.rpsResult, hasRps: !!s.rpsResult,
+      rpsBtns: ['??,'??','??儭?].map(o => ({ icon: o, pick: () => this.rps(o) })),
+      curTitle: `${T[tIdx].icon} ${T[tIdx].name}`, titleChips, stages, tabBtns, teacherTabs,
+      remainMonsters: nTasks - doneCount, allDefeated: nTasks > 0 && doneCount === nTasks, taskCards, storeCount: s.items.length,
+      toast: s.toast, hasToast: !!s.toast, lvlUp: s.lvlUp,
+      qIdle: s.qPhase === 'idle', qBattle: s.qPhase === 'battle', qRoundResult: s.qPhase === 'roundResult',
+      qGenerating: s.qPhase === 'generating', qVictory: s.qPhase === 'victory', qFail5: s.qPhase === 'fail5',
+      bossHp: s.bossHp, bossMax: this.bossMax, bossHpPct: Math.round(s.bossHp / this.bossMax * 100), dmgPerQ: this.dmg,
+      bossAnim: s.fb ? (s.fb.ok ? 'shake .6s ease-in-out' : 'bob 2.4s ease-in-out infinite') : 'float 3s ease-in-out infinite',
+      showHit: !!s.fb && s.fb.ok && s.qPhase === 'battle', showBlock: !!s.fb && !s.fb.ok && s.qPhase === 'battle',
+      qText: curQ ? curQ.question : '',
+      hasHint: !!(curQ && curQ.hint), qHint: curQ && curQ.hint ? curQ.hint : '',
+      qProgress: `蝚?${s.qIndex + 1} 憿?/ ??${s.roundQs.length} 憿,
+      round: s.round, nextRoundNum: s.round + 1,
+      roundBadge: s.round === 1 ? '蝚?1 頛?繚 ?鞈? : `蝚?${s.round} 頛?繚 AI 鋆?憿??渡陛?殷?`,
+      roundBadgeStyle: s.round === 1 ? 'background:rgba(125,232,255,.15);color:#7de8ff;font-size:12.5px;font-weight:900;border-radius:999px;padding:4px 12px;white-space:nowrap' : 'background:rgba(90,200,120,.15);color:#7de8a0;font-size:12.5px;font-weight:900;border-radius:999px;padding:4px 12px;white-space:nowrap',
+      roundChips, lastScore,
+      victoryTitle: s.round === 1 ? `銝??畾綽?${aBoss ? aBoss.name : 'Boss'} 鋡急???嚗 : `蝚?${s.round} 頛芸撠?${aBoss ? aBoss.name : 'Boss'} 鋡急???嚗,
+      vCoins: s.round === 1 ? this.bonus : 20, vXp: s.round === 1 ? 100 : 40,
+      opts, hasFb: !!s.fb, fbMsg: s.fb ? s.fb.msg : '',
+      fbStyle: s.fb && s.fb.ok ? 'background:rgba(90,200,120,.15);border:1px solid rgba(90,200,120,.5);color:#7de8a0;font-weight:900;border-radius:14px;padding:12px 16px;animation:popIn .3s ease-out' : 'background:rgba(255,180,71,.12);border:1px solid rgba(255,180,71,.5);color:#ffb347;font-weight:900;border-radius:14px;padding:12px 16px;animation:popIn .3s ease-out',
+      wrongCount: s.wrong.length,
+      bossMap, killCount, bossTotal: s.bosses.length, remainBosses: s.bosses.length - killCount,
+      activeBossName: aBoss ? aBoss.name : '', activeBossIcon: aBoss ? aBoss.icon : '?',
+      bossChips, ebName: eb.name, ebSubject: eb.subject, ebIcon: eb.icon,
+      setEbName: e => this.updBoss('name', e.target.value),
+      setEbSubject: e => this.updBoss('subject', e.target.value),
+      setEbIcon: e => this.updBoss('icon', e.target.value),
+      addBoss: () => {
+        const id = 'b' + Date.now();
+        this.setState(x => ({ bosses: [...x.bosses, { id, name:'??Boss嚗?銝靽格嚗?, subject:'蝘', icon:'?', questions:[] }], editBoss: id }));
+        this.showToast('撌脫憓?Boss嚗鼠???蒂銝憿?改?');
+      },
+      delBoss: () => {
+        if (this.state.bosses.length <= 1) { this.showToast('?喳?閬?????Boss'); return; }
+        this.setState(x => {
+          const bosses = x.bosses.filter(b => b.id !== x.editBoss);
+          return { bosses, editBoss: bosses[0].id };
+        });
+        this.showToast('撌脣?日 Boss');
+      },      uploadOpen: !!upTask, upIcon: upTask ? upTask.icon : '', upTitle: upTask ? upTask.title : '', upMonster: upTask ? upTask.monster : '',
+      upPhoto: s.uploadPhoto, hasUpPhoto: !!s.uploadPhoto, noUpPhoto: !s.uploadPhoto,
+      upPhotoStyle: s.uploadPhoto ? `width:100%;height:240px;border-radius:16px;border:1px solid rgba(125,232,255,.35);background:rgba(0,0,0,.35) url(${JSON.stringify(s.uploadPhoto)}) center/contain no-repeat` : '',
+      onUpFile: e => {
+        const f = e.target.files && e.target.files[0];
+        if (!f) return;
+        const r = new FileReader();
+        r.onload = () => this.setState({ uploadPhoto: String(r.result) });
+        r.readAsDataURL(f);
+      },
+      cancelUpload: () => this.setState({ uploadTask:null, uploadPhoto:'' }),
+      submitUpload: () => {
+        const st = this.state;
+        if (!st.uploadPhoto) { this.showToast('??銝撘萇???賢?? ?'); return; }
+        const id = st.uploadTask, photo = st.uploadPhoto;
+        this.setState({ uploadTask:null, uploadPhoto:'' });
+        this.attack(id, photo);
+      },
+      upSubmitStyle: s.uploadPhoto ? 'flex:1.4;background:linear-gradient(90deg,#7de8ff,#8a6aff);border:none;border-radius:14px;padding:13px;font-size:15px;font-weight:900;color:#1a1440;cursor:pointer;white-space:nowrap;box-shadow:0 0 16px rgba(125,232,255,.4)' : 'flex:1.4;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:13px;font-size:15px;font-weight:900;color:#8a80b8;cursor:pointer;white-space:nowrap',
+      storeCards, inv: s.inv, hasInv: s.inv.length > 0,
+      statRate: roster.length && nTasks ? Math.round(roster.reduce((a, r) => a + r.done, 0) / (roster.length * nTasks) * 100) : 0,
+      statHelp: roster.filter(r => r.status.includes('??')).length,
+      statCoins: roster.reduce((a, r) => a + (r.coins || 0), 0), roster, rosterEmpty: roster.length === 0,
+      taskEdits, quizEdits, itemEdits,
+      rankRows, classBars, weekDays, weekRows,
+      checkinDays, todayReward: `${CK[dayIdx].coins} ?? + ${CK[dayIdx].xp} XP`,
+      checkinOpen: s.checkinOpen, claimCheckin: () => this.claimCheckin(),
+      noticeOpen: s.noticeOpen, closeNotice: () => this.setState({ noticeOpen:false }),
+      noticeDate: `${new Date().getMonth() + 1} ??${new Date().getDate()} ?匝,
+      noticeTasks: s.tasks.map(t => ({
+        icon: t.icon, title: t.title, subject: t.subject, monster: t.monster,
+        state: t.done ? '??撌脫??? : `?? ${t.coins}嚗 ${t.xp}`,
+        tag: t.done ? 'background:rgba(90,200,120,.15);color:#7de8a0;font-size:12px;font-weight:900;border-radius:999px;padding:4px 12px;white-space:nowrap' : 'background:rgba(255,212,94,.12);color:#ffd45e;font-size:12px;font-weight:900;border-radius:999px;padding:4px 12px;white-space:nowrap',
+        row: t.done ? 'display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px 14px;opacity:.7' : 'display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.06);border:1px solid rgba(125,232,255,.3);border-radius:14px;padding:10px 14px'
+      })),
+      soundLabel: s.sound ? '?? ?單??? : '?? ?單???, toggleSound: () => this.setState(x => ({ sound: !x.sound })),
+      avatarOpts: Component.AVATARS.map(a => ({ icon: a, pick: () => this.setState({ avatar: a }),
+        style: a === s.avatar ? 'font-size:22px;width:44px;height:44px;border-radius:12px;cursor:pointer;background:rgba(140,106,255,.35);border:2px solid #7de8ff;box-shadow:0 0 10px rgba(125,232,255,.5)' : 'font-size:22px;width:44px;height:44px;border-radius:12px;cursor:pointer;background:rgba(0,0,0,.3);border:2px solid rgba(160,140,255,.3)' })),
+      loginSid: s.loginSid, loginName: s.loginName, loginSno: s.loginSno, remember: s.remember,
+      onSno: e => this.setState({ loginSno: e.target.value }),
+      toggleRemember: e => this.setState({ remember: e.target.checked }),
+      showParent: s.showParent, parentLinkLabel: s.showParent ? '?嗉絲摰園?亥岷' : '? 摰園?亥岷',
+      toggleParent: () => this.setState(x => ({ showParent: !x.showParent })),
+      parentKlass: s.parentKlass, pickParentKlass: e => this.setState({ parentKlass: e.target.value }),
+      parentSid: s.parentSid, onParentSid: e => this.setState({ parentSid: e.target.value }),
+      parentGo: () => {
+        const st = this.state, rec = (st.classes[st.parentKlass] || []).find(r => (r.sno || '') === (st.parentSid || '').trim());
+        if (!rec) { this.showToast('?曆??圈?摮貊?嚗?蝣箄??剔??飛??); return; }
+        this.setState({ screen:'parent' });
+      },
+      backToLogin: () => this.setState({ screen:'login', showParent:false }),
+      pKlass: s.parentKlass, pSid: pRec ? pRec.sid : '', pName: pRec ? pRec.name : '',
+      pHasHist: pHistBars.length > 0, pHistBars,
+      pTrendNote: pHistBars.length > 1 ? (pHist[pHist.length - 1] > pHist[0] ? `?脫郊 ${pHist[pHist.length - 1] - pHist[0]} ??頞頞?嚗 : '??鋆?蝺渡?銝?) : '蝚砌?頛芸摰?',
+      pWeekCells, pHasBoss: !!pBoss, pBossName: pBoss ? `${pBoss.icon} ${pBoss.name}嚗?{pBoss.subject}嚗 : '',
+      pProgress: pRec ? `${pRec.done} / ${nTasks}` : '', pCoins: pRec ? pRec.coins : 0,
+      pScore: pRec ? (pRec.rounds ? `${pRec.score} ? : '?芣葫撽?) : '', pRounds: pRec ? (pRec.rounds ? `${pRec.rounds} 頛注 : '??) : '',
+      pStatus: pRec ? pRec.status : '', pTagStyle: pTag,
+      pHasWrong: !!(pRec && pRec.wrongNums && pRec.wrongNums.length),
+      pWrong: pRec ? (pRec.wrongNums || []).map(n => `蝚?${n} 憿?${(qsOfRec(pRec)[n - 1] || {}).question || ''}`) : [],
+      pMsg: pRec ? pMsgMap(pRec.status) : '',
+      detailOpen: !!dRec, detailName: dRec ? `${dRec.sid} ??${dRec.name}` : '',
+      detailHist: dHist.map((sc, i) => ({ text: `蝚?${i + 1} 頛?${sc} ?, style: histChip(sc) })),
+      detailNoHist: !!dRec && dHist.length === 0,
+      hasDetailWrong: !!(dRec && dRec.wrongNums && dRec.wrongNums.length),
+      detailWrongQs: dRec ? (dRec.wrongNums || []).map(n => `蝚?${n} 憿?${(qsOfRec(dRec)[n - 1] || {}).question || '嚗??桀歇?游?嚗?}`) : [],
+      detailSuggest,
+      closeDetail: () => this.setState({ detailIdx:-1 }),
+      markCoached: () => { this.setState(x => ({ classes: { ...x.classes, [x.klass]: x.classes[x.klass].map((r, j) => j === x.detailIdx ? { ...r, status:'? 鋆???' } : r) } })); this.showToast('撌脫?閮頛?摰? ??); },
+      reassign: () => { this.setState(x => ({ classes: { ...x.classes, [x.klass]: x.classes[x.klass].map((r, j) => j === x.detailIdx ? { ...r, status:'??鋆?銝? } : r) } })); this.showToast('撌脫?瘣曉?皜砌?頛???'); },
+      importText: s.importText, importStatus: s.importStatus,
+      onImportText: e => this.setState({ importText: e.target.value }),
+      onImportFile: e => {
+        const f = e.target.files && e.target.files[0];
+        if (!f) return;
+        if (/\.xlsx?$/i.test(f.name)) { this.setState({ importStatus:'?? 隢???Excel嚗岫蝞”銝准摮 CSV??銝' }); return; }
+        const r = new FileReader();
+        r.onload = () => this.setState({ importText: String(r.result), importStatus: `?? 撌脰???{f.name}???? AI ??` });
+        r.readAsText(f);
+      },
+      analyzeImport: () => this.analyzeImport(),
+      analyzeBtnLabel: s.importing ? '?? AI ??銝凌? : '?? AI ??銝行憓???,
+      analyzeBtnStyle: s.importing ? 'white-space:nowrap;cursor:wait;border:none;background:rgba(255,255,255,.15);color:#8a80b8;font-weight:900;font-size:15px;border-radius:12px;padding:11px 22px'
+        : 'white-space:nowrap;cursor:pointer;border:none;background:linear-gradient(90deg,#7de8ff,#8a6aff);color:#1a1440;font-weight:900;font-size:15px;border-radius:12px;padding:11px 22px;box-shadow:0 0 14px rgba(125,232,255,.35)',
+      addTask: () => this.setState(x => ({ tasks: [...x.tasks, { id: Date.now(), subject:'蝘', monster:'?唳芰', icon:'?', title:'?唬遙??憿?, desc:'撖思?摰??孵?嚗?憒??找???, coins:10, xp:20, done:false }] })),
+      addQ: () => this.setState(x => ({ bosses: x.bosses.map(b => b.id === x.editBoss ? { ...b, questions:[...b.questions, { id:'q' + Date.now(), question:'?圈??殷?暺ㄐ靽格嚗?, options:['?賊?銝','?賊?鈭?,'?賊?銝?,'?賊???], answer:'?賊?銝' }] } : b) })),
+      addItem: () => this.setState(x => ({ items: [...x.items, { id:'i' + Date.now(), name:'?啁???, price:50, icon:'??' }] })),
+      newKlass: s.newKlass, onNewKlass: e => this.setState({ newKlass: e.target.value }),
+      addKlass: () => {
+        const n = (this.state.newKlass || '').trim();
+        if (!n) { this.showToast('隢?頛詨?剔??迂'); return; }
+        if (this.state.classes[n]) { this.showToast('?蝝歇蝬??典?'); return; }
+        this.setState(x => ({ classes: { ...x.classes, [n]: [] }, klass: n, klassRename: n, newKlass:'' }));
+        this.showToast(`撌脫憓?{n}?????摮貊??改?`);
+      },
+      klassRename: s.klassRename, onKlassRename: e => this.setState({ klassRename: e.target.value }),
+      renameKlass: () => {
+        const n = (this.state.klassRename || '').trim(), old = this.state.klass;
+        if (!n || n === old) return;
+        if (this.state.classes[n]) { this.showToast('撌脫????剔?'); return; }
+        this.setState(x => {
+          const c = {}; Object.keys(x.classes).forEach(k => { c[k === old ? n : k] = x.classes[k]; });
+          return { classes: c, klass: n };
+        });
+        this.showToast(`??{old}?歇?孵??箝?{n}?);
+      },
+      delKlass: () => {
+        if (Object.keys(this.state.classes).length <= 1) { this.showToast('?喳?閬????蝝?); return; }
+        const old = this.state.klass;
+        this.setState(x => {
+          const c = { ...x.classes }; delete c[old];
+          const first = Object.keys(c)[0];
+          return { classes: c, klass: first, klassRename: first };
+        });
+        this.showToast(`撌脣?扎?{old}?);
+      },
+      stuSid: s.stuSid, stuName: s.stuName, stuSno: s.stuSno,
+      onStuSid: e => this.setState({ stuSid: e.target.value }), onStuName: e => this.setState({ stuName: e.target.value }),
+      onStuSno: e => this.setState({ stuSno: e.target.value }),
+      addStu: () => {
+        const sid = (this.state.stuSid || '').trim(), name = (this.state.stuName || '').trim(), sno = (this.state.stuSno || '').trim();
+        if (!sid || !name) { this.showToast('隢‵摨扯?????); return; }
+        this.setState(x => ({ classes: { ...x.classes, [x.klass]: [...x.classes[x.klass], { sid, name, sno, done:0, score:0, coins:0, rounds:0, status:'???芣葫撽?, wrongNums:[], week:[0,0,0,0,0] }] }, stuSid:'', stuName:'', stuSno:'' }));
+        this.showToast(`撌脫? ${name} ? ${this.state.klass}`);
+      },
+      onSid: e => this.setState({ loginSid: e.target.value }), onName: e => this.setState({ loginName: e.target.value }),
+      loginStudent: () => {
+        const st = this.state, name = (st.loginName || '').trim() || '????, sid = (st.loginSid || '').trim() || '12', sno = (st.loginSno || '').trim();
+        try{ localStorage.setItem('starAcademy_login', JSON.stringify({ remember: st.remember, sid, name, sno, klass: st.klass, avatar: st.avatar })); }catch(e){}
+        let open = true;
+        try{ open = localStorage.getItem('starAcademy_checkin') !== new Date().toDateString(); }catch(e){}
+        this.setState({ screen:'app', role:'student', tab:'lobby', name, sid, sno, checkinOpen: open, noticeOpen: !open });
+      },
+      openGPicker: () => this.setState(x => ({ gPickerOpen: !x.gPickerOpen })),
+      gPickerOpen: s.gPickerOpen,
+      gAccounts: [
+        { name:'??憍?, email:'yating.lin@gmail.com', color:'#7c4dff' },
+        { name:'?喳???, email:'cmchen.teacher@gmail.com', color:'#00897b' },
+        { name:'暺蔗??, email:'peichun.h@school.edu.tw', color:'#e65100' }
+      ].map(a => ({ ...a, name: a.name + ' ?葦', initial: a.name[0],
+        pick: () => {
+          this.setState({ screen:'app', role:'teacher', tab:'dashboard', teacherName: a.name + ' ?葦', teacherEmail: a.email, gPickerOpen:false, klassRename: this.state.klass });
+          this.showToast(`?? ${a.name} ?葦嚗迭餈?靘?撌脰??乩??蝝??);
+        } })),
+      tEmail: s.tEmail, onTEmail: e => this.setState({ tEmail: e.target.value }),
+      tPwd: s.tPwd, onTPwd: e => this.setState({ tPwd: e.target.value }),
+      loginTeacher: () => {
+        const em = (this.state.tEmail || '').trim();
+        if (!em || !em.includes('@')) { this.showToast('隢撓?交迤蝣箇? Email 撣唾?'); return; }
+        if (!(this.state.tPwd || '').trim()) { this.showToast('隢撓?亙?蝣?); return; }
+        this.setState({ screen:'app', role:'teacher', tab:'dashboard', teacherName: em.split('@')[0] + ' ?葦', teacherEmail: em, klassRename: this.state.klass });
+      },
+      logout: () => this.setState({ screen:'login', showTeacherLogin:false, showParent:false, checkinOpen:false, noticeOpen:false, gPickerOpen:false, tPwd:'' }),
+      pickClass: e => this.setState({ klass: e.target.value, klassRename: e.target.value, detailIdx:-1 }),
+      goTasks: () => this.setState({ tab:'tasks' }), goBoss: () => this.setState({ tab:'boss' }),
+      goStore: () => this.setState({ tab:'store' }), goLobby: () => { this.resetBoss(); this.setState({ tab:'lobby' }); },
+      exportCsv: () => this.exportCsv(),
+      nextRound: () => this.nextRound(),
+      resetBoss: () => this.resetBoss()
+    };
+  }
+}
+</script>
+</body>
+</html>
+
+
