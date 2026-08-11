@@ -80,6 +80,23 @@ npm run dev
 
 遊戲改版後重新產生背景整合版，只要把新檔覆蓋成 `web/game.html` 即可；若遊戲原始碼結構改變導致修補字串對不上，bridge 會直接丟出錯誤，不會靜默失效。
 
+## 遊戲平衡參數（Boss 輪數改在哪）
+
+Boss 補救輪數是 2：第 1 輪原題，答錯後補救 1 輪，仍未通過就轉成「🆘 需老師協助」並記給老師。原始設計是 5 輪，2026-08-11 改為 2 輪。
+
+**輪數的實際來源是 `data-props` 的 `default`，不是程式裡的 `??`。** DC runtime 會把 `data-props` 的 default 灌進 `this.props`（見 `public/game-support.js` 的 `defaults`），所以 `get maxRounds(){ return this.props.maxRounds ?? 5 }` 的 `?? 5` 只是沒有 props 時的退路、平常永遠不會執行——只改 getter 完全沒有效果。同一組參數（`bossMaxHp`、`xpPerLevel`、`perfectBonus`、`maxRounds`）都有這個特性，要改就兩處一起改，並留意 `data-props` 裡各自的 `min`／`max` 範圍。
+
+輪數改動連同畫面上五處寫死「N 輪」的說明文字，是**直接改在遊戲原始碼**上，不走 `vite.config.ts` 的替換——那些替換是為了接上 Firebase 與修版面，屬於整合層；輪數是遊戲規則本身，放進替換會讓原始碼與線上行為對不起來。四份檔案都要一起改，否則會出現「單機版 5 輪、線上 2 輪」：
+
+| 檔案 | 角色 |
+| --- | --- |
+| `背景整合版/standalone-src.dc.html` | 源頭 |
+| `背景整合版/星際冒險學院 背景整合版.html` | 由 `build-background-edition.mjs` 加上背景 CSS 產生 |
+| `web/game.html` | 上一份的原樣副本（md5 應相同） |
+| `星際冒險學院 單機版.html` | 獨立的離線單機版，不經上面的流程 |
+
+Boss 血量不必跟著調：每題傷害是 `bossMaxHp ÷ 該輪題數` 動態算的，與輪數無關，每輪打滿都剛好把血扣完。
+
 ## 架構範圍
 
 - 教師：Google 登入，班級、學生、題庫與 Boss 關卡資料依 `teacherId` 分離。

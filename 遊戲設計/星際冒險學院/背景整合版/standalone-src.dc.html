@@ -452,7 +452,7 @@ input,select,button,textarea{font-family:"Huninn","Noto Sans TC",sans-serif}
             <button onClick="{{ toggleSound }}" style="background:none;border:1px solid rgba(160,140,255,.4);color:#b8a8ff;border-radius:999px;padding:6px 16px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap" style-hover="background:rgba(160,140,255,.15)">{{ soundLabel }}</button>
           </div>
         </div>
-        <div style="font-size:14px;color:#b8a8ff">每隻 Boss 守著一個科目！成績以 100 分計算，全對＝一擊必殺；答錯別擔心，AI 會出「更簡單、有提示」的題目讓你再戰，最多 5 輪。</div>
+        <div style="font-size:14px;color:#b8a8ff">每隻 Boss 守著一個科目！成績以 100 分計算，全對＝一擊必殺；答錯別擔心，AI 會出「更簡單、有提示」的題目讓你再戰，最多 2 輪。</div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px">
           <sc-for list="{{ bossMap }}" as="bm" hint-placeholder-count="3">
             <div style="{{ bm.card }}">
@@ -520,7 +520,7 @@ input,select,button,textarea{font-family:"Huninn","Noto Sans TC",sans-serif}
         </div>
         <div style="font-size:16px;color:#b8a8ff;max-width:500px">有 {{ wrongCount }} 題還不太熟。讓 AI 幫你出「更簡單、有提示」的類似題，打好基礎再戰 Boss！</div>
         <button onClick="{{ nextRound }}" style="background:linear-gradient(90deg,#7de8a0,#3aa860);border:none;border-radius:999px;padding:16px 44px;font-size:19px;font-weight:900;color:#0a2a14;cursor:pointer;box-shadow:0 0 24px rgba(90,200,120,.4);white-space:nowrap" style-hover="transform:scale(1.06)">🤖 AI 生成更簡單的題目（第 {{ nextRoundNum }} 輪）</button>
-        <div style="font-size:13px;color:#8a80b8">最多 5 輪，每一輪都會更簡單、提示更多</div>
+        <div style="font-size:13px;color:#8a80b8">最多 2 輪，補救的那一輪會更簡單、提示更多</div>
       </div>
       </sc-if>
       <sc-if value="{{ qGenerating }}" hint-placeholder-val="{{ false }}">
@@ -554,7 +554,7 @@ input,select,button,textarea{font-family:"Huninn","Noto Sans TC",sans-serif}
       <sc-if value="{{ qFail5 }}" hint-placeholder-val="{{ false }}">
       <div style="text-align:center;padding:36px 20px;display:flex;flex-direction:column;align-items:center;gap:14px">
         <div style="font-size:96px;animation:popIn .5s ease-out">💪</div>
-        <div style="font-size:26px;font-weight:900;color:#7de8a0">你已經很努力地完成 5 輪了！</div>
+        <div style="font-size:26px;font-weight:900;color:#7de8a0">你已經很努力地完成 2 輪了！</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
           <sc-for list="{{ roundChips }}" as="rc3" hint-placeholder-count="1"><span style="{{ rc3.style }}">{{ rc3.text }}</span></sc-for>
         </div>
@@ -758,7 +758,7 @@ input,select,button,textarea{font-family:"Huninn","Noto Sans TC",sans-serif}
       </div>
       <div style="background:rgba(255,255,255,.06);border:1px solid rgba(160,140,255,.3);border-radius:22px;padding:24px">
         <div style="font-size:17px;font-weight:900;margin-bottom:6px">👨‍🚀 {{ klass }} 艦隊成員狀況</div>
-        <div style="font-size:13px;color:#9a8ad8;margin-bottom:12px">Boss 戰以 100 分計算；答錯會由 AI 出降階提示題再測，最多 5 輪。「輪數」為學生本次測驗用了幾輪。</div>
+        <div style="font-size:13px;color:#9a8ad8;margin-bottom:12px">Boss 戰以 100 分計算；答錯會由 AI 出降階提示題再測，最多 2 輪。「輪數」為學生本次測驗用了幾輪。</div>
         <div style="display:grid;grid-template-columns:60px 84px 1fr 1fr 70px 90px 100px 1.2fr 118px;gap:0;font-size:14px">
           <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">座號</div>
           <div style="padding:10px 8px;color:#b8a8ff;font-weight:900;border-bottom:1px solid rgba(160,140,255,.3)">學號</div>
@@ -892,7 +892,7 @@ input,select,button,textarea{font-family:"Huninn","Noto Sans TC",sans-serif}
           <span style="font-size:13.5px;color:#7de8a0;font-weight:700">{{ importStatus }}</span>
         </div>
       </div>
-      <div style="font-size:14px;color:#9a8ad8">學生成績以 100 分計算（答對題數 ÷ 總題數 × 100）。答錯的題目會由 AI 自動生成「更簡單＋有提示」的類似題，最多重測 5 輪。</div>
+      <div style="font-size:14px;color:#9a8ad8">學生成績以 100 分計算（答對題數 ÷ 總題數 × 100）。答錯的題目會由 AI 自動生成「更簡單＋有提示」的類似題，最多重測 2 輪。</div>
       <div style="display:flex;flex-direction:column;gap:16px">
         <sc-for list="{{ quizEdits }}" as="qe" hint-placeholder-count="2">
           <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,154,192,.3);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
@@ -947,7 +947,7 @@ input,select,button,textarea{font-family:"Huninn","Noto Sans TC",sans-serif}
 </sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;bossMaxHp&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:100,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:50,&quot;max&quot;:300,&quot;step&quot;:10,&quot;section&quot;:&quot;遊戲平衡&quot;},&quot;xpPerLevel&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:500,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:100,&quot;max&quot;:1000,&quot;step&quot;:50,&quot;section&quot;:&quot;遊戲平衡&quot;},&quot;perfectBonus&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:50,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:10,&quot;max&quot;:200,&quot;step&quot;:10,&quot;section&quot;:&quot;遊戲平衡&quot;},&quot;maxRounds&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:5,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:2,&quot;max&quot;:10,&quot;step&quot;:1,&quot;section&quot;:&quot;遊戲平衡&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;bossMaxHp&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:100,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:50,&quot;max&quot;:300,&quot;step&quot;:10,&quot;section&quot;:&quot;遊戲平衡&quot;},&quot;xpPerLevel&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:500,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:100,&quot;max&quot;:1000,&quot;step&quot;:50,&quot;section&quot;:&quot;遊戲平衡&quot;},&quot;perfectBonus&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:50,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:10,&quot;max&quot;:200,&quot;step&quot;:10,&quot;section&quot;:&quot;遊戲平衡&quot;},&quot;maxRounds&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:2,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:2,&quot;max&quot;:10,&quot;step&quot;:1,&quot;section&quot;:&quot;遊戲平衡&quot;}}">
 class Component extends DCLogic {
   static TITLES = [
     { icon:'🛰️', name:'見習飛行員', lv:1 },
@@ -1046,7 +1046,7 @@ class Component extends DCLogic {
   get xpPer(){ return this.props.xpPerLevel ?? 500; }
   get bossMax(){ return this.props.bossMaxHp ?? 100; }
   get bonus(){ return this.props.perfectBonus ?? 50; }
-  get maxRounds(){ return this.props.maxRounds ?? 5; }
+  get maxRounds(){ return this.props.maxRounds ?? 2; }
   showToast(msg){
     clearTimeout(this._tt);
     this.setState({ toast: msg });
