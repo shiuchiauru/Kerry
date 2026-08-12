@@ -29,3 +29,9 @@
 - GitHub Pages：https://shiuchiauru.github.io/Kerry/遊戲設計/班級經營小幫手.html
 - GitHub Repo：https://github.com/shiuchiauru/Kerry
 - 備註：注音模式聲調符號精修——貼齊該字最後一個注音符號右上角（輕聲貼第一個符號正上方）、修正直式書寫下聲調符號被自動轉 90 度的方向錯誤、聲調字級加大；移除單獨的注音比例微調，字體整體縮放控制改放主工具列、不用先開注音模式即可設定。部署時發現 Pages 走 legacy 模式（吃 gh-pages 分支非 main），已同步推送兩個分支。
+
+## 2026-08-13｜十二星座卡獎勵冒險 HTML 簡報
+
+- GitHub Pages：https://shiuchiauru.github.io/Kerry/constellation-reward/
+- GitHub Repo：https://github.com/shiuchiauru/Kerry
+- 備註：依《孩子最愛的獎勵制度》製作四年級版 9 頁 HTML 簡報；每頁使用獨立像素冒險場景，支援鍵盤、全螢幕、九宮格總覽、手機滑動，並修正底部導覽列遮住文字的問題。

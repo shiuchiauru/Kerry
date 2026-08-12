@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071b3a">
+  <title>四年級十二星座卡獎勵任務</title>
+  <style>
+    :root {
+      --navy: #071b3a;
+      --blue: #27b6e7;
+      --yellow: #ffd65a;
+      --coral: #ff786c;
+      --mint: #63d5ad;
+      --violet: #a780ff;
+      --cream: #fffaf0;
+      --ink: #17314c;
+      --panel: rgba(255, 250, 240, .94);
+      --pixel-shadow: 0 8px 0 rgba(5, 20, 48, .72), 0 18px 38px rgba(0, 0, 0, .34);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+    body {
+      color: var(--cream);
+      background:
+        radial-gradient(circle at 50% 30%, #183f7b 0, #081a3b 44%, #030b20 100%);
+      font-family: "Microsoft JhengHei", "Noto Sans TC", system-ui, sans-serif;
+      user-select: none;
+    }
+
+    button { font: inherit; }
+    .stage { position: fixed; inset: 0; overflow: hidden; }
+    .deck {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 1600px;
+      height: 900px;
+      transform-origin: center;
+      background: #071b3a;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, .55);
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(60px) scale(.985);
+      transition: opacity .38s ease, transform .38s ease, visibility .38s;
+      overflow: hidden;
+      background: var(--navy);
+    }
+    .slide.active { opacity: 1; visibility: visible; transform: none; z-index: 2; }
+    .slide.leaving { transform: translateX(-60px) scale(.985); }
+    .art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .shade { position: absolute; inset: 0; pointer-events: none; }
+    .shade-top { background: linear-gradient(180deg, rgba(3, 15, 42, .82) 0, rgba(3, 15, 42, .18) 28%, transparent 48%); }
+    .shade-left { background: linear-gradient(90deg, rgba(3, 15, 42, .80) 0, rgba(3, 15, 42, .42) 34%, transparent 62%); }
+    .shade-center { background: radial-gradient(ellipse at 50% 34%, rgba(5, 17, 43, .88), rgba(5, 17, 43, .22) 46%, transparent 70%); }
+
+    .pixel-panel {
+      position: absolute;
+      color: var(--ink);
+      background: var(--panel);
+      border: 4px solid #f6d77d;
+      outline: 4px solid rgba(7, 27, 58, .95);
+      border-radius: 3px;
+      box-shadow: var(--pixel-shadow);
+      padding: 30px 36px;
+    }
+    .pixel-panel::before,
+    .pixel-panel::after {
+      content: "";
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background: var(--yellow);
+      box-shadow: 0 0 0 4px var(--navy);
+    }
+    .pixel-panel::before { left: -2px; top: -2px; }
+    .pixel-panel::after { right: -2px; bottom: -2px; }
+
+    .kicker {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 7px 13px;
+      color: white;
+      background: var(--coral);
+      border: 3px solid var(--navy);
+      box-shadow: 4px 4px 0 var(--navy);
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: .1em;
+    }
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: 69px; line-height: 1.04; letter-spacing: -.035em; }
+    h2 { font-size: 46px; line-height: 1.12; letter-spacing: -.025em; }
+    h3 { font-size: 24px; line-height: 1.2; }
+    .subtitle { margin-top: 16px; font-size: 24px; line-height: 1.55; font-weight: 700; }
+    .accent { color: #e75050; }
+    .gold { color: #c78500; }
+    .white { color: #fff; }
+    .center { text-align: center; }
+
+    .quest-title {
+      position: absolute;
+      left: 58px;
+      top: 34px;
+      z-index: 3;
+      max-width: 1120px;
+      padding: 16px 28px 18px;
+      color: white;
+      background: linear-gradient(90deg, rgba(5, 20, 49, .95), rgba(5, 20, 49, .70), transparent);
+      border-left: 8px solid var(--yellow);
+      text-shadow: 3px 3px 0 #06162f, 0 4px 18px #06162f;
+    }
+    .quest-title .level { color: var(--yellow); font-size: 17px; font-weight: 900; letter-spacing: .14em; }
+    .quest-title h2 { margin-top: 6px; }
+
+    .label {
+      position: absolute;
+      min-width: 210px;
+      padding: 14px 18px 12px;
+      color: white;
+      text-align: center;
+      background: rgba(5, 21, 51, .92);
+      border: 3px solid var(--yellow);
+      box-shadow: 6px 6px 0 rgba(3, 12, 31, .8);
+    }
+    .label strong { display: block; color: var(--yellow); font-size: 25px; line-height: 1.2; }
+    .label span { display: block; margin-top: 6px; font-size: 17px; line-height: 1.4; font-weight: 700; }
+
+    .rule-banner {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 15px 32px;
+      color: var(--navy);
+      background: rgba(255, 246, 204, .95);
+      border: 4px solid var(--navy);
+      box-shadow: 7px 7px 0 rgba(3, 12, 31, .65);
+      font-size: 24px;
+      line-height: 1.3;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    /* Slide 1 */
+    .s1 .cover-panel { left: 70px; top: 104px; width: 630px; min-height: 510px; }
+    .s1 .cover-panel h1 { color: var(--navy); }
+    .s1 .cover-panel .start {
+      display: inline-block;
+      margin-top: 28px;
+      padding: 13px 25px;
+      color: var(--navy);
+      background: var(--yellow);
+      border: 3px solid var(--navy);
+      box-shadow: 5px 5px 0 var(--navy);
+      font-size: 21px;
+      font-weight: 900;
+    }
+
+    /* Slide 2 */
+    .s2 .station { bottom: 45px; width: 260px; }
+    .s2 .st1 { left: 58px; }
+    .s2 .st2 { left: 405px; }
+    .s2 .st3 { left: 760px; }
+    .s2 .st4 { right: 50px; }
+
+    /* Slide 3 */
+    .s3 .step { bottom: 48px; width: 270px; }
+    .s3 .p1 { left: 155px; }
+    .s3 .p2 { left: 485px; }
+    .s3 .p3 { left: 805px; }
+    .s3 .p4 { right: 90px; }
+    .s3 .rule-banner { top: 126px; }
+
+    /* Slide 4 */
+    .s4 .quest-title { max-width: 690px; }
+    .s4 .collection-note { bottom: 42px; width: 690px; }
+    .s4 .count-chip {
+      position: absolute; right: 78px; top: 48px;
+      padding: 16px 24px; color: var(--navy); background: var(--yellow);
+      border: 4px solid var(--navy); box-shadow: 7px 7px 0 rgba(0,0,0,.5);
+      font-size: 25px; font-weight: 900;
+    }
+
+    /* Slide 5 */
+    .s5 .special { bottom: 36px; width: 390px; }
+    .s5 .sp1 { left: 90px; border-color: var(--coral); }
+    .s5 .sp2 { left: 605px; border-color: var(--blue); }
+    .s5 .sp3 { right: 85px; border-color: var(--yellow); }
+
+    /* Slide 6 */
+    .s6 .exchange-rule { bottom: 38px; width: 970px; }
+    .s6 .five, .s6 .one {
+      position: absolute; top: 325px; color: white; font-size: 58px; font-weight: 1000;
+      text-shadow: 4px 4px 0 var(--navy), 0 0 20px var(--blue);
+    }
+    .s6 .five { left: 180px; }
+    .s6 .one { right: 190px; }
+
+    /* Slide 7 */
+    .s7 .mission { bottom: 36px; width: 390px; min-height: 150px; }
+    .s7 .m1 { left: 70px; border-color: var(--blue); }
+    .s7 .m2 { left: 605px; border-color: var(--mint); }
+    .s7 .m3 { right: 70px; border-color: var(--yellow); }
+    .s7 ul { margin: 9px 0 0; padding: 0; list-style: none; font-size: 17px; line-height: 1.5; font-weight: 700; }
+    .s7 li::before { content: "□ "; color: var(--coral); font-weight: 900; }
+
+    /* Slide 8 */
+    .s8 .quest-title { top: 18px; }
+    .s8 .map-label { top: 594px; width: 215px; min-width: 0; padding: 9px 10px; }
+    .s8 .map-label strong { font-size: 18px; }
+    .s8 .map-label span { margin-top: 3px; font-size: 13px; }
+    .s8 .ml1 { left: 65px; }
+    .s8 .ml2 { left: 365px; }
+    .s8 .ml3 { left: 675px; }
+    .s8 .ml4 { left: 985px; }
+    .s8 .ml5 { right: 42px; }
+    .s8 .bonus {
+      position: absolute; left: 388px; bottom: 12px; width: 830px;
+      color: white; text-align: center; font-size: 18px; font-weight: 900;
+      text-shadow: 3px 3px 0 var(--navy);
+    }
+
+    /* Slide 9 */
+    .s9 .shade { background: radial-gradient(ellipse at 50% 35%, rgba(6, 16, 47, .88), rgba(6, 16, 47, .35) 45%, transparent 69%); }
+    .s9 .final-message {
+      position: absolute; left: 50%; top: 218px; transform: translateX(-50%);
+      width: 960px; text-align: center; color: white;
+      text-shadow: 4px 4px 0 #06152f, 0 0 28px #06152f;
+    }
+    .s9 .final-message h2 { font-size: 56px; }
+    .s9 .final-message .big { display: block; margin-top: 6px; color: var(--yellow); font-size: 70px; font-weight: 1000; }
+    .s9 .final-message p { margin-top: 18px; font-size: 25px; font-weight: 800; }
+    .s9 .final-cta { bottom: 31px; width: 540px; }
+
+    .hud {
+      position: fixed;
+      left: 50%;
+      bottom: max(14px, env(safe-area-inset-bottom));
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transform: translateX(-50%);
+      padding: 9px 12px;
+      background: rgba(3, 11, 31, .88);
+      border: 2px solid rgba(255, 214, 90, .82);
+      box-shadow: 5px 5px 0 rgba(0, 0, 0, .38);
+      backdrop-filter: blur(7px);
+      opacity: .82;
+      transition: opacity .2s ease;
+    }
+    .hud button {
+      width: 44px; height: 38px; padding: 0;
+      color: white; background: #153862;
+      border: 2px solid #6dcdf0;
+      box-shadow: 3px 3px 0 #020817;
+      cursor: pointer;
+      font-size: 20px; font-weight: 900;
+    }
+    .hud button:hover, .hud button:focus-visible { color: var(--navy); background: var(--yellow); outline: none; }
+    .counter { min-width: 68px; text-align: center; font-weight: 900; letter-spacing: .08em; }
+    .progress { width: 150px; height: 9px; background: #183456; border: 1px solid #5fcdf3; overflow: hidden; }
+    .progress > i { display: block; height: 100%; width: 11.11%; background: linear-gradient(90deg, var(--yellow), var(--coral)); transition: width .3s ease; }
+    .help {
+      position: fixed; right: 14px; top: 12px; z-index: 20;
+      padding: 7px 10px; color: rgba(255,255,255,.78); background: rgba(3,11,31,.66);
+      border: 1px solid rgba(109,205,240,.55); font-size: 12px; font-weight: 700;
+    }
+
+    @media (max-width: 720px), (max-height: 520px) {
+      .hud { bottom: max(6px, env(safe-area-inset-bottom)); padding: 5px 7px; gap: 6px; }
+      .hud button { width: 38px; height: 32px; font-size: 17px; }
+      .progress { width: 90px; }
+      .help { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .slide { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="stage" aria-label="四年級十二星座卡獎勵制度簡報">
+    <div class="deck" id="deck">
+      <section class="slide s1 active" aria-label="第 1 張：封面">
+        <img class="art" src="assets/slides/slide-01.png" alt="像素風學生進入星座卡寶箱冒險世界">
+        <div class="shade shade-left"></div>
+        <div class="pixel-panel cover-panel">
+          <span class="kicker">四年級專屬任務</span>
+          <h1>十二星座卡<br><span class="accent">獎勵冒險</span></h1>
+          <p class="subtitle">把每天的認真，變成一張張閃亮的收藏！</p>
+          <span class="start">準備出發，開始升級！</span>
+        </div>
+      </section>
+
+      <section class="slide s2" aria-label="第 2 張：努力會被看見">
+        <img class="art" src="assets/slides/slide-02.png" alt="四個像素任務據點">
+        <div class="quest-title"><span class="level">QUEST 01｜選擇任務</span><h2>努力不是看不見，<span class="gold">它會變成你的收藏！</span></h2></div>
+        <div class="label station st1"><strong>上課專心</strong><span>眼睛看、耳朵聽</span></div>
+        <div class="label station st2"><strong>完成任務</strong><span>認真寫完、準時交</span></div>
+        <div class="label station st3"><strong>幫助同學</strong><span>友善提醒、一起進步</span></div>
+        <div class="label station st4"><strong>守好規則</strong><span>排隊、安靜、負責</span></div>
+      </section>
+
+      <section class="slide s3" aria-label="第 3 張：升級地圖">
+        <img class="art" src="assets/slides/slide-03.png" alt="從好表現走向星座卡的四段像素冒險路線">
+        <div class="quest-title"><span class="level">QUEST 02｜升級路線</span><h2>集章、換卡，再把星座卡放進收藏冊</h2></div>
+        <div class="rule-banner">每一段努力，都讓你離星座圖鑑更近一步！</div>
+        <div class="label step p1"><strong>① 好表現</strong><span>完成今天的任務</span></div>
+        <div class="label step p2"><strong>② 得到獎勵章</strong><span>老師看見你的努力</span></div>
+        <div class="label step p3"><strong>③ 集滿 10 個章</strong><span>解鎖抽卡機會</span></div>
+        <div class="label step p4"><strong>④ 獲得星座卡</strong><span>放進自己的收藏冊</span></div>
+      </section>
+
+      <section class="slide s4" aria-label="第 4 張：十二星座卡收藏">
+        <img class="art" src="assets/slides/slide-04.png" alt="收藏十二張星座卡的像素觀星圖鑑室">
+        <div class="quest-title"><span class="level">QUEST 03｜收藏圖鑑</span><h2>收集 12 張不重複的星座卡</h2></div>
+        <div class="count-chip">圖鑑進度：0 ／ 12</div>
+        <div class="rule-banner collection-note">慢慢集也很厲害：每一張卡，都記錄著一次努力。</div>
+      </section>
+
+      <section class="slide s5" aria-label="第 5 張：三張特別卡">
+        <img class="art" src="assets/slides/slide-05.png" alt="勇氣、友誼與優秀三張特別卡聖殿">
+        <div class="quest-title"><span class="level">QUEST 04｜特殊寶物</span><h2>除了星座卡，還有 3 張特別卡！</h2></div>
+        <div class="label special sp1"><strong>勇氣卡</strong><span>遇到難題，也願意試試看</span></div>
+        <div class="label special sp2"><strong>友誼卡</strong><span>互相幫忙，一起完成任務</span></div>
+        <div class="label special sp3"><strong>優秀卡</strong><span>持續認真，做出自己的好表現</span></div>
+      </section>
+
+      <section class="slide s6" aria-label="第 6 張：重複卡交換">
+        <img class="art" src="assets/slides/slide-06.png" alt="五張相同卡在魔法工坊交換成一張指定卡">
+        <div class="quest-title"><span class="level">QUEST 05｜卡片交換</span><h2>抽到重複卡？它可以變成新的機會！</h2></div>
+        <div class="five">× 5</div><div class="one">× 1</div>
+        <div class="rule-banner exchange-rule">5 張相同的星座卡　＝　1 張自己還沒有的指定卡</div>
+      </section>
+
+      <section class="slide s7" aria-label="第 7 張：每日小任務">
+        <img class="art" src="assets/slides/slide-07.png" alt="三個像素風每日任務營地">
+        <div class="quest-title"><span class="level">QUEST 06｜每日訓練</span><h2>每天做一小步，就是最穩定的升級</h2></div>
+        <div class="label mission m1"><strong>今日任務</strong><ul><li>上課專心</li><li>作業完成</li><li>整理座位</li></ul></div>
+        <div class="label mission m2"><strong>合作任務</strong><ul><li>幫助同學</li><li>遵守規則</li><li>有禮貌地說話</li></ul></div>
+        <div class="label mission m3"><strong>挑戰任務</strong><ul><li>勇敢發言</li><li>主動練習</li><li>不會就請教</li></ul></div>
+      </section>
+
+      <section class="slide s8" aria-label="第 8 張：制度資訊圖表">
+        <img class="art" src="assets/slides/slide-08.png" alt="像素遊戲地圖式十二星座卡獎勵制度資訊圖">
+        <div class="quest-title"><span class="level">QUEST MAP｜一張圖看懂</span><h2>十二星座卡獎勵制度</h2></div>
+        <div class="label map-label ml1"><strong>① 認真表現</strong><span>完成任務</span></div>
+        <div class="label map-label ml2"><strong>② 獲得獎勵章</strong><span>努力被看見</span></div>
+        <div class="label map-label ml3"><strong>③ 集滿 10 個章</strong><span>得到抽卡機會</span></div>
+        <div class="label map-label ml4"><strong>④ 抽星座卡</strong><span>收藏不重複卡</span></div>
+        <div class="label map-label ml5"><strong>⑤ 完成圖鑑</strong><span>解鎖成就</span></div>
+        <div class="bonus">BONUS：5 張相同星座卡，可以換 1 張缺少的指定卡</div>
+      </section>
+
+      <section class="slide s9" aria-label="第 9 張：結尾">
+        <img class="art" src="assets/slides/slide-09.png" alt="學生完成像素冒險並發現努力與友誼才是真正寶物">
+        <div class="shade"></div>
+        <div class="final-message">
+          <h2>真正的寶物，</h2>
+          <span class="big">是愛上努力的自己！</span>
+          <p>每一次認真、幫助與勇敢，都讓你升級了一點。</p>
+        </div>
+        <div class="rule-banner final-cta">今天選一個小任務，開始你的冒險！</div>
+      </section>
+    </div>
+  </main>
+
+  <aside class="help">← →／空白鍵切換　F 全螢幕　O 總覽</aside>
+  <nav class="hud" aria-label="簡報導覽">
+    <button id="prev" aria-label="上一張">◀</button>
+    <span class="counter" id="counter">01 / 09</span>
+    <div class="progress" aria-hidden="true"><i id="progress"></i></div>
+    <button id="next" aria-label="下一張">▶</button>
+    <button id="full" aria-label="全螢幕">⛶</button>
+  </nav>
+
+  <script>
+    const deck = document.getElementById('deck');
+    const slides = [...document.querySelectorAll('.slide')];
+    const counter = document.getElementById('counter');
+    const progress = document.getElementById('progress');
+    let index = 0;
+    let overview = false;
+    let startX = 0;
+
+    function fitDeck() {
+      // 橫向播放時在投影片下方預留控制區，避免導覽列遮住內容。
+      const controlStrip = innerWidth / innerHeight > 1.15 ? 86 : 0;
+      const availableHeight = innerHeight - controlStrip;
+      const scale = Math.min(innerWidth / 1600, availableHeight / 900);
+      deck.style.top = `${availableHeight / 2}px`;
+      deck.style.transform = `translate(-50%, -50%) scale(${scale})`;
+    }
+
+    function show(next) {
+      if (overview) toggleOverview(false);
+      const old = index;
+      index = (next + slides.length) % slides.length;
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+        slide.classList.toggle('leaving', i === old && old !== index);
+      });
+      counter.textContent = `${String(index + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+      progress.style.width = `${((index + 1) / slides.length) * 100}%`;
+      location.hash = `slide-${index + 1}`;
+      setTimeout(() => slides.forEach(s => s.classList.remove('leaving')), 420);
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+      else document.exitFullscreen?.();
+    }
+
+    function toggleOverview(force) {
+      overview = typeof force === 'boolean' ? force : !overview;
+      if (!overview) {
+        slides.forEach((s, i) => {
+          s.style.cssText = '';
+          s.classList.toggle('active', i === index);
+        });
+        deck.style.background = '#071b3a';
+        return;
+      }
+      slides.forEach((s, i) => {
+        const col = i % 3, row = Math.floor(i / 3);
+        s.classList.add('active');
+        s.style.cssText = `width:520px;height:292.5px;left:${10 + col * 535}px;top:${8 + row * 297}px;transform:none;opacity:${i === index ? 1 : .72};outline:${i === index ? '7px solid #ffd65a' : '2px solid #5fcdf3'};cursor:pointer;`;
+        s.onclick = () => { index = i; toggleOverview(false); show(i); };
+      });
+    }
+
+    document.getElementById('prev').onclick = () => show(index - 1);
+    document.getElementById('next').onclick = () => show(index + 1);
+    document.getElementById('full').onclick = toggleFullscreen;
+    addEventListener('resize', fitDeck);
+    addEventListener('keydown', e => {
+      if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); show(index + 1); }
+      if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); show(index - 1); }
+      if (e.key === 'Home') show(0);
+      if (e.key === 'End') show(slides.length - 1);
+      if (e.key.toLowerCase() === 'f') toggleFullscreen();
+      if (e.key.toLowerCase() === 'o') toggleOverview();
+      if (e.key === 'Escape' && overview) toggleOverview(false);
+    });
+    addEventListener('touchstart', e => startX = e.changedTouches[0].clientX, { passive: true });
+    addEventListener('touchend', e => {
+      const delta = e.changedTouches[0].clientX - startX;
+      if (Math.abs(delta) > 55) show(index + (delta < 0 ? 1 : -1));
+    }, { passive: true });
+
+    const hashMatch = location.hash.match(/slide-(\d+)/);
+    if (hashMatch) index = Math.max(0, Math.min(slides.length - 1, Number(hashMatch[1]) - 1));
+    fitDeck();
+    show(index);
+  </script>
+</body>
+</html>
