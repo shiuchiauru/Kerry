@@ -1,6 +1,19 @@
 [build]
   publish = "."
 
+# 舊的中年級獨立頁面已併入首頁，保留轉址讓先前分享出去的連結還能用
+[[redirects]]
+  from = "/multiply-divide"
+  to = "/?grade=mid"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/multiply-divide.html"
+  to = "/?grade=mid"
+  status = 301
+  force = true
+
 # 靜態資源（字型、Tailwind、Vue）檔名固定，長期快取即可
 [[headers]]
   for = "/assets/*"
