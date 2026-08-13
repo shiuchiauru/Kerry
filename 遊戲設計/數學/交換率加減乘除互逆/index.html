@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>加與減的秘密通道：探索加減互逆關係</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="assets/tailwind.js"></script>
+  <!-- Vue 3 -->
+  <script src="assets/vue.global.prod.js"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="assets/fontawesome.css" />
+  <!-- Google Fonts for Kids -->
+  <link rel="stylesheet" href="assets/fonts.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Fredoka', 'Noto Sans TC', '"PingFang TC"', '"Microsoft JhengHei"', '"Heiti TC"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              rose: '#FB7185',
+              blue: '#3B82F6',
+              yellow: '#FACC15',
+              purple: '#A855F7',
+              emerald: '#34D399',
+              orange: '#FB923C',
+              bgLight: '#FFFBEB',
+            }
+          },
+          animation: {
+            'bounce-soft': 'bounceSoft 2s infinite',
+            'float': 'float 3s ease-in-out infinite',
+            'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          },
+          keyframes: {
+            bounceSoft: {
+              '0%, 100%': { transform: 'translateY(-5%)' },
+              '50%': { transform: 'translateY(0)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #FEFCE8;
+      background-image: radial-gradient(#FDE68A 1.8px, transparent 1.8px);
+      background-size: 24px 24px;
+      user-select: none;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border: 3px solid #FDE68A;
+    }
+    .btn-pop {
+      transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.15s ease;
+    }
+    .btn-pop:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen pb-12">
+
+  <div id="app" class="max-w-5xl mx-auto px-4 py-6">
+
+    <!-- Top Navigation & Header -->
+    <header class="glass-card rounded-3xl p-4 md:p-6 mb-6 shadow-xl border-b-8 border-rose-400 relative overflow-hidden">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 relative z-10">
+        
+        <!-- Mascot & Title -->
+        <div class="flex items-center gap-4">
+          <div class="w-16 h-16 md:w-20 md:h-20 bg-rose-100 rounded-full flex items-center justify-center text-3xl md:text-4xl shadow-inner border-4 border-rose-300 animate-float">
+            🐿️
+          </div>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="bg-rose-500 text-white font-extrabold text-xs px-3 py-0.5 rounded-full uppercase tracking-wider shadow">低年級專用</span>
+              <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-0.5 rounded-full font-bold border border-emerald-300">設計者：高師大王玉珍</span>
+            </div>
+            <h1 class="text-2xl md:text-3xl font-black text-slate-800 tracking-tight mt-1">
+              加與減的秘密通道 <span class="text-rose-500">✨</span>
+            </h1>
+            <p class="text-xs md:text-sm font-bold text-slate-500">探索「合起來」與「拿走」的互逆魔法（加減互逆）</p>
+          </div>
+        </div>
+
+        <!-- Star Rewards Counter -->
+        <div class="flex items-center gap-3 bg-amber-50 border-2 border-amber-300 px-4 py-2 rounded-2xl shadow-sm">
+          <div class="text-amber-500 text-2xl animate-bounce"><i class="fa-solid fa-star"></i></div>
+          <div>
+            <div class="text-xs font-bold text-amber-700">探索星星數</div>
+            <div class="text-xl font-black text-amber-900">{{ totalStars }} ⭐</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase Selector Tabs -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 mt-6">
+        <button 
+          @click="switchPhase(1)"
+          :class="[
+            'py-3 px-2 md:px-4 rounded-2xl font-black text-xs md:text-base flex flex-col md:flex-row items-center justify-center gap-2 transition-all btn-pop border-b-4',
+            activePhase === 1 
+              ? 'bg-rose-500 text-white border-rose-700 shadow-lg scale-105' 
+              : 'bg-rose-100 text-rose-800 border-rose-300 hover:bg-rose-200'
+          ]">
+          <span class="text-lg md:text-xl">🍎</span>
+          <span>動手玩一玩</span>
+        </button>
+
+        <button 
+          @click="switchPhase(2)"
+          :class="[
+            'py-3 px-2 md:px-4 rounded-2xl font-black text-xs md:text-base flex flex-col md:flex-row items-center justify-center gap-2 transition-all btn-pop border-b-4',
+            activePhase === 2 
+              ? 'bg-blue-500 text-white border-blue-700 shadow-lg scale-105' 
+              : 'bg-blue-100 text-blue-800 border-blue-300 hover:bg-blue-200'
+          ]">
+          <span class="text-lg md:text-xl">📊</span>
+          <span>數學積木排排看</span>
+        </button>
+
+        <button 
+          @click="switchPhase(3)"
+          :class="[
+            'py-3 px-2 md:px-4 rounded-2xl font-black text-xs md:text-base flex flex-col md:flex-row items-center justify-center gap-2 transition-all btn-pop border-b-4',
+            activePhase === 3 
+              ? 'bg-amber-500 text-white border-amber-700 shadow-lg scale-105' 
+              : 'bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200'
+          ]">
+          <span class="text-lg md:text-xl">🔺</span>
+          <span>闖關時間</span>
+        </button>
+
+        <button 
+          @click="switchPhase(4)"
+          :class="[
+            'py-3 px-2 md:px-4 rounded-2xl font-black text-xs md:text-base flex flex-col md:flex-row items-center justify-center gap-2 transition-all btn-pop border-b-4',
+            activePhase === 4 
+              ? 'bg-purple-500 text-white border-purple-700 shadow-lg scale-105' 
+              : 'bg-purple-100 text-purple-800 border-purple-300 hover:bg-purple-200'
+          ]">
+          <span class="text-lg md:text-xl">🦉</span>
+          <span>我的AI小老師</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main>
+
+      <!-- ================= SECTION 1: 動手玩一玩 (採水果與合起來) ================= -->
+      <section v-if="activePhase === 1" class="space-y-6">
+        
+        <!-- Instructions Card -->
+        <div class="glass-card rounded-3xl p-6 border-l-8 border-rose-500 shadow-lg">
+          <div class="flex items-center justify-between flex-wrap gap-4">
+            <div class="flex items-center gap-3">
+              <span class="text-3xl">🍎</span>
+              <h2 class="text-xl font-black text-rose-900">動手玩一玩：松松的水果籃 🧺</h2>
+            </div>
+            <button @click="generatePhase1Problem" class="bg-rose-500 hover:bg-rose-600 text-white font-bold px-4 py-2 rounded-xl text-sm btn-pop shadow flex items-center gap-2">
+              <i class="fa-solid fa-dice"></i> 換一題 (隨機水果)
+            </button>
+          </div>
+          <p class="mt-3 text-slate-700 font-medium text-sm md:text-base">
+            小松鼠松松原本籃子裡有 <span class="text-rose-600 font-black text-xl">{{ p1RedCount }}</span> 個紅蘋果，
+            後來又採了 <span class="text-emerald-600 font-black text-xl">{{ p1GreenCount }}</span> 個青蘋果。
+            <strong>請點擊右邊的「水果籃」</strong>，看水果動態進到籃子裡合起來！
+          </p>
+        </div>
+
+        <!-- Interactive Visual Area -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+          
+          <!-- Left: Red Apples -->
+          <div class="md:col-span-4 glass-card rounded-3xl p-5 border-2 border-rose-200 shadow flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="font-extrabold text-rose-700 text-sm flex items-center gap-2">
+                  🔴 原本的紅蘋果
+                </h3>
+                <span class="bg-rose-100 text-rose-800 text-xs font-black px-2.5 py-1 rounded-full">
+                  {{ p1RedCount }} 個
+                </span>
+              </div>
+
+              <div class="bg-rose-50/60 p-4 rounded-2xl min-h-[140px] flex flex-wrap gap-2 content-start border border-dashed border-rose-300">
+                <div 
+                  v-for="n in p1RedCount" 
+                  :key="'red-'+n"
+                  class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-2xl shadow-sm border border-rose-200 hover:scale-110 transition-transform cursor-pointer">
+                  🍎
+                </div>
+              </div>
+            </div>
+            <div class="mt-3 text-xs font-bold text-rose-600 text-center">
+              一部分：{{ p1RedCount }}
+            </div>
+          </div>
+
+          <!-- Middle: Green Apples -->
+          <div class="md:col-span-4 glass-card rounded-3xl p-5 border-2 border-emerald-200 shadow flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="font-extrabold text-emerald-700 text-sm flex items-center gap-2">
+                  🍏 又採的青蘋果
+                </h3>
+                <span class="bg-emerald-100 text-emerald-800 text-xs font-black px-2.5 py-1 rounded-full">
+                  {{ p1GreenCount }} 個
+                </span>
+              </div>
+
+              <div class="bg-emerald-50/60 p-4 rounded-2xl min-h-[140px] flex flex-wrap gap-2 content-start border border-dashed border-emerald-300">
+                <div 
+                  v-for="n in p1GreenCount" 
+                  :key="'green-'+n"
+                  class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-2xl shadow-sm border border-emerald-200 hover:scale-110 transition-transform cursor-pointer">
+                  🍏
+                </div>
+              </div>
+            </div>
+            <div class="mt-3 text-xs font-bold text-emerald-600 text-center">
+              另一部分：{{ p1GreenCount }}
+            </div>
+          </div>
+
+          <!-- Right: Total Basket (Clickable Dynamic Container) -->
+          <div 
+            @click="combineBasket"
+            :class="[
+              'md:col-span-4 glass-card rounded-3xl p-5 border-4 shadow flex flex-col justify-between cursor-pointer transition-all duration-300 transform hover:scale-[1.02]',
+              p1IsMerged ? 'border-amber-400 bg-amber-50/50' : 'border-dashed border-rose-400 bg-amber-100/60 hover:bg-amber-100'
+            ]">
+            <div>
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="font-extrabold text-amber-900 text-sm flex items-center gap-2">
+                  🧺 水果籃 (點我進行合成)
+                </h3>
+                <span class="bg-amber-200 text-amber-900 text-xs font-black px-2.5 py-1 rounded-full">
+                  共 {{ p1BasketRed + p1BasketGreen }} 個
+                </span>
+              </div>
+
+              <!-- Interactive Basket Box -->
+              <div class="bg-white p-4 rounded-2xl min-h-[140px] flex flex-wrap gap-2 content-start border-2 border-amber-300 shadow-inner relative overflow-hidden">
+                
+                <!-- Prompt overlay before synthesis -->
+                <div v-if="!p1IsMerged && !p1IsAnimating && p1BasketRed === 0" class="absolute inset-0 flex flex-col items-center justify-center bg-amber-50/90 p-4 text-center z-10">
+                  <div class="text-3xl animate-bounce mb-1">🧺👆</div>
+                  <div class="text-sm font-black text-amber-800">點擊水果籃！</div>
+                  <div class="text-xs font-bold text-slate-500">把 {{ p1RedCount }} 個紅蘋果與 {{ p1GreenCount }} 個青蘋果動態合起來</div>
+                </div>
+
+                <!-- Dynamically Animated Apples -->
+                <div 
+                  v-for="n in p1BasketRed" 
+                  :key="'basket-red-'+n"
+                  class="w-9 h-9 bg-rose-50 rounded-lg flex items-center justify-center text-xl shadow-sm border border-rose-300 animate-bounce-soft">
+                  🍎
+                </div>
+                <div 
+                  v-for="n in p1BasketGreen" 
+                  :key="'basket-green-'+n"
+                  class="w-9 h-9 bg-emerald-50 rounded-lg flex items-center justify-center text-xl shadow-sm border border-emerald-300 animate-bounce-soft">
+                  🍏
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3 text-xs font-extrabold text-center" :class="p1IsMerged ? 'text-amber-800' : 'text-rose-600 animate-pulse'">
+              <span v-if="p1IsAnimating">⏳ 水果放入籃子中... ({{ p1BasketRed + p1BasketGreen }} 個)</span>
+              <span v-else-if="p1IsMerged">✨ 成功合成！整體 (全部)：{{ p1BasketRed + p1BasketGreen }} 個</span>
+              <span v-else>👉 請點擊水果籃開始動態合成！</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Verification & Inverse Channel Formula -->
+        <div class="glass-card rounded-3xl p-6 border-2 border-rose-300 bg-white shadow-lg space-y-4">
+          <h3 class="text-center font-black text-slate-800 text-lg mb-2">
+            🔍 發現加減秘密通道：算式連連看
+          </h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+            
+            <!-- Addition View -->
+            <div class="bg-rose-50 p-4 rounded-2xl border border-rose-200 text-center space-y-2">
+              <div class="text-xs font-extrabold text-rose-800 uppercase tracking-wide">【加法通道】合起來一共有幾個？</div>
+              <div class="text-xs text-slate-600">( 部分 ＋ 部分 ＝ 整體 )</div>
+              <div class="flex items-center justify-center gap-2 text-xl font-black text-rose-900">
+                <span class="bg-white px-3 py-1 rounded-xl border border-rose-300 shadow-sm">{{ p1RedCount }}</span>
+                <span>＋</span>
+                <span class="bg-white px-3 py-1 rounded-xl border border-rose-300 shadow-sm">{{ p1GreenCount }}</span>
+                <span>＝</span>
+                <span class="bg-rose-200 px-4 py-1 rounded-xl text-rose-950 font-black border border-rose-400 shadow-sm">{{ p1RedCount + p1GreenCount }}</span>
+              </div>
+            </div>
+
+            <!-- Subtraction View (Inverse Question) -->
+            <div class="bg-amber-50 p-4 rounded-2xl border border-amber-200 text-center space-y-2">
+              <div class="text-xs font-extrabold text-amber-800 uppercase tracking-wide">【減法秘密通道】如果拿走青蘋果，剩下幾個紅蘋果？</div>
+              <div class="text-xs text-slate-600">( 整體 － 青蘋果 ＝ 紅蘋果 )</div>
+              <div class="flex items-center justify-center gap-2 text-xl font-black text-amber-900">
+                <span class="bg-white px-3 py-1 rounded-xl border border-amber-300 shadow-sm">{{ p1RedCount + p1GreenCount }}</span>
+                <span>－</span>
+                <span class="bg-white px-3 py-1 rounded-xl border border-amber-300 shadow-sm">{{ p1GreenCount }}</span>
+                <span>＝</span>
+                <input 
+                  type="number" 
+                  v-model.number="p1UserAnswer"
+                  placeholder="?"
+                  class="w-16 text-center bg-amber-200 border-2 border-amber-400 rounded-xl py-1 focus:outline-none focus:ring-2 focus:ring-amber-500 font-black text-amber-900"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Check Answer Button -->
+          <div class="mt-4 flex flex-col items-center">
+            <button 
+              @click="checkPhase1" 
+              class="bg-gradient-to-r from-rose-500 to-amber-500 text-white font-black text-lg px-8 py-3 rounded-2xl shadow-lg btn-pop hover:shadow-xl flex items-center gap-2">
+              <i class="fa-solid fa-key"></i> 開啟減法秘密通道！
+            </button>
+            <p v-if="p1Feedback" :class="['mt-3 font-extrabold text-base text-center animate-bounce-soft', p1IsCorrect ? 'text-emerald-600' : 'text-rose-500']">
+              {{ p1Feedback }}
+            </p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================= SECTION 2: 數學積木排排看 (積木條與未知數) ================= -->
+      <section v-if="activePhase === 2" class="space-y-6">
+        
+        <!-- Instructions Card -->
+        <div class="glass-card rounded-3xl p-6 border-l-8 border-blue-500 shadow-lg">
+          <div class="flex items-center justify-between flex-wrap gap-4">
+            <div class="flex items-center gap-3">
+              <span class="text-3xl">📊</span>
+              <h2 class="text-xl font-black text-blue-900">數學積木排排看 🏰</h2>
+            </div>
+            
+            <!-- Mode Switcher -->
+            <div class="flex bg-blue-100 p-1 rounded-2xl gap-1">
+              <button 
+                @click="p2SubMode = 'bar'" 
+                :class="['px-3 py-1.5 rounded-xl text-xs font-bold transition-all', p2SubMode === 'bar' ? 'bg-white text-blue-700 shadow' : 'text-slate-600']">
+                🧱 積木條模型
+              </button>
+              <button 
+                @click="p2SubMode = 'unknown'" 
+                :class="['px-3 py-1.5 rounded-xl text-xs font-bold transition-all', p2SubMode === 'unknown' ? 'bg-white text-blue-700 shadow' : 'text-slate-600']">
+                ❓ 求解未知數 🔲
+              </button>
+            </div>
+          </div>
+          <p class="mt-2 text-slate-700 font-medium text-sm md:text-base">
+            用拉桿調整兩塊積木長度，看著「部分」合起來變成「整體」！這就是加法與減法互逆的超能力！
+          </p>
+        </div>
+
+        <!-- Mode A: Bar Model -->
+        <div v-if="p2SubMode === 'bar'" class="grid grid-cols-1 md:grid-cols-12 gap-6">
+          
+          <!-- Control Sliders -->
+          <div class="md:col-span-4 glass-card rounded-3xl p-5 border-2 border-blue-200 shadow space-y-5">
+            <h3 class="font-black text-blue-900 flex items-center gap-2 text-base">
+              <i class="fa-solid fa-sliders text-blue-500"></i> 調整積木數量
+            </h3>
+
+            <!-- Part A Control -->
+            <div>
+              <div class="flex justify-between font-bold text-sm text-slate-700 mb-1">
+                <span>🔴 部分甲 (紅色)</span>
+                <span class="text-rose-600 font-black text-lg">{{ p2PartA }} 個</span>
+              </div>
+              <input type="range" min="1" max="15" v-model.number="p2PartA" class="w-full accent-rose-500 cursor-pointer">
+            </div>
+
+            <!-- Part B Control -->
+            <div>
+              <div class="flex justify-between font-bold text-sm text-slate-700 mb-1">
+                <span>🔵 部分乙 (藍色)</span>
+                <span class="text-blue-600 font-black text-lg">{{ p2PartB }} 個</span>
+              </div>
+              <input type="range" min="1" max="15" v-model.number="p2PartB" class="w-full accent-blue-500 cursor-pointer">
+            </div>
+
+            <!-- Total display -->
+            <div class="bg-blue-50 p-4 rounded-2xl border border-blue-200 text-center">
+              <span class="text-xs text-blue-700 font-bold block">整體 (合起來共有幾個？)</span>
+              <span class="text-3xl font-black text-blue-900">{{ p2PartA + p2PartB }} 個</span>
+            </div>
+
+            <!-- Swap button -->
+            <button 
+              @click="swapParts" 
+              class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2.5 rounded-xl btn-pop text-sm flex items-center justify-center gap-2 shadow">
+              <i class="fa-solid fa-rotate"></i> 交換位置 (加法交換律)
+            </button>
+          </div>
+
+          <!-- Bar Visualizer -->
+          <div class="md:col-span-8 glass-card rounded-3xl p-6 border-2 border-blue-200 shadow flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center mb-4">
+                <span class="text-xs font-bold text-slate-500">積木條模型</span>
+                <span class="text-xs bg-indigo-100 text-indigo-800 font-extrabold px-3 py-1 rounded-full">
+                  加減互逆示意圖
+                </span>
+              </div>
+
+              <!-- Bar Display -->
+              <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 min-h-[180px] flex flex-col justify-center space-y-4">
+                
+                <!-- Whole Bar Container -->
+                <div class="w-full">
+                  <div class="text-xs font-bold text-slate-500 mb-1">整體 (全部) ＝ {{ p2PartA + p2PartB }}</div>
+                  <div class="w-full h-10 bg-amber-300 rounded-xl flex items-center justify-center font-black text-amber-950 text-lg shadow-sm border-2 border-amber-400">
+                    {{ p2PartA + p2PartB }}
+                  </div>
+                </div>
+
+                <!-- Parts Split Bar Container -->
+                <div>
+                  <div class="text-xs font-bold text-slate-500 mb-1">部分 ＋ 部分</div>
+                  <div class="w-full h-12 flex rounded-xl overflow-hidden border-2 border-slate-300 shadow-sm">
+                    <!-- Part A -->
+                    <div 
+                      class="bg-rose-400 text-white font-black flex items-center justify-center text-sm md:text-base transition-all duration-300 border-r-2 border-white"
+                      :style="{ width: (p2PartA / (p2PartA + p2PartB) * 100) + '%' }">
+                      {{ p2PartA }}
+                    </div>
+                    <!-- Part B -->
+                    <div 
+                      class="bg-blue-400 text-white font-black flex items-center justify-center text-sm md:text-base transition-all duration-300"
+                      :style="{ width: (p2PartB / (p2PartA + p2PartB) * 100) + '%' }">
+                      {{ p2PartB }}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Equations display -->
+            <div class="mt-6 bg-gradient-to-r from-rose-50 via-purple-50 to-blue-50 p-4 rounded-2xl border border-purple-200 grid grid-cols-1 md:grid-cols-2 gap-3 text-center">
+              <div class="font-black text-rose-900 text-sm md:text-base">
+                加法：<span class="text-rose-600">{{ p2PartA }} + {{ p2PartB }} = {{ p2PartA + p2PartB }}</span>
+              </div>
+              <div class="font-black text-blue-900 text-sm md:text-base">
+                減法互逆：<span class="text-blue-600">{{ p2PartA + p2PartB }} － {{ p2PartA }} = {{ p2PartB }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mode B: Solve Unknown Box -->
+        <div v-if="p2SubMode === 'unknown'" class="glass-card rounded-3xl p-6 border-2 border-blue-200 shadow space-y-6">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <h3 class="font-black text-slate-800 text-lg flex items-center gap-2">
+              <i class="fa-solid fa-circle-question text-blue-500"></i> 解開缺少的密碼 🔲
+            </h3>
+            <button @click="generateUnknownProblem" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-xl text-sm btn-pop shadow">
+              <i class="fa-solid fa-dice"></i> 產生新題目
+            </button>
+          </div>
+
+          <p class="text-sm md:text-base text-slate-700 font-medium">
+            {{ unknownStory }}
+          </p>
+
+          <div class="bg-blue-50/50 p-6 rounded-2xl border border-blue-100 flex flex-col md:flex-row items-center justify-center gap-6">
+            
+            <div class="bg-white p-5 rounded-2xl border-2 border-blue-300 shadow-md max-w-md w-full text-center space-y-4">
+              <div class="text-xs font-bold text-slate-500">加法算式： {{ unknownFormulaText }}</div>
+              
+              <div class="text-xl font-black text-slate-800 flex items-center justify-center gap-2">
+                <span>{{ unknownEquationDisplay }}</span>
+              </div>
+
+              <div class="bg-amber-100 p-3 rounded-xl text-xs font-bold text-amber-900">
+                💡 思考小秘訣：利用「加減互逆」，整體 － 知道的部分 ＝ 🔲
+              </div>
+
+              <div class="flex items-center justify-center gap-2 text-lg font-black">
+                <span>🔲 ＝</span>
+                <input 
+                  type="number" 
+                  v-model.number="unknownUserAnswer"
+                  placeholder="?"
+                  class="w-24 text-center bg-blue-100 border-2 border-blue-400 rounded-xl py-1.5 focus:outline-none font-black text-blue-900"
+                />
+              </div>
+
+              <button 
+                @click="checkUnknownProblem" 
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-2.5 rounded-xl shadow btn-pop text-sm">
+                驗算求答案！
+              </button>
+
+              <p v-if="unknownFeedback" :class="['text-xs md:text-sm font-extrabold text-center', unknownIsCorrect ? 'text-emerald-600' : 'text-rose-500']">
+                {{ unknownFeedback }}
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================= SECTION 3: 闖關時間 (數字魔法三角) ================= -->
+      <section v-if="activePhase === 3" class="space-y-6">
+        
+        <!-- Instructions Card -->
+        <div class="glass-card rounded-3xl p-6 border-l-8 border-amber-500 shadow-lg">
+          <div class="flex items-center justify-between flex-wrap gap-4">
+            <div class="flex items-center gap-3">
+              <span class="text-3xl">🔺</span>
+              <h2 class="text-xl font-black text-amber-900">闖關時間：數字魔法三角 🏆</h2>
+            </div>
+            <span class="bg-amber-100 text-amber-800 text-xs font-black px-3 py-1 rounded-full">
+              加減數字家族
+            </span>
+          </div>
+          <p class="mt-2 text-slate-700 font-medium text-sm md:text-base">
+            三個數字組成一個超級好朋友家族！利用頂端的「整體」與底部的兩個「部分」，寫出 2 個加法和 2 個減法秘密通道！
+          </p>
+        </div>
+
+        <!-- Fact Family Triangle -->
+        <div class="glass-card rounded-3xl p-6 border-2 border-amber-200 shadow space-y-6">
+          <div class="flex justify-between items-center flex-wrap gap-2">
+            <h3 class="font-black text-slate-800 text-lg flex items-center gap-2">
+              <i class="fa-solid fa-shapes text-amber-500"></i> 數字魔法三角
+            </h3>
+            <button @click="generateFactFamily" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-4 py-2 rounded-xl text-sm btn-pop shadow">
+              <i class="fa-solid fa-dice"></i> 換一組數字
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+            
+            <!-- SVG Fact Triangle Visual -->
+            <div class="md:col-span-5 flex justify-center">
+              <div class="relative w-64 h-56 flex items-center justify-center">
+                <!-- Triangle SVG -->
+                <svg class="absolute inset-0 w-full h-full text-amber-100 drop-shadow-md" viewBox="0 0 100 86" fill="currentColor">
+                  <polygon points="50,5 95,80 5,80" stroke="#F59E0B" stroke-width="3" />
+                </svg>
+
+                <!-- Top Number (Whole C) -->
+                <div class="absolute top-2 left-1/2 -translate-x-1/2 bg-amber-400 text-amber-950 font-black text-2xl w-14 h-14 rounded-full flex items-center justify-center shadow-md border-2 border-amber-500" title="整體">
+                  {{ ffC }}
+                </div>
+
+                <!-- Bottom Left (Part A) -->
+                <div class="absolute bottom-2 left-4 bg-rose-300 text-rose-950 font-black text-xl w-12 h-12 rounded-full flex items-center justify-center shadow-md border-2 border-rose-500" title="部分">
+                  {{ ffA }}
+                </div>
+
+                <!-- Bottom Right (Part B) -->
+                <div class="absolute bottom-2 right-4 bg-blue-300 text-blue-950 font-black text-xl w-12 h-12 rounded-full flex items-center justify-center shadow-md border-2 border-blue-500" title="部分">
+                  {{ ffB }}
+                </div>
+
+                <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-xs font-black text-amber-800 bg-amber-200 px-2.5 py-0.5 rounded-full">
+                  ＋ / － 家族
+                </div>
+              </div>
+            </div>
+
+            <!-- Interactive 4 Equations Builder -->
+            <div class="md:col-span-7 bg-amber-50/60 p-5 rounded-2xl border border-amber-200 space-y-4">
+              <h4 class="font-extrabold text-amber-900 text-sm">請寫出這個家族的 4 個秘密通道算式：</h4>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm font-black">
+                
+                <!-- Add 1 -->
+                <div class="bg-white p-3 rounded-xl border border-amber-200 flex items-center justify-between shadow-sm">
+                  <span>{{ ffA }} ＋ {{ ffB }} ＝</span>
+                  <input type="number" v-model.number="ffInputs.a1" class="w-16 text-center bg-amber-100 border border-amber-300 rounded-lg py-1 font-black">
+                </div>
+
+                <!-- Add 2 -->
+                <div class="bg-white p-3 rounded-xl border border-amber-200 flex items-center justify-between shadow-sm">
+                  <span>{{ ffB }} ＋ {{ ffA }} ＝</span>
+                  <input type="number" v-model.number="ffInputs.a2" class="w-16 text-center bg-amber-100 border border-amber-300 rounded-lg py-1 font-black">
+                </div>
+
+                <!-- Sub 1 -->
+                <div class="bg-white p-3 rounded-xl border border-amber-200 flex items-center justify-between shadow-sm">
+                  <span>{{ ffC }} － {{ ffA }} ＝</span>
+                  <input type="number" v-model.number="ffInputs.s1" class="w-16 text-center bg-amber-100 border border-amber-300 rounded-lg py-1 font-black">
+                </div>
+
+                <!-- Sub 2 -->
+                <div class="bg-white p-3 rounded-xl border border-amber-200 flex items-center justify-between shadow-sm">
+                  <span>{{ ffC }} － {{ ffB }} ＝</span>
+                  <input type="number" v-model.number="ffInputs.s2" class="w-16 text-center bg-amber-100 border border-amber-300 rounded-lg py-1 font-black">
+                </div>
+              </div>
+
+              <button 
+                @click="checkFactFamily" 
+                class="w-full bg-amber-500 hover:bg-amber-600 text-white font-black py-3 rounded-xl btn-pop shadow text-sm">
+                驗證 4 個加減秘密通道
+              </button>
+
+              <p v-if="ffFeedback" :class="['text-xs font-extrabold text-center', ffIsCorrect ? 'text-emerald-600' : 'text-rose-500']">
+                {{ ffFeedback }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================= SECTION 4: 我的AI小老師 ================= -->
+      <section v-if="activePhase === 4" class="space-y-6">
+        
+        <!-- Instructions Card -->
+        <div class="glass-card rounded-3xl p-6 border-l-8 border-purple-500 shadow-lg">
+          <div class="flex items-center justify-between flex-wrap gap-4">
+            <div class="flex items-center gap-3">
+              <span class="text-3xl">🦉</span>
+              <h2 class="text-xl font-black text-purple-900">我的AI小老師：貓頭鷹醫生 🩺</h2>
+            </div>
+            <span class="bg-purple-100 text-purple-800 text-xs font-black px-3 py-1 rounded-full">
+              AI 智慧小老師
+            </span>
+          </div>
+          <p class="mt-2 text-slate-700 font-medium text-sm md:text-base">
+            遇到了不太懂的加減法題目嗎？或是不知道自己哪裡算錯？快點擊問問貓頭鷹醫生，為你解答迷思！
+          </p>
+        </div>
+
+        <!-- AI Diagnostic Clinic Container -->
+        <div class="glass-card rounded-3xl p-6 border-2 border-purple-200 shadow space-y-6">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center text-purple-700 text-2xl font-bold border border-purple-300">
+                🦉
+              </div>
+              <div>
+                <h3 class="font-black text-purple-900 text-lg">貓頭鷹醫生 低年級加減法迷思診斷</h3>
+                <p class="text-xs text-slate-500">常見算錯情況大解析，看看哪裡卡住了？</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Common Error Selector -->
+          <div class="bg-purple-50/60 p-4 rounded-2xl border border-purple-200 space-y-3">
+            <label class="block text-xs font-bold text-purple-900">選擇一個同學們常犯錯的案例來診斷：</label>
+            <select v-model="selectedErrorCase" class="w-full p-3 bg-white border border-purple-300 rounded-xl text-sm font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-400">
+              <option v-for="(item, idx) in presetErrorCases" :key="idx" :value="item">
+                {{ item.title }}
+              </option>
+            </select>
+
+            <!-- Case preview box -->
+            <div class="bg-white p-4 rounded-xl border border-purple-200 shadow-sm">
+              <div class="text-xs font-bold text-purple-600 mb-1">【題目描述】</div>
+              <div class="text-sm font-black text-slate-800">{{ selectedErrorCase.question }}</div>
+              <div class="text-xs text-rose-600 font-bold mt-1">同學的迷思解答：{{ selectedErrorCase.wrongAnswer }}</div>
+            </div>
+
+            <!-- Custom Question Input -->
+            <div class="pt-2">
+              <button 
+                @click="showCustomInput = !showCustomInput" 
+                class="text-xs font-bold text-purple-600 hover:text-purple-800 underline">
+                {{ showCustomInput ? '隱藏自訂題目' : '＋ 我有自己算錯的加減法題目想問貓頭鷹醫生！' }}
+              </button>
+
+              <div v-if="showCustomInput" class="mt-3 space-y-2">
+                <input 
+                  type="text" 
+                  v-model="customErrorPrompt" 
+                  placeholder="例如：小明算 15 - 8 = 9，為什麼不對？要怎麼驗算？"
+                  class="w-full p-2.5 bg-white border border-purple-300 rounded-xl text-xs font-bold focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <!-- Ask AI Button -->
+            <button 
+              @click="askAIDoctor" 
+              :disabled="aiLoading"
+              class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-black py-3 rounded-xl shadow-lg btn-pop flex items-center justify-center gap-2 text-sm disabled:opacity-50">
+              <i class="fa-solid fa-stethoscope" v-if="!aiLoading"></i>
+              <i class="fa-solid fa-spinner animate-spin" v-else></i>
+              <span>{{ aiLoading ? '貓頭鷹醫生正在分析診斷中...' : '請貓頭鷹醫生開解答處方箋！' }}</span>
+            </button>
+          </div>
+
+          <!-- AI Diagnostic Result Card -->
+          <div v-if="aiDiagnosis" class="bg-white p-6 rounded-2xl border-2 border-purple-300 shadow-md space-y-3 animate-float">
+            <div class="flex items-center gap-3">
+              <span class="text-3xl">🦉</span>
+              <div>
+                <div class="font-black text-purple-900 text-base">貓頭鷹醫生的加減法處方箋</div>
+                <div class="text-xs text-slate-500">加與減的秘密通道診斷報告</div>
+              </div>
+            </div>
+
+            <div class="text-sm font-medium text-slate-700 whitespace-pre-line leading-relaxed bg-purple-50/50 p-4 rounded-xl border border-purple-100">
+              {{ aiDiagnosis }}
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-12 text-center text-xs font-bold text-slate-400 space-y-1">
+      <div>加與減的秘密通道 ── 國小低年級數學互動探索網頁</div>
+      <div>設計者：高師大王玉珍</div>
+    </footer>
+
+  </div>
+
+  <script>
+    const { createApp, ref, computed, onMounted } = Vue;
+
+    /* ============================================================
+       離線版設定
+       ------------------------------------------------------------
+       GEMINI_API_KEY 留空時，「我的 AI 小老師」會直接顯示下方內建的
+       貓頭鷹醫生解說，不需要網路也能上課。
+       若要改用線上 Gemini 即時診斷，把 "" 換成你的 API 金鑰即可。
+       ============================================================ */
+    const GEMINI_API_KEY = "";
+
+    const OFFLINE_ANSWERS = [
+          "🦉 咕咕！貓頭鷹醫生來看診囉！\n\n【錯在哪裡】\n題目說「小明比小華多 4 支」，代表小明比較多、小華比較少。既然小華比較少，就不可以再加上去喔！\n\n【正確做法】\n整體 － 部分 ＝ 另一部分\n12 － 4 ＝ 8，小華有 8 支鉛筆。\n\n【打開秘密通道驗算】\n8 ＋ 4 ＝ 12 ✔ 加回去剛好是小明的 12 支，答案正確！\n\n小提醒：看到「多」不一定要用加法，先想「誰比較多」再決定算式喔！",
+          "🦉 咕咕！貓頭鷹醫生來看診囉！\n\n【錯在哪裡】\n15 － 6 ＝ 9 已經算完了，驗算又寫 15 － 9 ＝ 6，還是在做減法，等於把同一件事再做一次，這樣檢查不出對錯喔！\n\n【正確做法】\n減法的驗算要走「加減互逆」的秘密通道：\n差 ＋ 減數 ＝ 被減數\n9 ＋ 6 ＝ 15 ✔\n\n【記住這兩句話】\n被減數 － 減數 ＝ 差\n差 ＋ 減數 ＝ 被減數\n減掉的再加回去，就會回到原來的數囉！",
+          "🦉 咕咕！貓頭鷹醫生來看診囉！\n\n【錯在哪裡】\n23 － 8 時，個位的 3 不夠減 8，不可以倒過來用 8 － 3 ＝ 5。減法不能隨便交換前後的位置喔！\n\n【正確做法：拆十法】\n先把 23 拆成 10 和 13：\n13 － 8 ＝ 5\n5 ＋ 10 ＝ 15\n所以 23 － 8 ＝ 15。\n\n【打開秘密通道驗算】\n15 ＋ 8 ＝ 23 ✔ 答案正確！"
+    ];
+
+    const OFFLINE_CUSTOM_ANSWER = "🦉 咕咕！貓頭鷹醫生現在是離線版看診，沒有連上 AI 老師，沒辦法回答自己出的題目。\n\n不過醫生先送你一把萬用鑰匙：\n・加法是「部分 ＋ 部分 ＝ 整體」\n・減法是「整體 － 部分 ＝ 另一部分」\n・算完減法，用「差 ＋ 減數 ＝ 被減數」加回去驗算\n・算完加法，用「和 － 一個加數 ＝ 另一個加數」減回去驗算\n\n把你的題目照這四句話檢查一遍，秘密通道就會打開囉！\n\n（老師若要開啟即時 AI 診斷，請在原始碼中填入 Gemini API 金鑰。）";
+
+
+    createApp({
+      setup() {
+        // --- Sound Synth Engine (Web Audio API) ---
+        const playSound = (type) => {
+          try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
+            const now = ctx.currentTime;
+            if (type === 'pop') {
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(300, now);
+              osc.frequency.exponentialRampToValueAtTime(600, now + 0.1);
+              gain.gain.setValueAtTime(0.3, now);
+              gain.gain.linearRampToValueAtTime(0.01, now + 0.1);
+              osc.start(now);
+              osc.stop(now + 0.1);
+            } else if (type === 'correct') {
+              osc.type = 'triangle';
+              osc.frequency.setValueAtTime(523.25, now); // C5
+              osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+              osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+              osc.frequency.setValueAtTime(1046.50, now + 0.3); // C6
+              gain.gain.setValueAtTime(0.2, now);
+              gain.gain.linearRampToValueAtTime(0.01, now + 0.5);
+              osc.start(now);
+              osc.stop(now + 0.5);
+            } else if (type === 'wrong') {
+              osc.type = 'sawtooth';
+              osc.frequency.setValueAtTime(180, now);
+              osc.frequency.linearRampToValueAtTime(110, now + 0.2);
+              gain.gain.setValueAtTime(0.2, now);
+              gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+              osc.start(now);
+              osc.stop(now + 0.25);
+            }
+          } catch (e) {
+            // Audio context fallback
+          }
+        };
+
+        // --- App Global State ---
+        const activePhase = ref(1);
+        const totalStars = ref(0);
+
+        const switchPhase = (phase) => {
+          activePhase.value = phase;
+          playSound('pop');
+        };
+
+        // --- PHASE 1 STATE & LOGIC ---
+        const p1RedCount = ref(5);
+        const p1GreenCount = ref(4);
+        const p1BasketRed = ref(0);
+        const p1BasketGreen = ref(0);
+        const p1IsAnimating = ref(false);
+        const p1IsMerged = ref(false);
+        const p1UserAnswer = ref(null);
+        const p1Feedback = ref('');
+        const p1IsCorrect = ref(false);
+
+        const combineBasket = () => {
+          if (p1IsAnimating.value) return;
+          
+          p1BasketRed.value = 0;
+          p1BasketGreen.value = 0;
+          p1IsAnimating.value = true;
+          p1IsMerged.value = false;
+          playSound('pop');
+
+          let currentRed = 0;
+          let currentGreen = 0;
+
+          // Sequentially animate red apples into basket
+          const redInterval = setInterval(() => {
+            if (currentRed < p1RedCount.value) {
+              currentRed++;
+              p1BasketRed.value = currentRed;
+              playSound('pop');
+            } else {
+              clearInterval(redInterval);
+              
+              // Sequentially animate green apples into basket
+              const greenInterval = setInterval(() => {
+                if (currentGreen < p1GreenCount.value) {
+                  currentGreen++;
+                  p1BasketGreen.value = currentGreen;
+                  playSound('pop');
+                } else {
+                  clearInterval(greenInterval);
+                  p1IsAnimating.value = false;
+                  p1IsMerged.value = true;
+                  playSound('correct');
+                }
+              }, 150);
+            }
+          }, 150);
+        };
+
+        const generatePhase1Problem = () => {
+          playSound('pop');
+          p1RedCount.value = Math.floor(Math.random() * 6) + 3; // 3..8
+          p1GreenCount.value = Math.floor(Math.random() * 6) + 2; // 2..7
+          p1BasketRed.value = 0;
+          p1BasketGreen.value = 0;
+          p1IsAnimating.value = false;
+          p1IsMerged.value = false;
+          p1UserAnswer.value = null;
+          p1Feedback.value = '';
+          p1IsCorrect.value = false;
+        };
+
+        const checkPhase1 = () => {
+          if (p1UserAnswer.value === p1RedCount.value) {
+            playSound('correct');
+            p1IsCorrect.value = true;
+            p1Feedback.value = `🎉 太棒了！算得非常正確！ ${p1RedCount.value + p1GreenCount.value} － ${p1GreenCount.value} ＝ ${p1RedCount.value}（剩下的就是原本的紅蘋果喔！）`;
+            totalStars.value += 2;
+          } else {
+            playSound('wrong');
+            p1IsCorrect.value = false;
+            p1Feedback.value = `💡 再試試看！數一數左邊紅色蘋果區共有幾個呢？`;
+          }
+        };
+
+        // --- PHASE 2 STATE & LOGIC ---
+        const p2SubMode = ref('bar'); // 'bar' or 'unknown'
+        const p2PartA = ref(6);
+        const p2PartB = ref(4);
+
+        const swapParts = () => {
+          playSound('pop');
+          const temp = p2PartA.value;
+          p2PartA.value = p2PartB.value;
+          p2PartB.value = temp;
+        };
+
+        // Unknown Mode State
+        const unknownStory = ref('');
+        const unknownFormulaText = ref('');
+        const unknownEquationDisplay = ref('');
+        const unknownCorrectVal = ref(0);
+        const unknownUserAnswer = ref(null);
+        const unknownFeedback = ref('');
+        const unknownIsCorrect = ref(false);
+
+        const generateUnknownProblem = () => {
+          playSound('pop');
+          const partKnown = Math.floor(Math.random() * 7) + 3; // 3..9
+          const unknownVal = Math.floor(Math.random() * 7) + 2; // 2..8
+          const totalVal = partKnown + unknownVal;
+
+          unknownCorrectVal.value = unknownVal;
+          unknownUserAnswer.value = null;
+          unknownFeedback.value = '';
+          unknownIsCorrect.value = false;
+
+          const scenarios = [
+            {
+              story: `🐰 小白兔籃子裡有一些蘿蔔 🔲，採了 ${partKnown} 顆之後，共有 ${totalVal} 顆蘿蔔。原本有幾顆蘿蔔？`,
+              formula: `🔲 ＋ ${partKnown} ＝ ${totalVal}`,
+              eq: `🔲 ＋ ${partKnown} ＝ ${totalVal}`
+            },
+            {
+              story: `🐱 貓咪有 ${totalVal} 條魚，吃了 ${partKnown} 條，還剩下 🔲 條魚。剩下幾條？`,
+              formula: `${totalVal} － ${partKnown} ＝ 🔲`,
+              eq: `${totalVal} － ${partKnown} ＝ 🔲`
+            },
+            {
+              story: `🐻 熊熊有 ${partKnown} 顆糖果，媽媽又給他一些 🔲，現在共有 ${totalVal} 顆糖果。媽媽給他幾顆？`,
+              formula: `${partKnown} ＋ 🔲 ＝ ${totalVal}`,
+              eq: `${partKnown} ＋ 🔲 ＝ ${totalVal}`
+            }
+          ];
+
+          const chosen = scenarios[Math.floor(Math.random() * scenarios.length)];
+          unknownStory.value = chosen.story;
+          unknownFormulaText.value = chosen.formula;
+          unknownEquationDisplay.value = chosen.eq;
+        };
+
+        const checkUnknownProblem = () => {
+          if (unknownUserAnswer.value === unknownCorrectVal.value) {
+            playSound('correct');
+            unknownIsCorrect.value = true;
+            unknownFeedback.value = `🌟 答對了！🔲 答案就是 ${unknownCorrectVal.value}！你真棒！`;
+            totalStars.value += 2;
+          } else {
+            playSound('wrong');
+            unknownIsCorrect.value = false;
+            unknownFeedback.value = `💡 提示：試試用「整體」去「減掉已知的部分」看看喔！`;
+          }
+        };
+
+        // --- PHASE 3 STATE & LOGIC ---
+        const ffA = ref(4);
+        const ffB = ref(5);
+        const ffC = computed(() => ffA.value + ffB.value);
+        const ffInputs = ref({ a1: null, a2: null, s1: null, s2: null });
+        const ffFeedback = ref('');
+        const ffIsCorrect = ref(false);
+
+        const generateFactFamily = () => {
+          playSound('pop');
+          ffA.value = Math.floor(Math.random() * 8) + 2; // 2..9
+          ffB.value = Math.floor(Math.random() * 8) + 2; // 2..9
+          ffInputs.value = { a1: null, a2: null, s1: null, s2: null };
+          ffFeedback.value = '';
+          ffIsCorrect.value = false;
+        };
+
+        const checkFactFamily = () => {
+          const { a1, a2, s1, s2 } = ffInputs.value;
+          const correctSum = ffA.value + ffB.value;
+          const correctS1 = ffB.value;
+          const correctS2 = ffA.value;
+
+          if (a1 === correctSum && a2 === correctSum && s1 === correctS1 && s2 === correctS2) {
+            playSound('correct');
+            ffIsCorrect.value = true;
+            ffFeedback.value = `🌟 太厲害了！你完全掌握了加減互逆的 4 個秘密通道算式！`;
+            totalStars.value += 3;
+          } else {
+            playSound('wrong');
+            ffIsCorrect.value = false;
+            ffFeedback.value = `💡 有數字填錯囉！記得：加法是兩部分相加得整體（${ffC.value}），減法是整體（${ffC.value}）減去一個部分得另一個部分！`;
+          }
+        };
+
+        // --- AI DIAGNOSTIC CLINIC STATE & GEMINI API INTEGRATION ---
+        const presetErrorCases = ref([
+          {
+            title: '案例 1：看到關鍵字「多」就盲目相加',
+            question: '小明有 12 支鉛筆，比小華多 4 支，小華有幾支？',
+            wrongAnswer: '16 支 (小明直接計算 12 ＋ 4 ＝ 16)',
+            prompt: '學生看到題目寫「比小華多 4 支」，就以為要用加法算出 12 ＋ 4 ＝ 16。請幫低年級學生解開這個觀念迷思，說明為什麼小華比較少，應該用減法算式 12 － 4 ＝ 8。請務必嚴格使用台灣國小數學課本格式（＋、－、＝）。'
+          },
+          {
+            title: '案例 2：減法算式的驗算寫錯',
+            question: '算出 15 － 6 ＝ 9，要怎麼用加法驗算是不是算對了？',
+            wrongAnswer: '驗算寫成 15 － 9 ＝ 6',
+            prompt: '學生算了 15 － 6 ＝ 9，驗算時卻又寫 15 － 9 ＝ 6。請用「加減互逆」說明驗算應該把「差 9 ＋ 減數 6 ＝ 被減數 15」加回去！請嚴格使用台灣國小數學課本格式（例如：9 ＋ 6 ＝ 15）。'
+          },
+          {
+            title: '案例 3：不夠減時用大數減小數',
+            question: '計算 23 － 8 時，個位數 3 不夠減 8 該怎麼辦？',
+            wrongAnswer: '個位數直接拿 8 － 3 ＝ 5，算出 25',
+            prompt: '學生在算 23 － 8 時，因為 3 不夠減 8，就直接倒過來用 8 － 3 ＝ 5，算出 25。請用拆十法或積木的概念教他正確的減法思考！算式請嚴格遵循台灣國小課本符號格式（＋、－、＝）。'
+          }
+        ]);
+
+        const selectedErrorCase = ref(presetErrorCases.value[0]);
+        const showCustomInput = ref(false);
+        const customErrorPrompt = ref('');
+        const aiLoading = ref(false);
+        const aiDiagnosis = ref('');
+
+        const askAIDoctor = async () => {
+          playSound('pop');
+          aiLoading.value = true;
+          aiDiagnosis.value = '';
+
+          const userPromptText = showCustomInput.value && customErrorPrompt.value.trim() !== ''
+            ? customErrorPrompt.value
+            : selectedErrorCase.value.prompt;
+
+          const systemPrompt = `你是一位親切可愛、專門幫國小低年級（一、二年級）學生解答加減法迷思的「貓頭鷹醫生 🦉」。
+請用非常親切、簡單易懂（120字以內）、適合7-8歲兒童的口吻與表情符號回答。
+
+【強制數學符號規範】：
+請務必嚴格遵守「台灣地區國小數學課本」低年級的數學算式與符號格式：
+1. 算式符號請統一使用台灣國小課本標準全形符號（例如：「＋」、「－」、「＝」），不要寫成英半形加減號。
+2. 填空或未知數請使用「□」或「（ ）」。
+3. 說明概念時請使用台灣課本用語（如「部分 ＋ 部分 ＝ 整體」、「整體 － 部分 ＝ 另一部分」、「被加數」、「加數」、「被減數」、「減數」）。
+
+請依據下列步驟說明：
+1. 說明為什麼這個算式算錯了？（如：混淆了「誰比較多」、或者個位不夠減時不能倒著減）
+2. 如何用「加與減的秘密通道」（加減互逆 / 用加法驗算減法）算出正確答案並進行驗算！`;
+
+          try {
+            const apiKey = GEMINI_API_KEY;
+
+            if (!apiKey) {
+              // 離線模式：不連網，直接給出內建的貓頭鷹醫生解說
+              await new Promise(r => setTimeout(r, 600));
+              const idx = presetErrorCases.value.indexOf(selectedErrorCase.value);
+              const useCustom = showCustomInput.value && customErrorPrompt.value.trim() !== '';
+              aiDiagnosis.value = useCustom
+                ? OFFLINE_CUSTOM_ANSWER
+                : (OFFLINE_ANSWERS[idx] || OFFLINE_CUSTOM_ANSWER);
+              if (!useCustom) {
+                playSound('correct');
+                totalStars.value += 1;
+              }
+              return;
+            }
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            const response = await fetch(apiUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contents: [{ parts: [{ text: userPromptText }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] }
+              })
+            });
+
+            const result = await response.json();
+            const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+
+            if (text) {
+              aiDiagnosis.value = text;
+              playSound('correct');
+              totalStars.value += 1;
+            } else {
+              aiDiagnosis.value = "🦉 咕咕！貓頭鷹醫生正在看醫書，請再點一次按鈕看看喔！";
+            }
+          } catch (err) {
+            aiDiagnosis.value = "🦉 咕咕！貓頭鷹醫生溫馨提醒：加法是「部分 ＋ 部分 ＝ 整體」，減法是「整體 － 部分 ＝ 另一部分」。例如 15 － 6 ＝ 9，驗算時只要用 9 ＋ 6 ＝ 15 把減掉的加回去，就能開啟秘密通道囉！";
+          } finally {
+            aiLoading.value = false;
+          }
+        };
+
+        // Initial setup
+        onMounted(() => {
+          generatePhase1Problem();
+          generateUnknownProblem();
+          generateFactFamily();
+        });
+
+        return {
+          activePhase,
+          totalStars,
+          switchPhase,
+
+          // Phase 1
+          p1RedCount,
+          p1GreenCount,
+          p1BasketRed,
+          p1BasketGreen,
+          p1IsAnimating,
+          p1IsMerged,
+          combineBasket,
+          p1UserAnswer,
+          p1Feedback,
+          p1IsCorrect,
+          generatePhase1Problem,
+          checkPhase1,
+
+          // Phase 2
+          p2SubMode,
+          p2PartA,
+          p2PartB,
+          swapParts,
+          unknownStory,
+          unknownFormulaText,
+          unknownEquationDisplay,
+          unknownUserAnswer,
+          unknownFeedback,
+          unknownIsCorrect,
+          generateUnknownProblem,
+          checkUnknownProblem,
+
+          // Phase 3
+          ffA,
+          ffB,
+          ffC,
+          ffInputs,
+          ffFeedback,
+          ffIsCorrect,
+          generateFactFamily,
+          checkFactFamily,
+
+          // AI Clinic
+          presetErrorCases,
+          selectedErrorCase,
+          showCustomInput,
+          customErrorPrompt,
+          aiLoading,
+          aiDiagnosis,
+          askAIDoctor
+        };
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
